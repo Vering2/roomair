@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace = "com.itwillbs.Mappers.StockMapper">
+  
+  <select id="getMaxNum" resultType = "java.lang.Integer">
+      select max(num) from stock
+      where 1=1
+  </select>
+  
+  <insert id="insertBoard">
+      insert into stock(stockCount, rawCode, prodCode, whseCode, stockMemo)
+      values (#{stockCount}, #{rawCode}, #{prodCode}, #{whseCode}, #{stockMemo})
+  </insert>
+  
+  <select id="getstockListR" resultType="com.itwillbs.domain.StockDTO">
+       select * from stock
+      where stockType = '원자재'
+      <if test="search1 != null and search1 != ''">
+        	and rawCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and rawCode like concat('%', #{search2}, '%')
+    	</if>
+          limit #{startRow}, #{pageSize}
+  </select>
+  
+    <select id="getstockListP" resultType="com.itwillbs.domain.StockDTO">
+      select * from stock
+      where stockType = '완제품'
+      <if test="search1 != null and search1 != ''">
+        	and prodCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and rawCode like concat('%', #{search2}, '%')
+    	</if>
+     order by stockNum limit #{startRow}, #{pageSize}
+  </select>
+  
+  <select id="getStockCountR" resultType="java.lang.Integer">
+      select count(*) from stock
+     where stockType = '원자재'
+       <if test="search1 != null and search1 != ''">
+        	and prodCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and rawCode like concat('%', #{search2}, '%')
+    	</if>
+  </select>
+  
+    <select id="getStockCountP" resultType="java.lang.Integer">
+      select count(*) from stock
+    where stockType = '완제품'
+       <if test="search1 != null and search1 != ''">
+        	and prodCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and rawCode like concat('%', #{search2}, '%')
+    	</if>
+  </select>
+  
+  <select id="getBoardR" resultType="com.itwillbs.domain.StockDTO">
+      select * from stock
+      where stockNum =#{stockNum}
+  </select>
+  
+    <select id="getBoardP" resultType="com.itwillbs.domain.StockDTO">
+      select * from stock
+      where stockNum =#{stockNum}
+  </select>
+  
+  <update id="updateBoard">
+      update stock
+      set stockCount = #{stockCount}, stockMemo=#{stockMemo}
+      where prodCode=#{prodCode} or rawCode=#{rawCode}
+  </update>
+  
+  </mapper>

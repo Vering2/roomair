@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.mappers.inMaterialMapper">
+
+	<select id="getInMaterialList"
+		resultType="com.itwillbs.domain.InMaterialDTO">
+		SELECT i.inNum, i.buyNum, r.whseCode, c.clientCode,
+		i.rawCode, r.rawName, b.buyCount, i.inCount, s.stockCount,
+		r.rawPrice, i.inPrice,
+		i.inDate, i.inRedate, i.inEmpId, i.inState
+		FROM inMaterial i
+		left join rawMaterial r
+		on
+		i.rawCode = r.rawCode
+		left join stock s
+		on
+		i.rawCode = s.rawCode
+		left
+		join clients c
+		on i.clientCode = c.clientCode
+		left JOIN buy b ON i.buyNum = b.buyNum
+		order by i.inNum desc
+		limit #{startRow}, #{pageSize}
+	</select>
+
+	<select id="getInMaterialListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM (
+		SELECT i.inNum, i.buyNum, r.whseCode, c.clientCode,
+		i.rawCode, r.rawName, b.buyCount, i.inCount, s.stockCount,
+		r.rawPrice, i.inPrice,
+		i.inDate, i.inRedate, i.inEmpId, i.inState
+		FROM inMaterial i
+		left join rawMaterial r
+		on
+		i.rawCode = r.rawCode
+		left join stock s
+		on
+		i.rawCode = s.rawCode
+		left
+		join clients c
+		on i.clientCode = c.clientCode
+		left JOIN buy b ON i.buyNum = b.buyNum
+		) AS subquery
+	</select>
+
+	<select id="getInMaterialListSearch"
+		resultType="com.itwillbs.domain.InMaterialDTO">
+		SELECT i.inNum, i.buyNum, r.whseCode, c.clientCode,
+		i.rawCode, r.rawName, b.buyCount, i.inCount, s.stockCount,
+		r.rawPrice, i.inPrice,
+		i.inDate, i.inRedate, i.inEmpId, i.inState
+		FROM inMaterial i
+		left join rawMaterial r
+		on
+		i.rawCode = r.rawCode
+		left join stock s
+		on
+		i.rawCode = s.rawCode
+		left
+		join clients c
+		on i.clientCode = c.clientCode
+		left JOIN buy b ON i.buyNum = b.buyNum
+		<where>
+			<if test="inState == '검색'">
+				<if test="inNum != ''">
+					i.inNum LIKE CONCAT('%', #{inNum}, '%')
+				</if>
+
+				<if test="rawName != ''">
+					AND r.rawName LIKE CONCAT('%', #{rawName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany LIKE CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+			</if>
+			<if test="inState != '검색'">
+				<if test="inNum != ''">
+					i.inNum LIKE CONCAT('%', #{inNum}, '%')
+				</if>
+
+				<if test="rawName != ''">
+					AND r.rawName LIKE CONCAT('%', #{rawName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany LIKE CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+				<if test="inState != ''">
+					AND i.inState LIKE CONCAT('%', #{inState}, '%')
+				</if>
+			</if>
+		</where>
+
+		ORDER BY i.inNum DESC
+		LIMIT #{startRow}, #{pageSize}
+
+	</select>
+
+
+	<select id="getInMaterialListSearchCount" resultType="int">
+		SELECT count(*)
+		FROM (
+		SELECT i.inNum, i.buyNum, r.whseCode, c.clientCode,
+		i.rawCode, r.rawName, b.buyCount, i.inCount, s.stockCount,
+		r.rawPrice, i.inPrice,
+		i.inDate, i.inRedate, i.inEmpId, i.inState
+		FROM inMaterial i
+		left join rawMaterial r
+		on
+		i.rawCode = r.rawCode
+		left join stock s
+		on
+		i.rawCode = s.rawCode
+		left
+		join clients c
+		on i.clientCode = c.clientCode
+		left JOIN buy b ON i.buyNum = b.buyNum
+		<where>
+			<if test="inState == '검색'">
+				<if test="inNum != ''">
+					i.inNum LIKE CONCAT('%', #{inNum}, '%')
+				</if>
+
+				<if test="rawName != ''">
+					AND r.rawName LIKE CONCAT('%', #{rawName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany LIKE CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+			</if>
+			<if test="inState != '검색'">
+				<if test="inNum != ''">
+					i.inNum LIKE CONCAT('%', #{inNum}, '%')
+				</if>
+
+				<if test="rawName != ''">
+					AND r.rawName LIKE CONCAT('%', #{rawName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany LIKE CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+				<if test="inState != ''">
+					AND i.inState LIKE CONCAT('%', #{inState}, '%')
+				</if>
+			</if>
+		</where>
+		) AS subquery
+
+	</select>
+
+	<select id="getInMaterialListAllSearch"
+		resultType="com.itwillbs.domain.InMaterialDTO">
+		SELECT i.inNum, i.buyNum, r.whseCode, c.clientCode,
+		i.rawCode, r.rawName, b.buyCount, i.inCount, s.stockCount,
+		r.rawPrice, i.inPrice,
+		i.inDate, i.inRedate, i.inEmpId, i.inState
+		FROM inMaterial i
+		left join rawMaterial r
+		on
+		i.rawCode = r.rawCode
+		left join stock s
+		on
+		i.rawCode = s.rawCode
+		left
+		join clients c
+		on i.clientCode = c.clientCode
+		left JOIN buy b ON i.buyNum = b.buyNum
+		<where>
+			<if test="inNum != ''">
+				i.inNum LIKE CONCAT('%', #{inNum}, '%')
+			</if>
+
+			<if test="rawName != ''">
+				AND r.rawName LIKE CONCAT('%', #{rawName}, '%')
+			</if>
+
+			<if test="clientCompany != ''">
+				AND c.clientCompany LIKE CONCAT('%', #{clientCompany},
+				'%')
+			</if>
+		</where>
+
+		ORDER BY i.inNum DESC
+		LIMIT #{startRow}, #{pageSize}
+
+	</select>
+
+	<select id="getInMaterialListAllSearchCount" resultType="int">
+		SELECT count(*)
+		FROM (
+		SELECT i.inNum, i.buyNum, r.whseCode, c.clientCode,
+		i.rawCode, r.rawName, b.buyCount, i.inCount, s.stockCount,
+		r.rawPrice, i.inPrice,
+		i.inDate, i.inRedate, i.inEmpId, i.inState
+		FROM inMaterial i
+		left join rawMaterial r
+		on
+		i.rawCode = r.rawCode
+		left join stock s
+		on
+		i.rawCode = s.rawCode
+		left
+		join clients c
+		on i.clientCode = c.clientCode
+		left JOIN buy b ON i.buyNum = b.buyNum
+		<where>
+			<if test="inNum != ''">
+				i.inNum LIKE CONCAT('%', #{inNum}, '%')
+			</if>
+
+			<if test="rawName != ''">
+				AND r.rawName LIKE CONCAT('%', #{rawName}, '%')
+			</if>
+
+			<if test="clientCompany != ''">
+				AND c.clientCompany LIKE CONCAT('%', #{clientCompany},
+				'%')
+			</if>
+		</where>
+		) AS subquery
+
+	</select>
+
+
+	<select id="getMaxNum" resultType="java.lang.Integer">
+		SELECT
+		MAX(CAST(SUBSTRING(inNum, 3) AS SIGNED)) AS max_num
+		FROM inMaterial
+		WHERE inNum LIKE CONCAT(#{code}, '%')
+	</select>
+
+
+	<insert id="insertList">
+		INSERT INTO inMaterial
+		VALUES (#{inNum}, default, default,
+		#{inCount}, #{rawCode},#{buyNum}, default, #{clientCode},
+		#{inState}, #{inPrice}, default)
+	</insert>
+
+<!-- i.remainder 넣으니까 안돼서 일단 보류 -->
+	<select id="inMaterialContent"
+		resultType="com.itwillbs.domain.InMaterialDTO">
+		SELECT i.inNum, i.buyNum, i.clientCode, c.clientCompany,
+		i.rawCode, r.rawName, i.inEmpId, i.inState, i.inDate,
+		i.inRedate,  i.inCount, b.buyCount, s.stockCount,
+		r.rawPrice, i.inPrice, i.inMemo
+		FROM inMaterial i
+		left join rawMaterial r
+		on
+		i.rawCode = r.rawCode
+		left join stock s
+		on
+		i.rawCode = s.rawCode
+		left
+		join clients c
+		on i.clientCode = c.clientCode
+		left JOIN buy b ON i.buyNum = b.buyNum
+		where inNum = #{inNum}
+	</select>
+
+	<update id="updateWhseCount">
+		update stock
+		SET stockCount = stockCount + #{inCount}
+		WHERE rawCode = #{rawCode}
+	</update>
+
+
+	<update id="updateInState">
+		update inMaterial
+		SET inState = #{inState}
+		WHERE inNum =
+		#{inNum}
+	</update>
+	
+	<update id="updateInDate">
+		update inMaterial
+		SET inDate = #{inDate}
+		WHERE inNum =
+		#{inNum}
+	</update>
+	
+	<update id="updateInRedate">
+		update inMaterial
+		SET inRedate = #{inRedate}
+		WHERE inNum =
+		#{inNum}
+	</update>
+	
+	<update id="updateInMaterialContent">
+		update inMaterial
+		set inCount = #{inCount}, inMemo = #{inMemo}, inEmpId=#{inEmpId}
+		where inNum = #{inNum}
+	</update>
+	
+<!-- 	 	입고담당자 업데이트  --> 
+<!-- 	<update id="updateInEmpId"> -->
+<!-- 		update inMaterial -->
+<!-- 		set inEmpId = #{inEmpId} -->
+<!-- 		WHERE inNum = #{inNum} -->
+<!-- 	</update> -->
+	
+	<!-- 입고버튼 누르면 입고상태, 입고날짜, 담당자 업데이트 -->
+<!-- 	<update id="updateInMaterial"> -->
+<!-- 		update inMaterial -->
+<!-- 		SET inState = "입고완료", inDate = #{inDate}, inEmpId = #{inEmpId} -->
+<!-- 		WHERE inNum = #{inNum} -->
+<!-- 	</update> -->
+	
+	
+	
+<!-- 엑셀	 -->
+	<select id="getExcelList"
+		resultType="com.itwillbs.domain.InMaterialDTO">
+
+		SELECT i.inNum, i.buyNum, r.whseCode, c.clientCode,
+		i.rawCode, r.rawName, b.buyCount,i.inCount, s.stockCount,
+		r.rawPrice, i.inPrice,
+		i.inDate, i.inRedate, i.inEmpId, i.inState, i.inMemo
+		FROM inMaterial i
+		left join rawMaterial r
+		on
+		i.rawCode = r.rawCode
+		left join stock s
+		on
+		i.rawCode = s.rawCode
+		left
+		join clients c
+		on i.clientCode = c.clientCode
+		left JOIN buy b 
+		ON i.buyNum = b.buyNum
+		order by i.inNum desc
+
+	</select>
+	
+<select id="getExcelListAllSearch"
+		resultType="com.itwillbs.domain.InMaterialDTO">
+		SELECT i.inNum, i.buyNum, r.whseCode, c.clientCode,
+		i.rawCode, r.rawName, b.buyCount,i.inCount, s.stockCount,
+		r.rawPrice, i.inPrice,
+		i.inDate, i.inRedate, i.inEmpId, i.inState, i.inMemo
+		FROM inMaterial i
+		left join rawMaterial r
+		on
+		i.rawCode = r.rawCode
+		left join stock s
+		on
+		i.rawCode = s.rawCode
+		left
+		join clients c
+		on i.clientCode = c.clientCode
+		left JOIN buy b 
+		ON i.buyNum = b.buyNum
+		<where>
+			<if test="inNum != ''">
+				i.inNum LIKE CONCAT('%', #{inNum}, '%')
+			</if>
+
+			<if test="rawName != ''">
+				AND r.rawName LIKE CONCAT('%', #{rawName}, '%')
+			</if>
+
+			<if test="clientCompany != ''">
+				AND c.clientCompany LIKE CONCAT('%', #{clientCompany},
+				'%')
+			</if>
+		</where>
+		ORDER BY i.inNum DESC
+	</select>
+	
+	<select id="getExcelListSearch"
+		resultType="com.itwillbs.domain.InMaterialDTO">
+		SELECT i.inNum, i.buyNum, r.whseCode, c.clientCode,
+		i.rawCode, r.rawName, b.buyCount,i.inCount, s.stockCount,
+		r.rawPrice, i.inPrice,
+		i.inDate, i.inRedate, i.inEmpId, i.inState, i.inMemo
+		FROM inMaterial i
+		left join rawMaterial r
+		on
+		i.rawCode = r.rawCode
+		left join stock s
+		on
+		i.rawCode = s.rawCode
+		left
+		join clients c
+		on i.clientCode = c.clientCode
+		left JOIN buy b 
+		ON i.buyNum = b.buyNum
+		<where>
+			<if test="inState == '검색'">
+				<if test="inNum != ''">
+					i.inNum LIKE CONCAT('%', #{inNum}, '%')
+				</if>
+
+				<if test="rawName != ''">
+					AND r.rawName LIKE CONCAT('%', #{rawName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany LIKE CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+			</if>
+			<if test="inState != '검색'">
+				<if test="inNum != ''">
+					i.inNum LIKE CONCAT('%', #{inNum}, '%')
+				</if>
+
+				<if test="rawName != ''">
+					AND r.rawName LIKE CONCAT('%', #{rawName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany LIKE CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+				<if test="inState != ''">
+					AND i.inState LIKE CONCAT('%', #{inState}, '%')
+				</if>
+			</if>
+		</where>
+		ORDER BY i.inNum DESC
+	</select>
+<!-- 엑셀 -->
+	
+	
+	
+	<update id="updateList">
+		update inMaterial
+		set inCount = #{inCount}, rawCode = #{rawCode}, clientCode = #{clientCode}, 
+			inPrice = #{inPrice} 
+		where buyNum = #{buyNum}
+	</update>
+
+	<delete id="deleteSell">
+		delete from inMaterial
+		where buyNum = #{checked}
+	</delete>
+
+
+</mapper>

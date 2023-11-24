@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace ="com.itwillbs.Mappers.WarehouseMapper">
+  
+  <select id="getWarehouseList" resultType="com.itwillbs.domain.WarehouseDTO">
+        SELECT * from warehouse
+where 1=1
+        <if test="search1 != null and search1 != ''">
+        	and whseCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and whseName like concat('%', #{search2}, '%')
+    	</if>
+    	<if test="search3 != null and search3 != ''">
+    		and whseType = #{search3}
+    	</if>
+    	order by whseCode limit #{startRow}, #{pageSize}
+  </select>
+  
+  <select id="getWarehouseCount" resultType="java.lang.Integer">
+       select count(*)
+       from warehouse
+       where 1=1
+        <if test="search1 != null and search1 != ''">
+        	and whseCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and whseName like concat('%', #{search2}, '%')
+    	</if>
+    	<if test="search3 != null and search3 != ''">
+    		and whseType = #{search3}
+    	</if>
+  </select>
+  
+  <insert id="insertWarehouse">
+        insert into warehouse( whseCode, whseName, whseType, whseState, whseAddr, whseTel
+        , whseMemo, prodCode, rawCode, whseEmpId, whseCount)
+        values( #{whseCode}, #{whseName}, #{whseType}, #{whseState}, #{whseAddr}, #{whseTel}
+        , #{whseMemo}, #{prodCode}, #{rawCode}, #{whseEmpId}, #{whseCount} )
+  </insert>
+  
+  <delete id="delete">
+        delete from warehouse
+        where whseCode = #{whseCode}
+  </delete>
+  
+  <select id="getWarehouse" resultType="com.itwillbs.domain.WarehouseDTO">
+         select * from warehouse
+         where whseCode = #{whseCode}
+  </select>
+  
+  <update id="updateWarehouse">
+        update warehouse
+        set whseCode = #{whseCode}, whseName=#{whseName}, whseType=#{whseType}, whseState=#{whseState}, whseAddr=#{whseAddr}, whseTel=#{whseTel}
+        , whseMemo=#{whseMemo}, prodCode=#{prodCode}, rawCode=#{rawCode}, whseEmpId=#{whseEmpId}, whseCount=#{whseCount}
+        where whseCode=#{whseCode}
+  </update>
+  
+  
+  
+  </mapper>

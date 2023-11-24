@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.mappers.ClientMapper">
+
+	<insert id="insertClient">
+		insert into
+		clients(clientType,clientCode,clientCompany,clientNumber,clientDetail,clientCeo,clientName,clientAddr1,clientAddr2,clientTel,clientPhone,clientFax,clientEmail,clientMemo)
+		values (#{clientType}, #{clientCode} , #{clientCompany} ,
+		#{clientNumber}, #{clientDetail}, #{clientCeo},
+		#{clientName} ,
+		#{clientAddr1} ,#{clientAddr2}, #{clientTel}, #{clientPhone},
+		#{clientFax}, #{clientEmail},#{clientMemo})
+	</insert>
+
+	<select id="getclientList" resultType="com.itwillbs.domain.ClientDTO">
+    SELECT * , LEFT(clientAddr1, 2) AS aliasAddr1 , LEFT(clientMemo, 5) as aliasMemo   FROM clients
+    order by clientCode desc
+    limit #{startRow}, #{pageSize}
+</select>
+
+<select id="getSearch" resultType="ClientDTO">
+		select * ,  LEFT(clientAddr1, 2) AS aliasAddr1 , LEFT(clientMemo, 5) as aliasMemo FROM clients	
+		<where>
+ 			<if test="clientCompany != null and clientCompany !=''">
+				and clientCompany like concat ('%' ,#{clientCompany}, '%')
+			</if> 
+			<if test="clientType != null and clientType != ''">
+				AND clientType like concat ('%' ,#{clientType} , '%')
+			</if>
+		</where>
+		order by clientCode desc
+		limit #{startRow}, #{pageSize}
+	</select>
+	
+	<select id="getSearchcount" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM clients
+		<where>
+ 	 		<if test="clientCompany != null and clientCompany !=''">
+				 and clientCompany like concat ('%' ,#{clientCompany}, '%')
+			</if> 
+			<if test="clientType != null and clientType != ''">
+				AND clientType like concat ('%' ,#{clientType} , '%')
+			</if>
+		</where>
+		order by clientCode desc
+	</select>
+
+<select id="getclientCount" resultType="java.lang.Integer">
+	select count(*) from clients
+	</select>
+
+	<select id="getclientCode" resultType="java.lang.String">
+	  select clientCode from clients where clientType=#{clientType} order by clientCode desc limit 1;
+	</select>
+
+	<select id="clientdetail" resultType="com.itwillbs.domain.ClientDTO">
+		select * from clients where clientCompany=#{clientCompany}
+	</select>
+
+	<select id="rawmaterialsdetail"
+		resultType="com.itwillbs.domain.RawmaterialsDTO">
+		SELECT * FROM rawMaterial WHERE clientCode = #{clientCode};
+	</select>
+
+	<select id="selldetail" resultType="com.itwillbs.domain.ProdDTO">
+		SELECT * FROM product WHERE
+		clientCode = #{clientCode};
+	</select>
+	
+	
+	
+	
+
+	<update id="clientupdate">
+		UPDATE clients
+		SET clientNumber=#{clientNumber},
+		clientDetail=#{clientDetail},clientCeo=#{clientCeo},clientName=#{clientName},
+		clientAddr1=#{clientAddr1}, clientAddr2=#{clientAddr2},
+		clientTel=#{clientTel},clientPhone=#{clientPhone},clientFax=#{clientFax},
+		clientEmail=#{clientEmail},clientMemo=#{clientMemo}
+		where
+		clientCode=#{clientCode}
+
+	</update>
+
+	<delete id="clientdelete">
+		DELETE FROM clients WHERE
+		clientCompany=#{clientCompany}
+
+	</delete>
+	
+
+</mapper>

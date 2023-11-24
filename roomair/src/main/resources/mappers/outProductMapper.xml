@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.mappers.outProductMapper">
+
+	<select id="getOutProductList"
+		resultType="com.itwillbs.domain.OutProductDTO">
+		SELECT o.outCode outCode, o.prodCode prodCode, o.outDate
+		outDate, o.outEmpId
+		outEmpId, o.outMemo outMemo,
+		o.outRedate outRedate,
+		o.outCount outCount, o.outPrice outPrice,
+		o.sellCode sellCode,
+		s.sellCount sellCount, s.sellDuedate sellDuedate,
+		s.sellState
+		sellState,
+		s.clientCode clientCode, c.clientCompany clientCompany,
+		p.prodName prodName, p.prodPrice prodPrice,
+		stock.stockCount
+		stockCount
+		FROM outProduct o LEFT JOIN sell s
+		ON o.sellCode =
+		s.sellCode
+		LEFT JOIN clients c
+		ON s.clientCode = c.clientCode
+		LEFT JOIN
+		product p
+		ON o.prodCode = p.prodCode
+		LEFT JOIN stock
+		ON
+		o.prodCode =
+		stock.prodCode 
+		ORDER BY o.outCode DESC
+		LIMIT
+		#{startRow},
+		#{pageSize}
+	</select>
+
+	<select id="getOutProductListSearch"
+		resultType="com.itwillbs.domain.OutProductDTO">
+		SELECT o.outCode outCode, o.prodCode prodCode, o.outDate outDate,
+		o.outEmpId outEmpId, o.outMemo outMemo,
+		o.outRedate outRedate,
+		o.outCount outCount, o.outPrice outPrice,
+		o.sellCode sellCode,
+		s.sellCount sellCount, s.sellDuedate sellDuedate,
+		s.sellState
+		sellState,
+		s.clientCode clientCode, c.clientCompany clientCompany,
+		p.prodName prodName, p.prodPrice prodPrice,
+		stock.stockCount
+		stockCount
+		FROM outProduct o LEFT JOIN sell s
+		ON o.sellCode =
+		s.sellCode
+		LEFT JOIN clients c
+		ON s.clientCode = c.clientCode
+		LEFT JOIN
+		product p
+		ON o.prodCode = p.prodCode
+		LEFT JOIN stock
+		ON
+		o.prodCode =
+		stock.prodCode
+		<where>
+			<if test="sellState == '검색'">
+				<if test="outCode != ''">
+					AND o.outCode like CONCAT('%', #{outCode}, '%')
+				</if>
+
+				<if test="prodName != ''">
+					AND p.prodName like CONCAT('%', #{prodName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany like CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+			</if>
+			<if test="sellState != '검색'">
+				<if test="outCode != ''">
+					AND o.outCode like CONCAT('%', #{outCode}, '%')
+				</if>
+
+				<if test="prodName != ''">
+					AND p.prodName like CONCAT('%', #{prodName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany like CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+
+				<if test="sellState != ''">
+					AND s.sellState like CONCAT('%', #{sellState}, '%')
+				</if>
+			</if>
+		</where>
+
+		ORDER BY o.outCode DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+	<select id="getOutProductListAllSearch"
+		resultType="com.itwillbs.domain.OutProductDTO">
+		SELECT o.outCode outCode, o.prodCode prodCode, o.outDate outDate,
+		o.outEmpId outEmpId, o.outMemo outMemo,
+		o.outRedate outRedate,
+		o.outCount outCount, o.outPrice outPrice,
+		o.sellCode sellCode,
+		s.sellCount sellCount, s.sellDuedate sellDuedate,
+		s.sellState
+		sellState,
+		s.clientCode clientCode, c.clientCompany clientCompany,
+		p.prodName prodName, p.prodPrice prodPrice,
+		stock.stockCount
+		stockCount
+		FROM outProduct o LEFT JOIN sell s
+		ON o.sellCode =
+		s.sellCode
+		LEFT JOIN clients c
+		ON s.clientCode = c.clientCode
+		LEFT JOIN
+		product p
+		ON o.prodCode = p.prodCode
+		LEFT JOIN stock
+		ON
+		o.prodCode =
+		stock.prodCode
+		<where>
+			<if test="outCode != ''">
+				AND o.outCode like CONCAT('%', #{outCode}, '%')
+			</if>
+
+			<if test="prodName != ''">
+				AND p.prodName like CONCAT('%', #{prodName}, '%')
+			</if>
+
+			<if test="clientCompany != ''">
+				AND c.clientCompany like CONCAT('%', #{clientCompany},
+				'%')
+			</if>
+		</where>
+
+		ORDER BY o.outCode DESC
+		LIMIT #{startRow}, #{pageSize}
+	</select>
+
+	<select id="getOutProductListCount" resultType="int">
+		SELECT COUNT(*)
+		FROM (
+		SELECT o.outCode outCode, o.prodCode prodCode,
+		DATE_FORMAT(o.outDate,
+		'%Y-%m-%d') outDate, o.outEmpId outEmpId,
+		o.outMemo outMemo,
+		DATE_FORMAT(o.outRedate , '%Y-%m-%d') outRedate,
+		o.outCount outCount,
+		o.outPrice outPrice,
+		o.sellCode sellCode,
+		s.sellCount sellCount, DATE_FORMAT(s.sellDuedate,
+		'%Y-%m-%d')
+		sellDuedate, s.sellState sellState,
+		s.clientCode clientCode,
+		c.clientCompany clientCompany,
+		p.prodName prodName, p.prodPrice
+		prodPrice,
+		stock.stockCount stockCount
+		FROM outProduct o LEFT JOIN
+		sell s
+		ON o.sellCode = s.sellCode
+		LEFT JOIN clients c
+		ON
+		s.clientCode = c.clientCode
+		LEFT JOIN product p
+		ON o.prodCode =
+		p.prodCode
+		LEFT JOIN stock
+		ON o.prodCode =
+		stock.prodCode
+		) AS subquery;
+	</select>
+
+	<select id="getOutProductListSearchCount" resultType="int">
+		SELECT COUNT(*)
+		FROM (
+		SELECT o.outCode outCode, o.prodCode prodCode,
+		DATE_FORMAT(o.outDate,
+		'%Y-%m-%d') outDate, o.outEmpId outEmpId,
+		o.outMemo outMemo,
+		DATE_FORMAT(o.outRedate , '%Y-%m-%d') outRedate,
+		o.outCount outCount,
+		o.outPrice outPrice,
+		o.sellCode sellCode,
+		s.sellCount sellCount, DATE_FORMAT(s.sellDuedate,
+		'%Y-%m-%d')
+		sellDuedate, s.sellState sellState,
+		s.clientCode clientCode,
+		c.clientCompany clientCompany,
+		p.prodName prodName, p.prodPrice
+		prodPrice,
+		stock.stockCount stockCount
+		FROM outProduct o LEFT JOIN
+		sell s
+		ON o.sellCode = s.sellCode
+		LEFT JOIN clients c
+		ON
+		s.clientCode = c.clientCode
+		LEFT JOIN product p
+		ON o.prodCode =
+		p.prodCode
+		LEFT JOIN stock
+		ON o.prodCode =
+		stock.prodCode
+		<where>
+
+			<if test="sellState == '검색'">
+				<if test="outCode != ''">
+					AND o.outCode like CONCAT('%', #{outCode}, '%')
+				</if>
+
+				<if test="prodName != ''">
+					AND p.prodName like CONCAT('%', #{prodName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany like CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+			</if>
+			<if test="sellState != '검색'">
+				<if test="outCode != ''">
+					AND o.outCode like CONCAT('%', #{outCode}, '%')
+				</if>
+
+				<if test="prodName != ''">
+					AND p.prodName like CONCAT('%', #{prodName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany like CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+
+				<if test="sellState != ''">
+					AND s.sellState like CONCAT('%', #{sellState}, '%')
+				</if>
+			</if>
+		</where>
+
+		) AS subquery;
+	</select>
+	<select id="getOutProductListAllSearchCount" resultType="int">
+		SELECT COUNT(*)
+		FROM (
+		SELECT o.outCode outCode, o.prodCode prodCode,
+		DATE_FORMAT(o.outDate,
+		'%Y-%m-%d') outDate, o.outEmpId outEmpId,
+		o.outMemo outMemo,
+		DATE_FORMAT(o.outRedate , '%Y-%m-%d') outRedate,
+		o.outCount outCount,
+		o.outPrice outPrice,
+		o.sellCode sellCode,
+		s.sellCount sellCount, DATE_FORMAT(s.sellDuedate,
+		'%Y-%m-%d')
+		sellDuedate, s.sellState sellState,
+		s.clientCode clientCode,
+		c.clientCompany clientCompany,
+		p.prodName prodName, p.prodPrice
+		prodPrice,
+		stock.stockCount stockCount
+		FROM outProduct o LEFT JOIN
+		sell s
+		ON o.sellCode = s.sellCode
+		LEFT JOIN clients c
+		ON
+		s.clientCode = c.clientCode
+		LEFT JOIN product p
+		ON o.prodCode =
+		p.prodCode
+		LEFT JOIN stock
+		ON o.prodCode =
+		stock.prodCode
+		<where>
+			<if test="outCode != ''">
+				AND o.outCode like CONCAT('%', #{outCode}, '%')
+			</if>
+
+			<if test="prodName != ''">
+				AND p.prodName like CONCAT('%', #{prodName}, '%')
+			</if>
+
+			<if test="clientCompany != ''">
+				AND c.clientCompany like CONCAT('%', #{clientCompany},
+				'%')
+			</if>
+		</where>
+		) AS subquery;
+	</select>
+
+
+
+	<select id="outProductContent"
+		resultType="com.itwillbs.domain.OutProductDTO">
+		SELECT o.outCode outCode, o.prodCode prodCode, o.outDate
+		outDate, o.outEmpId
+		outEmpId, o.outMemo outMemo,
+		o.outRedate outRedate,
+		o.outCount outCount, o.outPrice outPrice,
+		o.sellCode sellCode,
+		s.sellCount sellCount, s.sellDuedate sellDuedate,
+		s.sellState
+		sellState,
+		s.clientCode clientCode, c.clientCompany clientCompany,
+		p.prodName prodName, p.prodPrice prodPrice,
+		stock.stockCount
+		stockCount
+		FROM outProduct o LEFT JOIN sell s
+		ON o.sellCode =
+		s.sellCode
+		LEFT JOIN clients c
+		ON s.clientCode = c.clientCode
+		LEFT JOIN
+		product p
+		ON o.prodCode = p.prodCode
+		LEFT JOIN stock
+		ON
+		o.prodCode =
+		stock.prodCode
+		WHERE outCode = #{outCode}
+	</select>
+
+	<update id="updateSellState">
+		UPDATE sell
+		SET sellState = #{sellState}
+		WHERE
+		sellCode = #{sellCode}
+	</update>
+
+	<update id="updateOutDate">
+		UPDATE outProduct
+		SET outDate = #{outDate}
+		WHERE
+		outCode = #{outCode}
+	</update>
+
+	<update id="updateOutRedate">
+		UPDATE outProduct
+		SET outRedate = #{outRedate}
+		WHERE
+		outCode = #{outCode}
+	</update>
+
+	<update id="updateWhseCount">
+		UPDATE stock
+		SET stockCount = stockCount -
+		#{outCount}
+		WHERE prodCode = #{prodCode}
+	</update>
+
+	<update id="updateOutProductContent">
+		UPDATE outProduct
+		SET outCount = #{outCount}, outMemo
+		= #{outMemo}, outEmpId = #{outEmpId}
+		WHERE outCode = #{outCode}
+	</update>
+
+	<select id="getMaxNum" resultType="java.lang.Integer">
+		SELECT
+		MAX(CAST(SUBSTRING(outCode, 3) AS SIGNED)) AS max_num
+		FROM outProduct
+		WHERE outCode LIKE CONCAT(#{code},'%')
+
+	</select>
+
+	<select id="getProdPrice" resultType="int">
+		SELECT prodPrice
+		FROM
+		product
+		WHERE prodCode = #{prodCode}
+	</select>
+
+	<insert id="insertList">
+		INSERT INTO outProduct(outCode, prodCode, outPrice,
+		sellCode)
+		VALUES (#{outCode}, #{prodCode}, #{outPrice}, #{sellCode})
+	</insert>
+
+	<select id="getExcelList" resultType="com.itwillbs.domain.OutProductDTO">
+		SELECT
+		o.outCode outCode, o.prodCode prodCode,
+		DATE_FORMAT(o.outDate,
+		'%Y-%m-%d') outDate, o.outEmpId outEmpId,
+		o.outMemo outMemo,
+		DATE_FORMAT(o.outRedate , '%Y-%m-%d') outRedate,
+		o.outCount outCount,
+		o.outPrice outPrice,
+		o.sellCode sellCode,
+		s.sellCount sellCount, DATE_FORMAT(s.sellDuedate,
+		'%Y-%m-%d')
+		sellDuedate, s.sellState sellState,
+		s.clientCode clientCode,
+		c.clientCompany clientCompany,
+		p.prodName prodName, p.prodPrice
+		prodPrice,
+		stock.stockCount stockCount
+		FROM outProduct
+		o LEFT JOIN sell s
+		ON o.sellCode =
+		s.sellCode
+		LEFT JOIN clients c
+		ON s.clientCode = c.clientCode
+		LEFT JOIN
+		product p
+		ON o.prodCode =
+		p.prodCode
+		LEFT JOIN stock
+		ON
+		o.prodCode
+		=
+		stock.prodCode
+		ORDER BY o.outCode DESC
+	</select>
+
+	<select id="getExcelListAllSearch" resultType="com.itwillbs.domain.OutProductDTO">
+		SELECT o.outCode outCode, o.prodCode prodCode,
+		DATE_FORMAT(o.outDate,
+		'%Y-%m-%d') outDate, o.outEmpId outEmpId,
+		o.outMemo outMemo,
+		DATE_FORMAT(o.outRedate , '%Y-%m-%d') outRedate,
+		o.outCount outCount,
+		o.outPrice outPrice,
+		o.sellCode sellCode,
+		s.sellCount sellCount, DATE_FORMAT(s.sellDuedate,
+		'%Y-%m-%d')
+		sellDuedate, s.sellState sellState,
+		s.clientCode clientCode,
+		c.clientCompany clientCompany,
+		p.prodName prodName, p.prodPrice
+		prodPrice,
+		stock.stockCount stockCount
+		FROM outProduct
+		o LEFT JOIN sell s
+		ON o.sellCode =
+		s.sellCode
+		LEFT JOIN clients c
+		ON s.clientCode = c.clientCode
+		LEFT JOIN
+		product p
+		ON o.prodCode =
+		p.prodCode
+		LEFT JOIN stock
+		ON
+		o.prodCode =
+		stock.prodCode
+		<where>
+			<if test="outCode != ''">
+				AND o.outCode like CONCAT('%', #{outCode}, '%')
+			</if>
+
+			<if test="prodName != ''">
+				AND p.prodName like CONCAT('%', #{prodName}, '%')
+			</if>
+
+			<if test="clientCompany != ''">
+				AND c.clientCompany like CONCAT('%', #{clientCompany},
+				'%')
+			</if>
+		</where>
+
+		ORDER BY o.outCode DESC
+	</select>
+
+	<select id="getExcelListSearch" resultType="com.itwillbs.domain.OutProductDTO">
+		SELECT
+		o.outCode outCode, o.prodCode prodCode,
+		DATE_FORMAT(o.outDate,
+		'%Y-%m-%d') outDate, o.outEmpId outEmpId,
+		o.outMemo outMemo,
+		DATE_FORMAT(o.outRedate , '%Y-%m-%d') outRedate,
+		o.outCount outCount,
+		o.outPrice outPrice,
+		o.sellCode sellCode,
+		s.sellCount sellCount, DATE_FORMAT(s.sellDuedate,
+		'%Y-%m-%d')
+		sellDuedate, s.sellState sellState,
+		s.clientCode clientCode,
+		c.clientCompany clientCompany,
+		p.prodName prodName, p.prodPrice
+		prodPrice,
+		stock.stockCount stockCount
+		FROM outProduct
+		o LEFT JOIN sell s
+		ON o.sellCode =
+		s.sellCode
+		LEFT JOIN clients c
+		ON s.clientCode = c.clientCode
+		LEFT JOIN
+		product p
+		ON o.prodCode =
+		p.prodCode
+		LEFT JOIN stock
+		ON
+		o.prodCode =
+		stock.prodCode
+		<where>
+			<if test="sellState == '검색'">
+				<if test="outCode != ''">
+					AND o.outCode like CONCAT('%', #{outCode}, '%')
+				</if>
+
+				<if test="prodName != ''">
+					AND p.prodName like CONCAT('%', #{prodName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany like CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+			</if>
+			<if test="sellState != '검색'">
+				<if test="outCode != ''">
+					AND o.outCode like CONCAT('%', #{outCode}, '%')
+				</if>
+
+				<if test="prodName != ''">
+					AND p.prodName like CONCAT('%', #{prodName}, '%')
+				</if>
+
+				<if test="clientCompany != ''">
+					AND c.clientCompany like CONCAT('%', #{clientCompany},
+					'%')
+				</if>
+
+				<if test="sellState != ''">
+					AND s.sellState like CONCAT('%', #{sellState}, '%')
+				</if>
+			</if>
+		</where>
+
+		ORDER BY o.outCode DESC
+	</select>
+	
+	<delete id="deleteSell">
+		DELETE FROM outProduct
+		WHERE sellCode = #{code}
+	</delete>
+	
+	<update id="updateList">
+		UPDATE outProduct
+		SET prodCode =#{prodCode}, outPrice = #{outPrice}
+		WHERE sellCode = #{sellCode}
+	</update>
+	
+	<update id="updateClientSale">
+		UPDATE clients
+		SET clientSale = clientSale + #{clientSale}
+		WHERE clientCode = #{clientCode}
+	</update>
+	
+	<select id="outProductEmpInfo" resultType="com.itwillbs.domain.EmployeesDTO">
+		SELECT empDepartment, empName, empPosition, empId
+        FROM employees
+        WHERE empId = #{empId}
+	</select>
+	<select id="getProdInfo" resultType="com.itwillbs.domain.ProdDTO">
+		SELECT prodCode, prodName, prodUnit, prodSize, prodPerfume, clientCode, whseCode, prodPrice
+		FROM product
+		WHERE prodCode = #{data}
+	</select>
+	
+	<select id="getClientInfo" resultType="com.itwillbs.domain.ClientDTO">
+		SELECT clientCode, clientCompany, clientCeo, clientName, clientTel, clientPhone, clientFax, clientEmail
+		FROM clients
+		WHERE clientCode = #{data}
+	</select>
+	<select id="getRawMaterialInfo" resultType="com.itwillbs.domain.RawmaterialsDTO">
+		SELECT rawCode, rawName, rawType, rawUnit, rawPrice
+        FROM rawMaterial
+        WHERE rawCode = #{data}
+	</select>
+</mapper>

@@ -1,0 +1,199 @@
+@charset "UTF-8";
+
+/* 공통 -------------------------------------------------------- */
+body {
+	background-color: #F5F6FA;
+}
+
+h2 {
+	display: block; 
+	font-size: 25px;
+	font-weight: bold;
+    text-align: center; 
+	margin: 0 0 20px;
+}
+
+/* 내용묶기 */
+.content {
+    max-width: 600px;
+    padding: 20px;
+}
+
+.memo-content {
+    max-width: 600px;
+    padding: 20px;
+}
+
+/* 테이블(공통) -------------------------------------------------------- */
+table {
+	border: 1px solid rgba(221, 221, 221, 0.78);
+	margin: 0 auto;
+	color: #000000;
+	max-width: 1570px;
+	font: 500 18px/18px "Inter", sans-serif;
+	text-align: center;
+}
+
+/* <tr><td> 제목 </td><td> 내용 </td></tr> */
+table tr {
+	width: 1570px;
+	height: 40px;
+	font: 500 20px/20px "Inter", sans-serif;
+}
+
+#td1 {
+	background-color: rgba(217.0000022649765, 217.0000022649765, 217.0000022649765, 1);
+	font: 500 16px/16px "Inter", sans-serif;
+	font-weight: bold;
+	width: 150px;
+}
+
+/* 테이블(detail) -------------------------------------------------------- */
+#td21, #td22 {
+	font: 500 16px/16px "Inter", sans-serif;
+	width: 150px;
+}
+
+#td21:nth-child(n+1) {
+	background-color: #ffffff;
+}
+#td22:nth-child(3n+2) {
+	background-color: #f2f2f2;
+}
+
+/* 테이블(update) -------------------------------------------------------- */
+#tdup {
+	font: 500 16px/16px "Inter", sans-serif;
+	width: 150px;
+}
+
+#tdup input[type="text"], #tdup input[type="number"] {
+  	border: 1px solid #adb5bb;
+	border-radius: 5px;
+	width: 200px;
+	height: 30px;
+	font: 500 15px/15px "Inter", sans-serif;
+	text-align: center;
+	/* 	margin-bottom: 10px; */
+}
+
+#tdup input[type="date"] {
+  	border: 1px solid #adb5bb;
+	border-radius: 5px;
+	width: 203px;
+	height: 30px;
+	font: 500 15px/15px "Inter", sans-serif;
+	text-align: center;
+	/* 	margin-bottom: 10px; */
+}
+
+#tdup select {
+  	border: 1px solid #adb5bb;
+	border-radius: 5px;
+	width: 206px;
+	height: 34px;
+	font: 500 15px/15px "Inter", sans-serif;
+	text-align: center;
+	/* 	margin-bottom: 10px; */
+}
+
+#tdup1 input[type="text"] {
+  	border: 1px solid #adb5bb;
+	border-radius: 5px;
+	width: 142px;
+	height: 30px;
+	font: 500 15px/15px "Inter", sans-serif;
+	text-align: center;
+	/* 	margin-bottom: 10px; */
+}
+
+textarea{
+	width: 200px;
+	resize: none;
+	border: 1px solid #adb5bb;
+	border-radius: 5px;
+	font: 500 15px/15px "Inter", sans-serif;
+}
+
+/* 버튼 -------------------------------------------------------- */
+#buttons {
+  text-align: center;
+}
+
+#button {
+	text-align: center;
+}
+
+#btn1 {
+	color: white;
+    background-color: #9AC5F4;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+	margin-top: 20px;
+	cursor: pointer;
+}
+
+#btn2 {
+	color: white;
+    background-color:  #4D4D4D;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+	cursor: pointer;
+	margin-top: 20px;
+	margin-left: 6px;
+}
+
+#btn3 {
+	color: white;
+    background-color:  #4D4D4D;
+	width:50px;
+	height:34px;
+	border-radius: 3px;
+	border: 0;
+	color: #FFFFFF;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+	cursor: pointer;
+	margin-top: 0px;
+}
+
+
+/* 수정필요 -------------------------------------------------------- */
+input[type="button"]:hover, input[type="submit"]:hover {
+    cursor: pointer;
+}
+
+.memo{
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.select {
+    border: 1px solid #adb5bb;
+	border-radius: 5px;
+	width: 80%;
+	height: 33px;
+	font: 500 15px/15px "Inter", sans-serif;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+#memo2 {
+	margin: 0 auto;
+	color: #000000;
+	max-width: 1570px;
+	font: 500 18px/18px "Inter", sans-serif;
+	text-align: center;
+}
+	

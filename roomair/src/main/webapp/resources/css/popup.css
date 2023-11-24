@@ -1,0 +1,113 @@
+@charset "UTF-8";
+
+/*------------- 전체 배경색 -------------*/
+body{
+	background-color: #F5F6FA;
+}
+/*------------- 전체 틀 -------------*/
+.popupContainer {
+  display: flex;
+  flex-direction: column; /* 부모 컨테이너를 수직으로 정렬하려면 flex-direction을 column으로 설정 */
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: center; /* 수평 중앙 정렬 */
+  height: 100%;
+  padding: 20px; 
+  width: 320px;
+}
+/*------------- 제목 -------------*/
+h1 {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+}
+/*------------- 제목 밑 라인 -------------*/
+.horizontal-line {
+  width: 200px;
+  height: 1px;
+  background-color: #B8B8B8;
+  margin: 5% 0 10% 0; /* 위, 우, 아래, 좌 순서로 마진 설정 */
+}
+/*------------- 내용 양옆 마진 --------*/
+form.popup {
+    margin: auto;
+}
+
+.popupLabel {
+    margin-bottom: 10px;
+}
+
+textarea {
+	resize: none;
+}
+/*-------------------- input text -----------------------*/
+/* 거래처코드, 거래처명 등 입력할 요소 */
+input[type="text"] {
+	border: 1px solid #A6A6A6; /* 테두리 색 설정 */
+	background-color: #FFFFFF; /* 배경색 설정 */
+	border-radius: 3px;
+ 	margin-bottom: 5px;
+	width: 105px;
+	height:25px;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+}
+#sellCount{
+	border: 1px solid #A6A6A6; /* 테두리 색 설정 */
+	background-color: #FFFFFF; /* 배경색 설정 */
+	border-radius: 3px;
+ 	margin-bottom: 5px;
+	width: 105px;
+	height:25px;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+}
+#sellMemo{
+	border: 1px solid #A6A6A6; /* 테두리 색 설정 */
+	background-color: #FFFFFF; /* 배경색 설정 */
+	border-radius: 3px;
+}
+
+/*---------------------------------------------- 버튼 ----------------------------------------------*/
+.btn {
+  display: flex; /* 버튼을 수평으로 나란히 배치하려면 flex 사용 */
+  justify-content: center; /* 수평 가운데 정렬 */
+  align-items: center; /* 수직 가운데 정렬 */
+
+}
+
+.btn button {
+ margin: 10px 5px 5px 5px; /* 버튼 사이의 간격 설정, 원하는 간격으로 조정하세요. */
+}
+/*--------------------- 추가, 취소 버튼 -------------------------*/
+.add-btn, .reset-btn, .modify-btn{
+	color: white !important;
+	background-color: #9AC5F4 !important;
+	border-radius: 3px !important;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+}
+/*--------------------- 닫기 버튼 -------------------------*/
+.close-btn {
+	color: white !important;
+	background-color: #4D4D4D !important;
+	border-radius: 3px !important;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+}
+
+/* "등록" 버튼에 대한 스타일 */
+.add-btn:hover, .reset-btn:hover,.close-btn:hover {
+    background-color: #1D5D9B !important;
+    color: white; /* 텍스트 색상 변경 (선택 사항) */
+}
+

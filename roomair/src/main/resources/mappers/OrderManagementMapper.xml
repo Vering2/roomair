@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mappers.OrderManagementMapper"> 
+	 
+	<insert id="insertOrderManagement">  
+		insert into buy(buyNum,rawCode,clientCode,whseCode,buyCount,buyDate,buyEmpId,buyInstate)
+		values(#{buyNum},#{rawCode},#{clientCode},#{whseCode},#{buyCount},#{buyDate},#{buyEmpId},#{buyInstate})
+	</insert> 
+ 
+	<!-- home 페이징처리, 검색기능 -->
+	<select id="getOrderManagementList" resultType="com.itwillbs.domain.OrderManagementDTO">
+		SELECT *
+FROM buy b
+LEFT JOIN stock s 
+ON b.rawCode = s.rawCode
+LEFT JOIN rawMaterial r ON b.rawCode = r.rawCode
+		<where>
+   		<if test="search1 != null and search1 != ''">
+        	and buyNum like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and b.rawCode like concat('%', #{search2}, '%')
+    	</if>
+   		<if test="search3 != null and search3 != ''">
+       		and r.rawType = #{search3}
+    	</if>
+    	<if test="search4 != null and search4 != ''">
+    		and clientCode like concat('%', #{search4}, '%')
+    	</if>
+    	</where>
+    	
+		<!-- 10/22 2:40 아래 코드 추가 -->
+    	<!-- ORDER BY CAST(SUBSTRING(buyNum FROM 3) AS UNSIGNED) DESC -->
+    	
+    	order by CAST(SUBSTRING(buyNum FROM 3) AS UNSIGNED) desc limit #{startRow}, #{pageSize}
+	</select>
+	
+	<!-- home 페이징처리, 검색기능 -->
+ 	<select id="getOrderManagementCount" resultType="java.lang.Integer">
+		SELECT count(*)
+FROM buy b LEFT JOIN stock s 
+ON b.rawCode = s.rawCode
+LEFT JOIN rawMaterial r ON b.rawCode = r.rawCode
+     	<where>
+   		<if test="search1 != null and search1 != ''">
+        	and buyNum like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and b.rawCode like concat('%', #{search2}, '%')
+    	</if>
+   		<if test="search3 != null and search3 != ''">
+       		and r.rawType = #{search3}
+    	</if>
+    	<if test="search4 != null and search4 != ''">
+    		and clientCode like concat('%', #{search4}, '%')
+    	</if>
+    	</where>
+    	order by CAST(SUBSTRING(buyNum FROM 3) AS UNSIGNED) desc limit #{startRow}, #{pageSize}
+    </select>
+	
+	<!-- 체크박스로 선택삭제 -->
+    <delete id="delete">
+        delete from buy
+        where buyNum = #{buyNum}
+    </delete>
+    
+    <select id="getDetail" resultType="com.itwillbs.domain.OrderManagementDTO">
+		SELECT *
+FROM buy b
+LEFT JOIN stock s ON b.rawCode = s.rawCode
+LEFT JOIN warehouse w ON b.whseCode = w.whseCode
+LEFT JOIN rawMaterial r ON b.rawCode = r.rawCode
+		where buyNum = #{buyNum}
+	</select>
+	
+	<update id="updateOrderManagement">
+		update buy
+		set rawCode=#{rawCode}, clientCode=#{clientCode}, buyCount=#{buyCount}, buyDate=#{buyDate}, buyEmpId=#{buyEmpId}, buyInstate=#{buyInstate}
+		where buyNum = #{buyNum}
+	</update>
+	
+	<!-- 엑셀 -->
+	<select id="getOrderManagementList2" resultType="com.itwillbs.domain.OrderManagementDTO">
+	SELECT *
+FROM buy b
+LEFT JOIN stock s 
+ON b.rawCode = s.rawCode
+LEFT JOIN rawMaterial r ON b.rawCode = r.rawCode
+		
+	</select>
+	
+	<!-- buyDate가 오늘 또는 이전인 경우, buyInstate가 '신청완료'에서 '발주완료'로 변경 -->
+	<update id="updateBuyInstate">
+    	update buy
+    	set buyInstate = '발주완료'
+    	where buyDate &lt;= #{today} and buyInstate = '신청완료'
+	</update>
+	
+</mapper>

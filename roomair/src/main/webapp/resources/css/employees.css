@@ -1,0 +1,353 @@
+@charset "UTF-8";
+
+/*--------------------------------- 본문 ----------------------------------------*/
+body {
+	background-color: #F5F6FA; /*연한 그레이*/
+	margin:0;
+}
+
+.container {
+	display: flex;
+	flex-direction: column;
+}
+/*-------------------------------- 제목(ㅇㅇ관리) --------------------------------------------*/
+h2 {
+	margin-left:30px; 
+	font-size: 30px;
+	font-weight: bold;
+	padding-left: 1%;
+}
+/*-------------------------------- 상단 조회바 --------------------------------------------*/
+/* 거래처코드, 거래처명 등 */
+#searchform label{
+margin-left : 25px;
+font-weight: bold;
+}
+/* 거래처코드, 거래처명 등 입력할 요소 */
+input[type="text"] {
+	border: 1px solid #A6A6A6; /* 테두리 색 설정 */
+	background-color: #FFFFFF; /* 배경색 설정 */
+	border-radius: 3px;
+	margin-bottom: 20px;
+	width: 105px;
+	height:25px;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+}
+
+#searchBox{
+	margin: 0 auto;
+    width: 98%;
+}
+
+/* 조회 폼 틀*/
+#searchform {
+/* 	margin-left:30px; */
+	margin: 0 auto;
+	background-color: white; 
+	width: 98%; 
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자효과 */"
+	border-radius: 3px; /*css 파일에서 안먹힘 -> jsp본문에 추가 */
+	padding-top: 20px;"
+}
+
+/* 조회폼 안에서 마지막 입력 요소*/
+#searchform input:last-child {
+    margin-bottom: 20px;
+}
+/* 조회 버튼*/
+#searchButton {
+	color: white;
+    background-color: #9AC5F4;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	/* margin-left : 220px; */
+	margin-left: 20px;
+	font-weight: bold;
+	cursor: pointer;
+}
+/* 조회 초기화 버튼 */
+#resetButton{
+	color: white;
+    background-color:  #4D4D4D;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+	cursor: pointer;
+}
+/* 조회, 초기화 버튼 hover */
+#searchButton:hover, #resetButton:hover {
+	color: white;
+    background-color: #1D5D9B;
+}
+
+#sample {
+	display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+     margin: 2% 1% 0;
+}
+/*-------------------------------- 추가, 삭제, 엑셀 버튼 --------------------------------------------*/
+/* 엑셀버튼 */
+#exportButton{
+	color: white;
+    background-color: #9AC5F4;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+/* 	margin-top:30px; */
+/* 	margin-left : 920px; */
+/* 	margin-right: 5px; */
+	font-weight: bold;
+	cursor: pointer;
+}
+/* 추가버튼 */
+#add{
+	color: white;
+    background-color: #9AC5F4;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+	cursor: pointer;
+/* 	margin-right: 5px; */
+}
+/* 삭제버튼 */
+#delete{
+	color: white;
+    background-color:  #4D4D4D;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+/* 	margin-right: 5px; */
+	font-weight: bold;
+	cursor: pointer;
+}
+/* 추가, 삭제 버튼 hover */
+#add:hover, #delete:hover {
+	color: white;
+    background-color: #1D5D9B;
+}
+/* 엑셀 버튼 hover */
+#exportButton:hover {
+    color:white;
+    background-color:  #1D5D9B;
+}
+/*-------------------------------- 전체, 출고, 미출고, 중간납품 버튼 --------------------------------------------*/
+#allButton{
+	color: white;
+    background-color:  #4D4D4D;
+	width: 70px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	cursor: pointer;
+/* 	margin-top:30px; */
+/* 	margin-left : 50px; */
+/* 	margin-right: 5px; */
+/* 	margin-bottom : 10px; */
+	font-weight: bold;
+} 
+#non_deliveryButton, #interim_deliveryButton, #deliveryButton{
+	color: white;
+    background-color: #9AC5F4;
+	width: 70px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+/* 	margin-right: 5px;	 */
+	font-weight: bold;
+	cursor: pointer;
+}
+.total-items{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1% 2% 0%;
+    align-items: center;
+}
+
+/* 전체, 미출고, 중간납품, 출고완료 버튼 hover */
+#allButton:hover,#non_deliveryButton:hover,#interim_deliveryButton:hover,#deliveryButton:hover {
+    color: white;
+	background-color: #1D5D9B;
+}
+/*----------------------- 총 몇 건(리스트 개수) -------------------*/
+.listCount{
+	font-size: 15px;
+	font-weight: normal;
+	margin-left: 30px;
+	width: 100px;
+}
+/*----------------------------- 항목 수 선택 ----------------------------- */
+.PageSelect{
+	display:flex;
+	flex-direction:row;
+	justify-content:flex-end; 	
+	margin-left: 1090px;
+	font-size: 15px;
+	font-weight: normal;
+	width: 300px;	
+}
+.input_box{
+	text-align: center;
+	cursor: pointer !important;
+}
+/*--------------------------------------- 테이블 -------------------------------  */
+#employeeTable {
+/* 	margin-top: 10px; */
+/* 	margin-left:30px; */
+	border-collapse: collapse;
+	width: 96%;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자효과 */
+	text-align: center;
+	border-right: 1px solid #D9D9D9; /* 수직 줄의 색상 설정 */
+    border-bottom: 1px solid #D9D9D9; /* 가로 줄의 스타일을 변경 */
+}
+#lineTable {
+/* 	margin-top: 10px; */
+/* 	margin-left:30px; */
+	border-collapse: collapse;
+	width: 96%;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자효과 */
+	text-align: center;
+	border-right: 1px solid #D9D9D9; /* 수직 줄의 색상 설정 */
+    border-bottom: 1px solid #D9D9D9; /* 가로 줄의 스타일을 변경 */
+}
+/* 테이블 틀 */
+.tg {
+	margin-top: 10px;
+	margin-left:30px;
+	width: 1100px; 
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자효과 */
+	border-radius: 3px; /*css 파일에서 안먹힘 -> jsp본문에 추가 */
+	/* padding: 10px 10px 10px 10px; */
+	background-color: white;
+	text-align: center;
+	
+}
+
+.tg thead {
+    background-color: #D9D9D9; 
+    height: 30px;
+    
+}
+.tg tbody {
+    background-color: white; 
+    height: 30px;  
+    
+}
+#employeeTable tr {
+	border-right: 1px solid #D9D9D9; 
+    border-bottom: 1px solid #D9D9D9;
+    height: 35px;
+}
+#lineTable tr {
+	border-right: 1px solid #D9D9D9; 
+    border-bottom: 1px solid #D9D9D9;
+    height: 35px;
+}
+/*---------------------------------- 상세정보 마우스 커서 포인터 --------------------- */
+.sellDetailLink{
+	cursor: pointer !important;
+}
+/*--------------------------------------- 페이징 -------------------------------  */
+ /* 번호위치 */
+ .page_wrap {
+/* 	text-align:center; */
+/* 	margin-top : 20px; */
+/* 	margin-right: 400px; */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1% 2%;
+ }
+ /* 오른쪽 배치 */
+.page_nation {
+/* 	display:inline-block; */
+	float:right;
+	margin-left: auto;
+}
+/* 페이지 < > 감추기 */
+.page_nation .none {
+	display:none;
+}
+/*선택안된 페이지 번호 */
+.page_nation a {
+	display:block;
+	margin:0 3px;
+	float:left;
+	border:1px solid #D9D9D9;
+	width:30px;
+	height:30px;
+	line-height:30px;
+	text-align:center;	
+	font-size:15px;	
+	text-decoration:none;
+	background-color:white;
+	color:#4D4D4D;	
+	border-radius:3px;
+	cursor: pointer;
+}
+/* 현재 선택된 페이지 번호*/
+.page_nation a.active {	
+	background-color:white;
+	color:#9AC5F4;
+	border: 1px solid #D9D9D9;
+	font-weight: bold;
+	cursor: pointer;
+	}
+.page_nation .arrow {
+	border:1px solid #ccc;
+	cursor: pointer;
+}
+.page_nation .pprev {
+	background:#f8f8f8 url('img/page_pprev.png') no-repeat center center;
+	margin-left:0;
+	cursor: pointer;
+}
+.page_nation .prev {
+	background:#f8f8f8 url('img/page_prev.png') no-repeat center center;
+	margin-right:7px;
+	border-radius:3px;
+	cursor: pointer;
+}
+.page_nation .next {
+	background:#f8f8f8 url('img/page_next.png') no-repeat center center;
+	margin-left:7px;
+	border-radius:3px;
+	cursor: pointer;
+}
+.page_nation .nnext {
+	background:#f8f8f8 url('img/page_nnext.png') no-repeat center center;
+	margin-right:0;
+	cursor: pointer;
+}
+/* 페이징 hover  */
+.page_nation a:hover, .page_nation a.active:hover{
+	background-color: #1D5D9B;
+	color: white;
+}
+

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.itwillbs.mappers.PerformanceMapper">
+ 
+ 
+ <insert id="perfinsert">
+    INSERT INTO performance(perfCode)                                                        
+    VALUES('${perfCode}')
+</insert>
+ 
+ 
+ 
+ <select id="getperflist" resultType="PerformanceDTO">
+SELECT p.*, w.prodCode, w.lineCode, w.workAmount, w.workProcess
+FROM performance p
+LEFT JOIN workOrder w ON p.workCode = w.workCode
+ORDER BY p.perfCode DESC
+LIMIT #{startRow}, #{pageSize};
+ </select>
+ 
+ <select id="getSearch" resultType="PerformanceDTO">
+		SELECT p.*, w.prodCode, w.lineCode, w.workAmount, w.workProcess
+        FROM performance p
+        LEFT JOIN workOrder w ON p.workCode = w.workCode
+		<where>
+			<if test=" lineCode != null and lineCode !=''">
+				 and w.lineCode like concat ('%', #{lineCode}, '%')
+			</if>
+
+			<if test="prodCode != null and prodCode !=''">
+				and w.prodCode like concat ('%', #{prodCode}, '%')
+			</if>			 
+		</where>
+		order by perfCode desc
+		limit #{startRow}, #{pageSize}
+	</select>
+	
+	<select id="getSearchcount" resultType="java.lang.Integer">
+		SELECT count(*)
+		FROM performance p
+    LEFT JOIN workOrder w ON p.workCode = w.workCode
+		<where>
+			<if test="lineCode != null and lineCode !=''">
+				w.lineCode like concat ('%', #{lineCode}, '%')
+			</if>
+
+			<if test="lineCode != null and prodCode !=''">
+				and w.prodCode like concat ('%', #{prodCode}, '%')
+			</if>
+		</where>
+		order by perfCode desc
+	</select>
+	
+	<select id="getperfCount" resultType="java.lang.Integer">
+	select count(*)
+	FROM performance p
+LEFT JOIN workOrder w ON p.workCode = w.workCode
+
+	</select>
+	
+	<!--  도넛차트 DB값 가져오기  -->
+	<select id="getdonut" resultType="PerformanceDTO" parameterType="java.util.List">
+    SELECT 
+        lineCode AS lineCode,
+        SUM(perfAmount) AS totalAmount,
+        SUM(perfFair) AS totalFair,
+        SUM(perfDefect) AS totalDefect
+    FROM 
+        performance
+    Where
+        lineCode IN 
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    GROUP BY 
+        lineCode;
+</select>
+ 
+ <select id="getlinelist" resultType="com.itwillbs.domain.LineDTO">
+ 
+ select * from line
+ 
+ </select>
+ 
+ <select id="getprodlist" resultType="com.itwillbs.domain.ProdDTO">
+ 
+SELECT * FROM product
+ </select>
+ 
+ <select id="getworklist" resultType="WorkOrderDTO">
+ SELECT * FROM workOrder
+ </select>
+ 
+ <select id="getdetail" resultType="PerformanceDTO">
+SELECT p.perfCode, w.workCode, w.prodCode, p.perfDate, p.perfEmpId, w.workAmount,
+       p.perfFair, p.perfDefect, p.perfDefectreason, p.perfDefectmemo, p.perfmemo,
+       w.workProcess, w.workInfo
+FROM performance p
+LEFT JOIN workOrder w ON p.workCode = w.workCode
+WHERE p.perfCode = #{perfCode};
+
+ 
+ </select>
+ 
+<update id="perfupdate">
+
+UPDATE performance p , stock s
+SET p.perfEmpId=#{perfEmpId}, 
+    p.perfFair = #{perfFair},
+    p.perfDefect=#{perfDefect},
+    p.perfDefectreason=#{perfDefectreason},
+    p.perfDefectmemo=#{perfDefectmemo},
+    p.perfMemo=#{perfMemo},
+    s.stockCount = s.stockCount + #{perfFair}
+WHERE p.perfCode=#{perfCode} AND p.perfFair IS NOT NULL;
+
+</update>
+ 
+ <delete id="perfdelete">
+ delete from performance where perfCode=#{perfCode}
+ 
+ </delete>
+ 
+ <update id="updateperf">
+ 	UPDATE performance 
+	SET perfEmpId=#{perfEmpId}, 
+	    perfFair = perfFair + #{perfFair},
+	    perfDefect=#{perfDefect},
+	    perfDefectreason=#{perfDefectreason},
+	    perfDefectmemo=#{perfDefectmemo},
+	    perfMemo=#{perfMemo}
+	WHERE perfCode=#{perfCode}
+ </update>
+ 
+ <update id="updateStock">
+	UPDATE stock 
+	SET stockCount = stockCount + #{perfFair}
+	WHERE prodCode = #{prodCode}
+ </update>
+ 
+ <update id="updateperfSub">
+ 	UPDATE performance 
+	SET perfEmpId=#{perfEmpId}, 
+	    perfFair = perfFair - #{perfFair},
+	    perfDefect=#{perfDefect},
+	    perfDefectreason=#{perfDefectreason},
+	    perfDefectmemo=#{perfDefectmemo},
+	    perfMemo=#{perfMemo}
+	WHERE perfCode=#{perfCode}
+ </update>
+ 
+ <update id="updateStockSub">
+	UPDATE stock 
+	SET stockCount = stockCount - #{perfFair}
+	WHERE prodCode = #{prodCode}
+ </update>
+ 
+ 
+ </mapper>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace = "com.itwillbs.Mappers.EmployeesMapper">
+  
+<!--   인사등록 -->
+  <insert id="insertEmployees">
+  	insert into employees(empId,empPass,empName,empDepartment,empPosition,empEmail,empTel,empHiredate,empState,empFile)
+  	values(#{empId},#{empPass},#{empName},#{empDepartment},#{empPosition},#{empEmail},#{empTel},#{empHiredate},#{empState},#{empFile})
+  </insert>
+  
+<!--   검색,페이징처리 -->
+  <select id="getEmployeesList" resultType="com.itwillbs.domain.EmployeesDTO">
+  	select * from employees 
+  	where 1=1
+  	<if test="search != null and search != ''">
+            and (empName like concat('%', #{search}, '%') or empId like concat('%', #{search}, '%') or empPass like concat('%', #{search}, '%') or empDepartment like concat('%', #{search}, '%') or empPosition like concat('%', #{search}, '%') or empEmail like concat('%', #{search}, '%') or empTel like concat('%', #{search}, '%') or empState like concat('%', #{search}, '%') or empHiredate like concat('%', #{search}, '%'))
+        </if>
+  	order by empId desc limit #{startRow}, #{pageSize}
+  </select>
+  
+<!--   페이지 당 글 갯수 -->
+  <select id="getEmployeesCount" resultType="java.lang.Integer">
+  	select count(*) from employees
+  	where 1=1
+  	<if test="search != null and search != ''">
+            and (empName like concat('%', #{search}, '%') or empId like concat('%', #{search}, '%') or empPass like concat('%', #{search}, '%') or empDepartment like concat('%', #{search}, '%') or empPosition like concat('%', #{search}, '%') or empEmail like concat('%', #{search}, '%') or empTel like concat('%', #{search}, '%') or empState like concat('%', #{search}, '%') or empHiredate like concat('%', #{search}, '%'))
+        </if>
+  </select>
+  
+  <!--  회원 삭제  -->
+  <delete id="delete">
+        delete from employees
+        where empId = #{empId}
+  </delete>
+  
+<!--   인사수정 값 들고오기 -->
+  <select id="getMember" resultType="com.itwillbs.domain.EmployeesDTO">
+  	select * from employees where empId = #{empId}
+  </select>
+  
+<!--   인사수정하기 -->
+  <update id="updateEmployees">
+  	update employees set empId = #{empId}, empPass = #{empPass}, empName = #{empName}, empDepartment = #{empDepartment}, empPosition = #{empPosition}, empEmail = #{empEmail}, empTel = #{empTel}, empHiredate = #{empHiredate}, empState = #{empState}, empFile = #{empFile}
+  	where empId = #{empId}
+  </update>
+  
+<!--   라인등록,수정 드랍다운 메뉴 -->
+  <select id="getEmployeesList2" resultType="com.itwillbs.domain.EmployeesDTO">
+  	select * from employees
+  </select>  
+  
+  	<select id ="getlastnumber" resultType="String" >
+	SELECT empId FROM employees ORDER BY empId DESC LIMIT 1
+	
+	</select>
+	
+	<select id="getEmployeesCount2" resultType="int">
+    select count(*) from employees
+</select>
+
+  
+  
+  
+  
+  
+  
+  </mapper>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mappers.workorderMapper">
+	
+	<resultMap id="StockDTO" type="StockDTO">
+		<result property="stockNum" column="stockNum"/>
+		<result property="rawCode" column="rawCode"/>
+		<result property="whesCode" column="whesCode"/>
+		<result property="stockMemo" column="stockMemo"/>
+		<result property="prodCode" column="prodCode"/>
+		<result property="stockCount" column="stockCount"/>
+	</resultMap>
+	
+	 <insert id="perfinsert">
+    INSERT INTO performance(perfCode,workCode,prodCode,perfDate)                                                        
+    VALUES(#{perfCode},#{workCode},#{prodCode},#{perfDate})
+</insert>
+	
+	<!-- 작업지시 목록 -->
+	<select id="allWorkOrder" resultType="WorkOrderDTO">
+		SELECT *
+		FROM workOrder w
+        LEFT JOIN product p on w.prodCode = p.prodCode 
+		WHERE workCode != '' 
+		ORDER BY workCode DESC 
+		LIMIT #{start}, #{cntPerPage}
+	</select>
+	<!-- 작업지시 목록 -->
+	
+	<!-- 작업지시 전체 개수 -->
+	<select id="workOrderAllCnt" resultType="int">
+		SELECT count(*) FROM workOrder
+	</select>
+	<!-- 작업지시 전체 개수 -->
+	
+	
+	
+	
+	<!-- 특정 완제품에 들어가는 원자재 코드와 재고량 조회 -->
+	<select id="reqRaw" resultMap="StockDTO">
+		SELECT s.rawCode, stockCount 
+		FROM stock s 
+		left JOIN requirement r ON s.rawCode = r.rawCode 
+		WHERE r.prodCode = #{prodCode} 
+		ORDER BY s.rawCode;
+	</select>
+	<!-- 특정 완제품에 들어가는 원자재 코드와 재고량 조회 -->
+	
+	<!-- 원자재 소요량 -->
+	<select id="consumption" resultType="RequirementDTO">
+		SELECT prodCode, rawCode, reqAmount 
+		FROM requirement 
+		WHERE prodCode = #{prodCode} 
+		ORDER BY rawCode;
+	</select>
+	<!-- 원자재 소요량 -->
+	
+	<!-- 재고에서 원자재 지시수량*소요량만큼 차감 -->
+	<update id="reduceRaw">
+		UPDATE stock 
+		SET stockCount = stockCount - #{stockCount} 
+		WHERE rawCode = #{rawCode}
+	</update>
+	<!-- 재고에서 원자재 지시수량*소요량만큼 차감 -->
+	
+	<!-- 1차공정 사용 가능 라인 -->
+	<select id="selectLine" resultType="String">
+		SELECT lineCode 
+		FROM line 
+		WHERE lineUse='미사용' 
+		AND lineProcess='1차공정' 
+		ORDER BY lineCode 
+		LIMIT 1 
+	</select>
+	
+	<!-- 작업지시 등록 -->
+	<insert id="insertWorkOrder">
+		INSERT INTO workOrder (workCode,prodCode,sellCode,workDate,lineCode,workAmount,workEmpId,workProcess,workInfo)
+		VALUES (#{workCode},#{prodCode},#{sellCode},now(),#{lineCode},#{workAmount},#{workEmpId},'1차공정',#{workInfo}) 
+	</insert>
+	
+	
+	<!-- 작업지시 등록 -->
+	
+	<!-- 생산 들어간 라인 사용여부 변경 -->
+	<update id="updateLine">
+		UPDATE line 
+		SET lineUse='사용' 
+		WHERE lineCode=#{lineCode}
+	</update>
+	<!-- 생산 들어간 라인 사용여부 변경 -->
+	
+	<update id="updateInfo">
+		UPDATE workOrder 
+		SET workInfo=#{workInfo}
+		WHERE lineCode=#{lineCode}
+	</update>
+	
+	<!-- 작업지시 삭제 -->
+	<delete id="deleteWorkOrder">
+		DELETE FROM workOrder 
+		WHERE workCode=#{workCode}
+	</delete>
+	<update id="lineUseDY">
+    UPDATE line l
+    LEFT JOIN workOrder w ON l.lineCode = w.lineCode
+    SET l.lineUse = '미사용'
+    WHERE w.workCode = #{workCode}
+</update>
+	
+	<!-- 작업지시 삭제 -->
+	
+	<!-- 작업지시 조회 -->
+	<select id="readWorkOrder" resultType="WorkOrderDTO">
+		SELECT * FROM workOrder w
+LEFT JOIN product p on w.prodCode = p.prodCode 
+		WHERE workCode=#{workCode}
+	</select>
+	<!-- 작업지시 조회 -->
+	
+	<!-- 작업지시 수정 -->
+	<update id="updateWorkOrder">
+		UPDATE workOrder 
+		SET lineCode=#{lineCode}, prodCode=#{prodCode}, sellCode=#{sellCode}, 
+			 workEmpId=#{workEmpId}, workDatechange=now(), workAmount=#{workAmount} 
+		WHERE workCode=#{workCode}
+	</update>
+	<!-- 작업지시 수정 -->
+	
+	<!-- 작업지시 검색 -->
+	<select id="searchWorkOrder" parameterType="hashMap" resultType="WorkOrderDTO">
+		
+		SELECT * FROM workOrder w
+LEFT JOIN product p on w.prodCode = p.prodCode 
+		<where>
+			<if test="search_line!=null and !search_line.isEmpty()">
+			lineCode like concat ('%', #{search_line}, '%')
+			</if>
+			<if test="(search_fromDate != null and !search_fromDate.equals('')) and (search_toDate != null and !search_toDate.equals(''))">
+               AND (COALESCE(workDatechange, workDate) &gt;= #{search_fromDate} AND COALESCE(workDatechange, workDate) &lt;= #{search_toDate})
+</if> 
+			<if test="search_place!=null and !search_place.isEmpty() and !search_place.equals('전체')">
+				AND workProcess=#{search_place} 
+			</if> 
+			<if test="search_prod!=null and !search_prod.isEmpty()">
+				AND p.prodCode=#{search_prod} 
+			</if> 
+		</where>
+		ORDER BY workCode DESC 
+		LIMIT #{start}, #{cntPerPage}
+	</select>
+	<!-- 작업지시 검색 -->
+	
+	<!-- 작업지시 검색 개수 -->
+	<select id="searchWorkOrderCnt" parameterType="hashMap" resultType="int">
+		SELECT count(*) FROM workOrder 
+		<where>
+			<if test="search_line!=null and !search_line.isEmpty()">
+				lineCode=#{search_line} 
+			</if> 
+			<if test="(search_fromDate!=null and !search_fromDate.equals('')) and (search_toDate!=null and !search_toDate.equals(''))">
+				AND (workDate &gt;= #{search_fromDate} AND workDate &lt;= #{search_toDate})
+			</if> 
+			<if test="search_place!=null and !search_place.isEmpty() and !search_place.equals('전체')">
+				AND workProcess=#{search_place} 
+			</if> 
+			<if test="search_prod!=null and !search_prod.isEmpty()">
+				AND prodCode=#{search_prod} 
+			</if> 
+		</where>
+	</select>
+	<!-- 작업지시 검색 개수 -->
+	
+	
+	<sql id="selectLine2">
+		(SELECT lineCode 
+		FROM line 
+		WHERE lineUse='미사용' 
+		AND lineProcess='2차공정' 
+		ORDER BY lineCode
+		LIMIT 1) 
+	</sql>
+	<sql id="selectLine3">
+		(SELECT lineCode 
+		FROM line 
+		WHERE lineUse='미사용' 
+		AND lineProcess='3차공정' 
+		ORDER BY lineCode
+		LIMIT 1) 
+	</sql>
+	
+	
+	<!-- 작업지시 현재 작업공정 변경 -->
+	<update id="updateStatus" parameterType="WorkOrderDTO">
+		UPDATE workOrder 
+		<if test="workProcess.equals('1차공정')">
+			SET workProcess='2차공정', lineCode=<include refid="selectLine2"/> 
+		</if>
+		<if test="workProcess.equals('2차공정')">
+			SET workProcess='3차공정', lineCode=<include refid="selectLine3"/>  
+		</if>
+		<if test="workProcess.equals('3차공정')">
+			SET workProcess='마감', lineCode=''
+		</if>
+		WHERE workCode=#{workCode}
+	</update>
+	<!-- 작업지시 현재 작업공정 변경 -->
+	
+	
+	<select id="selectLine2" resultType="String">
+		SELECT lineCode 
+		FROM line 
+		WHERE lineUse='미사용' 
+		AND lineProcess='2차공정' 
+		ORDER BY lineCode
+		LIMIT 1 
+	</select>
+	<select id="selectLine3" resultType="String">
+		SELECT lineCode 
+		FROM line 
+		WHERE lineUse='미사용' 
+		AND lineProcess='3차공정' 
+		ORDER BY lineCode 
+		LIMIT 1 
+	</select>
+	
+	<!-- 라인 사용여부 다시 사용가능으로 -->
+	<update id="lineUseY">
+		UPDATE line 
+		SET lineUse='미사용' 
+		WHERE lineCode=#{lineCode}
+	</update>
+	<!-- 라인 사용여부 다시 사용가능으로 -->
+	
+	
+	<select id="getWorkOrderSearchExcel" resultType="java.util.HashMap">
+		SELECT w.workCode workCode, w.prodCode prodCode, p.prodName prodName,w.sellCode sellCode, DATE_FORMAT(w.workDate, '%Y-%m-%d') workDate, w.lineCode lineCode, w.workAmount workAmount, w.workEmpId workEmpId, w.workProcess workProcess, 
+        DATE_FORMAT(w.workDatechange, '%Y-%m-%d') workDatechange, w.wrokInfo, workInfo
+        FROM workOrder w LEFT JOIN product p
+        ON w.prodCode = p.prodCode
+        <where>
+			<if test="searchLine != null and searchLine != ''">
+				AND w.lineCode = #{searchLine}
+			</if>
+			<if test="fromDate != null and fromDate != ''">
+			    AND w.workDate &gt;= #{fromDate}
+			</if>
+			<if test="toDate != null and toDate != ''">
+			    AND w.workDate &lt;= #{toDate}
+			</if>
+			<if test="place != null and place != '' and !place.equals('전체')">
+			    AND w.workProcess = #{place}
+			</if>
+			<if test="prod != null and prod != ''">
+			    AND w.prodCode = #{prod}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getWorkOrderAllExcel" resultType="java.util.HashMap">
+		SELECT w.workCode workCode, w.prodCode prodCode, p.prodName prodName,w.sellCode sellCode, DATE_FORMAT(w.workDate, '%Y-%m-%d') workDate, w.lineCode lineCode, w.workAmount workAmount, w.workEmpId workEmpId, w.workProcess workProcess, 
+        DATE_FORMAT(w.workDatechange, '%Y-%m-%d') workDatechange, w.wrokInfo, workInfo
+        FROM workOrder w LEFT JOIN product p
+        ON w.prodCode = p.prodCode
+	</select>
+	
+</mapper>

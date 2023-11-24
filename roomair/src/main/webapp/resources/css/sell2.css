@@ -1,0 +1,125 @@
+@charset "UTF-8";
+
+/*--------------------------------- 본문 ----------------------------------------*/
+body {
+	background-color: #F5F6FA; /*연한 그레이*/
+	margin:0;
+}
+
+.horizontal-line {
+	width: 1000px;
+	height: 1px;
+	background-color: #B8B8B8;
+	margin-bottom: 20px;
+}
+
+/*-------------------------------- 제목 --------------------------------------------*/
+h2 {
+	font-size: 30px;
+	font-weight: bold;
+}
+/*-------------------------------- 상단 조회바 --------------------------------------------*/
+#searchform {
+    border: 1px solid #fff;
+}
+/*-------------------------------- 상단 조회바 text --------------------------------------------*/
+input[type="text"] {
+	border: 1px solid #A6A6A6; /* 테두리 색 설정 */
+	background-color: #FFFFFF; /* 배경색 설정 */
+	border-radius: 3px;
+	margin-bottom: 10px;
+}
+
+/*--------------------------------  테이블 --------------------------------------------*/
+.tg {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+.tg td {
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	overflow: hidden;
+	padding: 10px 5px;
+	word-break: normal;
+}
+
+.tg th {
+	border-color: black;
+	border-style: solid;
+	border-width: 1px;
+	font-family: Arial, sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	overflow: hidden;
+	padding: 10px 5px;
+	word-break: normal;
+	border-bottom: 1px solid #EAEBEA;
+	background-color: #99DBF5;
+	
+}
+
+.tg .tg-zrve {
+	background-color: #0949f7;
+	border-color: #3531ff;
+	text-align: center;
+	vertical-align: top
+}
+
+.tg .tg-llyw {
+	background-color: #D9D9D9;
+	border-color: inherit;
+	text-align: left;
+	vertical-align: top
+}
+
+.tg .tg-llyw2 {
+	background-color: #ffffff;
+	border-color: inherit;
+	text-align: left;
+	vertical-align: top
+}
+
+.tg .tg-0pky {
+	border-color: inherit;
+	text-align: left;
+	vertical-align: top
+}
+
+/*-------------------------------------------------- 버튼 ------------------------------------------------------------*/
+
+#btnSell {
+	width: 40px;
+	height: 25px;
+	background-color: #5EC397;
+	color: #FFFFFF;
+	border: none;
+	border-radius: 3px;
+	margin-bottom: 10px;
+}
+
+
+/*------------------------------------------ 테이블 ------------------------------------------*/
+#sellTable {
+	border-collapse: collapse;
+	width: 1220px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자효과 */
+}
+
+.tg th {
+	border-bottom: 1px solid #EAEBEA;
+	background-color: #99DBF5;
+}
+
+#sellTable th, #sellTable td {
+	border: none;
+}
+
+
+
+
+
+

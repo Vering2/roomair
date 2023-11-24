@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- HikariCP는 가벼운 용량과 빠른 속도를 가지는 JDBC의 커넥션 풀 프레임워크이다. -->
+	
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="jdbcUrl"
+			value="jdbc:log4jdbc:mysql://localhost:3306/roomair_db?serverTimezone=Asia/Seoul"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="!bery7528381L"></property>
+	</bean>
+
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"/>
+		</bean>
+
+		<!-- 마이바티스 설정 -->
+		<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="configLocation"  value="classpath:/mybatis-config.xml"/>
+		<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"/>
+	</bean>
+
+		<!-- 마이바티스연결 -->
+
+		<!-- MemberDAO 객체 자동생성 @inject private Sqlsession sqlsession -->
+		<!-- destroy-method="clearCache"> 작동 후 자동으로 기억장소 삭제 -->
+		<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
+			<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"> </constructor-arg>
+		</bean>
+		
+		<!-- 파일 업로드 기능 세팅 -->
+	<bean id="multipartResolver" 
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="5000000"></property>
+		<property name="maxInMemorySize" value="5000000"></property>
+		<property name="defaultEncoding" value="UTF-8"></property>
+	</bean>
+	<!-- 파일 업로드 기능 세팅 end -->
+		
+		
+
+</beans>

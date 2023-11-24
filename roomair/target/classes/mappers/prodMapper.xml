@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.mappers.proMapper">
+
+
+	<insert id="insert">
+		insert into product
+		values (#{prodCode}, #{prodName},
+		#{prodUnit},#{prodSize},#{prodPerfume},
+		#{clientCode},#{whseCode},#{prodPrice},#{prodMemo})
+	</insert>
+
+	<select id="getProdList"
+		resultType="com.itwillbs.domain.ProdDTO">
+		select p.prodCode,
+		p.prodName,p.prodUnit,p.prodSize,p.prodPerfume,c.clientCode,
+		c.clientCompany,w.whseName,w.whseCode, p.prodPrice,p.prodMemo
+		from product p
+		left
+		join clients c
+		on c.clientCode = p.clientCode
+		left join warehouse w
+		on
+		p.whseCode = w.whseCode
+		order by p.prodCode desc
+		limit #{startRow}, #{pageSize}
+	</select>
+
+
+	<select id="getSearch" resultType="com.itwillbs.domain.ProdDTO">
+		select p.prodCode, p.prodName,p.prodUnit,p.prodSize,p.prodPerfume,c.clientCode,
+		c.clientCompany,w.whseName,w.whseCode, p.prodPrice,p.prodMemo
+		FROM product p
+		left
+		join clients c
+		on c.clientCode = p.clientCode
+		left join warehouse w
+		on
+		p.whseCode = w.whseCode
+			
+		<where>
+			<if test="prodCode != ''">
+				p.prodCode like concat ('%', #{prodCode}, '%')
+			</if>
+
+			<if test="prodName != ''">
+				and p.prodName like concat ('%', #{prodName}, '%')
+			</if>
+
+			<if test="clientCompany != ''">
+				and c.clientCompany = #{clientCompany}
+			</if>
+		</where>
+		order by p.prodCode desc
+		limit #{startRow}, #{pageSize}
+	</select>
+	
+	
+	<select id="getSearchcount" resultType="java.lang.Integer">
+		select count(p.prodCode)
+		FROM product p
+		left
+		join clients c
+		on c.clientCode = p.clientCode
+		left join warehouse w
+		on
+		p.whseCode = w.whseCode
+		<where>
+			<if test="prodCode != ''">
+				p.prodCode like concat ('%', #{prodCode}, '%')
+			</if>
+
+			<if test="prodName != ''">
+				and p.prodName like concat ('%', #{prodName}, '%')
+			</if>
+
+			<if test="clientCompany != ''">
+				and c.clientCompany = #{clientCompany}
+			</if>
+		</where>
+		order by p.prodCode desc
+	</select>
+
+
+	<!-- 페이징 -->
+	<select id="getProdCount" resultType="java.lang.Integer">
+		select count(*) from product
+
+	</select>
+
+	<delete id="productDelete">
+		DELETE FROM product WHERE prodCode = #{prodCode}
+	</delete>
+
+
+	<select id="getProd" resultType="com.itwillbs.domain.ProdDTO">
+			select *
+			from product p
+		left join clients c
+		on c.clientCode = p.clientCode
+		left join warehouse w on p.whseCode = w.whseCode		
+		where p.prodCode = #{prodCode}
+	</select>
+
+
+	<update id="updateProd">
+
+		update product
+		set
+		prodName = #{prodName}, prodUnit = #{prodUnit},
+		prodSize = #{prodSize},	prodPerfume = #{prodPerfume},
+		clientCode = #{clientCode}, whseCode = #{whseCode},
+		prodPrice = #{prodPrice}, prodMemo = #{prodMemo}
+		where
+		prodCode = #{prodCode}
+	</update>
+	
+	
+	<select id="getMaxNum" resultType="java.lang.Integer">
+		SELECT MAX(CAST(SUBSTRING(prodCode,3) AS SIGNED)) AS max_num
+		FROM product
+		WHERE prodCode LIKE CONCAT(#{code}, '%')
+	</select>
+	
+	<select id="getProdMemo" resultType="com.itwillbs.domain.ProdDTO">
+		select *
+		from product
+		where prodCode = #{prodCode}
+	</select>
+	
+	<update id="insertProdMemo">
+		update product
+		set prodMemo = #{prodMemo}
+		where prodCode = #{prodCode}
+	</update>
+	
+	<update id="updateProdMemo">
+	update product
+		set prodMemo = #{prodMemo}
+		where
+		prodCode = #{prodCode}
+	</update>
+	
+	<select id="getExcelList" resultType="com.itwillbs.domain.ProdDTO">
+		select p.prodCode,
+		p.prodName,p.prodUnit,p.prodSize,p.prodPerfume,c.clientCode,
+		c.clientCompany,w.whseName,w.whseCode, p.prodPrice,p.prodMemo
+		from product p
+		left
+		join clients c
+		on c.clientCode = p.clientCode
+		left join warehouse w
+		on
+		p.whseCode = w.whseCode
+		order by p.prodCode desc
+<!-- 		limit #{startRow}, #{pageSize} -->
+	</select>
+	
+	<select id="getExcelProdSearch" resultType="com.itwillbs.domain.ProdDTO">
+	select p.prodCode, p.prodName,p.prodUnit,p.prodSize,p.prodPerfume,c.clientCode,
+		c.clientCompany,w.whseName,w.whseCode, p.prodPrice,p.prodMemo
+		FROM product p
+		left
+		join clients c
+		on c.clientCode = p.clientCode
+		left join warehouse w
+		on
+		p.whseCode = w.whseCode
+			
+		<where>
+			<if test="prodCode != ''">
+				p.prodCode like concat ('%', #{prodCode}, '%')
+			</if>
+
+			<if test="prodName != ''">
+				and p.prodName like concat ('%', #{prodName}, '%')
+			</if>
+
+			<if test="clientCompany != ''">
+				and c.clientCompany = #{clientCompany}
+			</if>
+		</where>
+		order by p.prodCode desc
+	</select>
+	
+
+</mapper>
+
+
+
+
+	
+

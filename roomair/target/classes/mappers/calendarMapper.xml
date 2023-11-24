@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.mappers.calendarMapper">
+	<!-- 달력 -->
+	<select id="getCalendarList"
+		resultType="com.itwillbs.domain.CalendarDTO">
+		SELECT CONCAT(c.clientCompany,' 수주') calendar_title, CONCAT(c.clientCompany,' ',p.prodName,'(',p.prodCode, ') ', s.sellCount, '개') calendar_memo, s.sellDate startDate, s.sellDuedate endDate, s.sellCode code
+		FROM sell s
+		LEFT JOIN clients c ON s.clientCode = c.clientCode
+		LEFT JOIN product p ON s.prodCode = p.prodCode 
+		UNION ALL
+		SELECT CONCAT(c.clientCompany,' 출고') calendar_title, CONCAT(c.clientCompany,' ',p.prodName,'(',p.prodCode, ') ', s.sellCount, '개') calendar_memo, o.outDate startDate, NULL endDate, o.outCode code
+		FROM outProduct o
+		LEFT JOIN sell s ON o.sellCode = s.sellCode
+		LEFT JOIN clients c ON s.clientCode = c.clientCode
+		LEFT JOIN product p ON s.prodCode = p.prodCode
+		WHERE s.sellState = '출고완료' 
+		UNION ALL
+		SELECT CONCAT(c.clientCompany,' 중간납품') calendar_title, CONCAT(c.clientCompany,' ',p.prodName,'(',p.prodCode, ') ', s.sellCount, '개') calendar_memo, o.outDate startDate, NULL endDate, o.outCode code
+		FROM outProduct o
+		LEFT JOIN sell s ON o.sellCode = s.sellCode
+		LEFT JOIN clients c ON s.clientCode = c.clientCode
+		LEFT JOIN product p ON s.prodCode = p.prodCode
+		WHERE s.sellState = '중간납품' AND o.outRedate IS NULL 
+		UNION ALL
+		SELECT CONCAT(c.clientCompany,' 중간납품') calendar_title, CONCAT(c.clientCompany,' ',p.prodName,'(',p.prodCode, ') ', s.sellCount, '개') calendar_memo, o.outRedate startDate, NULL endDate, o.outCode code
+		FROM outProduct o
+		LEFT JOIN sell s ON o.sellCode = s.sellCode
+		LEFT JOIN clients c ON s.clientCode = c.clientCode
+		LEFT JOIN product p ON s.prodCode = p.prodCode
+		WHERE s.sellState = '중간납품' AND o.outRedate IS NOT NULL 
+		UNION ALL
+		SELECT CONCAT(c.clientCompany,' 원자재 발주') calendar_title, CONCAT(c.clientCompany,' ',r.rawName,'(',r.rawCode, ') ', b.buyCount, '개') calendar_memo, b.buyDate startDate, NULL endDate, b.buyNum code
+		FROM buy b
+		LEFT JOIN clients c ON b.clientCode = c.clientCode
+		LEFT JOIN rawMaterial r ON b.rawCode = r.rawCode 
+		UNION ALL
+		SELECT CONCAT(c.clientCompany,' 원자재 입고') calendar_title, CONCAT(c.clientCompany,' ',r.rawName,'(',r.rawCode, ') ', i.inCount, '개') calendar_memo, i.inDate startDate, NULL endDate, i.inNum code
+		FROM inMaterial i
+		LEFT JOIN clients c ON i.clientCode = c.clientCode
+		LEFT JOIN rawMaterial r ON i.rawCode = r.rawCode
+		WHERE i.inState = '입고완료'
+		ORDER BY startDate;
+	</select>
+	<!-- 매출 차트 -->
+	<select id="getSalesList"
+		resultType="com.itwillbs.domain.ChartDTO">
+		SELECT clientCompany label, clientSale data
+		FROM clients
+		WHERE clientType = '수주처'
+		ORDER BY clientSale DESC
+		LIMIT 10;
+	</select>
+	<!-- 재고 완재품 차트 -->
+	<select id="getStockList"
+		resultType="com.itwillbs.domain.ChartDTO">
+		SELECT r.rawName label, s.stockCount data
+		FROM stock s LEFT JOIN
+		rawMaterial r
+		ON s.rawCode = r.rawCode
+		WHERE s.rawCode IS NOT NULL
+		UNION
+		SELECT p.prodName label, s.stockCount data
+		FROM stock s LEFT JOIN product p
+		ON s.prodCode = p.prodCode
+		WHERE s.prodCode IS NOT NULL
+	</select>
+	<!-- 실적 차트 -->
+	<select id="getPerfList"
+		resultType="com.itwillbs.domain.ChartDTO">
+<!-- 		SELECT workDate label, sum(workAmount) data -->
+<!-- 		FROM workOrder -->
+<!-- 		GROUP BY workDate -->
+<!-- 		ORDER BY workDate desc -->
+<!-- 		LIMIT 5; -->
+		SELECT w.workDate label, SUM(p.perfFair) data
+		FROM workOrder w LEFT JOIN performance p
+        ON p.workCode = w.workCode
+		GROUP BY w.workDate
+		ORDER BY w.workDate DESC
+		LIMIT 5
+	</select>
+	<!-- 제품별 금일 실적 차트 -->
+	<select id="getLinePerfList"
+		resultType="com.itwillbs.domain.ChartDTO">
+<!-- 		SELECT lineCode label, workAmount data -->
+<!-- 		FROM workOrder -->
+<!-- 		WHERE -->
+<!-- 		workDate = CURDATE() -->
+ 		SELECT p.prodCode label, SUM(p.perfFair) data
+	    FROM performance p LEFT JOIN workOrder w
+	    ON p.workCode = w.workCode
+	    WHERE w.workDate = curDate() AND p.prodCode IS NOT NULL
+		GROUP BY p.prodCode;
+	</select>
+
+	<insert id="insertSellCalendar">
+		Insert INTO calendar
+		VALUES (default,
+		#{calendar_title}, #{calendar_memo}, #{startDate}, #{endDate},
+		#{code})
+	</insert>
+
+	<select id="getClient"
+		resultType="com.itwillbs.domain.ClientDTO">
+		SELECT *
+		FROM clients
+	</select>
+
+	<delete id="deleteSellCalendar">
+		DELETE FROM calendar
+		WHERE code = #{code}
+	</delete>
+</mapper>

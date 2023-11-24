@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.itwillbs.mappers.OpenlistMapper">
+  
+<!-- 품목관리 리절트 맵 -->
+	<resultMap id="prod"
+		type="com.itwillbs.domain.ProdDTO">
+
+		<id property="prodCode" column="prodCode" />
+		<result property="prodName" column="prodName" />
+	</resultMap>
+	<!-- 품목관리 리절트 맵
+
+	품목관리 총 게시글 갯수 출력 -->
+	<select id="countProd" resultType="int">
+		SELECT COUNT(*) FROM product
+	</select>
+	<!-- 품목관리 총 게시글 갯수 출력
+
+	품목관리 목록 불러오기 -->
+	<select id="readProd" resultType="ProdDTO" resultMap="prod">
+		SELECT *
+		from product
+		order by 1 desc
+		limit #{start}, #{cntPerPage}
+	</select>
+	<!-- 품목관리 목록 불러오기
+
+	품목관리 검색 게시글 갯수 출력 -->
+	<select id="countSearchProd" resultType="int">
+		SELECT COUNT(*) FROM product
+		<where>
+			<if test="prodCode != ''">
+				prodCode like #{prodCode}
+			</if>
+			<if test="prodName != ''">
+				and prodName like #{prodName}
+			</if>
+		</where>
+	</select>
+	<!-- 품목관리 검색 게시글 갯수 출력
+
+	품목관리 검색리스트 불러오기 -->
+	<select id="readSearchProd" parameterType="hashMap"
+		resultType="ProdDTO" resultMap="prod">
+		SELECT * from product
+		
+		<where>
+			<if test="prodCode != ''">
+				prodCode like concat ('%', #{prodCode}, '%')
+			</if>
+			<if test="prodName != ''">
+				and prodName like concat ('%', #{prodName}, '%')
+			</if>
+		</where>
+		order by 1 desc
+		limit #{start},#{cntPerPage}
+
+	</select>	
+
+	<!-- ////////////////////////////////////////////////////////////////
+
+	원자재관리 총 게시글 갯수 출력 -->
+	<select id="countRaw" resultType="int">
+		SELECT COUNT(*) FROM
+		rawMaterial
+	</select>
+	<!-- 원자재관리 총 게시글 갯수 출력
+
+	원자재관리 목록 불러오기 -->
+	<resultMap id="rawMaterial"
+		type="com.itwillbs.domain.RawmaterialsDTO">
+
+		<id property="rawName" column="rawName" />
+		<result property="rawCode" column="rawCode" />
+
+	</resultMap>
+
+	<select id="readRaw" resultMap="rawMaterial"
+		resultType="RawmaterialsDTO">
+		SELECT *
+		from rawMaterial
+		order by 1 desc
+		limit #{start}, #{cntPerPage}
+	</select>
+	<!-- 원자재관리 목록 불러오기
+
+	원자재관리 검색 게시글 갯수 출력 -->
+	<select id="countSearchRaw" parameterType="hashMap"
+		resultType="int">
+		SELECT COUNT(*) FROM rawMaterial
+		<where>
+			<if test="rawCode != ''">
+				rawCode like concat ('%', #{rawCode}, '%')
+			</if>
+			<if test="rawName != ''">
+				and rawName like concat ('%', #{rawName}, '%')
+			</if>
+		</where>
+	</select>
+	<!-- 원자재관리 검색 게시글 갯수 출력
+
+	원자재관리 검색리스트 불러오기 -->
+	<select id="readSearchRaw" parameterType="hashMap"
+		resultMap="rawMaterial" resultType="RawmaterialsDTO">
+		SELECT *
+		from rawMaterial
+		<where>
+			<if test="rawCode != ''">
+				rawCode like concat ('%', #{rawCode}, '%')
+			</if>
+			<if test="rawName != ''">
+				and rawName like concat ('%', #{rawName}, '%')
+			</if>
+		</where>
+		order by 1 desc
+		limit #{start},#{cntPerPage}
+
+	</select>
+	
+	<!-- ////////////////////////////////////////////////////////////////
+
+	거래처 총 게시글 갯수 출력 -->
+	<select id="countClient" resultType="int">
+		SELECT COUNT(*) FROM
+		clients
+	</select>
+	
+	<select id="buycountClient" resultType="int">
+		SELECT COUNT(*) FROM
+		clients
+		where clientType = '발주처'
+	</select>
+	
+	<select id="sellcountClient" resultType="int">
+		SELECT COUNT(*) FROM		
+		clients
+		where clientType = '수주처'
+	</select>
+	<!-- 원자재관리 총 게시글 갯수 출력
+
+	거래처 목록 불러오기 -->
+	<resultMap id="clients"
+		type="com.itwillbs.domain.ClientDTO">
+
+		<id property="clientCompany" column="clientCompany" />
+		<result property="clientCode" column="clientCode" />
+
+	</resultMap>
+
+	<select id="readClient" resultMap="clients"
+		resultType="ClientDTO">
+		SELECT *
+		from clients
+		order by 1 desc
+		limit #{start}, #{cntPerPage}
+	</select>
+	
+	<select id="buyreadClient" resultMap="clients"
+		resultType="ClientDTO">
+		SELECT *
+		from clients
+		where clientType = '발주처'
+		order by 1 desc
+		limit #{start}, #{cntPerPage}
+	</select>
+	
+	<select id="sellreadClient" resultMap="clients"
+		resultType="ClientDTO">
+		SELECT *
+		from clients
+		where clientType = '수주처'
+		order by 1 desc
+		limit #{start}, #{cntPerPage}
+	</select>
+	<!-- 거래처 목록 불러오기
+
+	거래처 검색 게시글 갯수 출력 -->
+	<select id="countSearchClient" parameterType="hashMap"
+		resultType="int">
+		SELECT COUNT(*) FROM clients
+		<where>
+			<if test="clientCode != ''">
+				clientCode like concat ('%', #{clientCode}, '%')
+			</if>
+			<if test="clientCompany != ''">
+				and clientCompany like concat ('%', #{clientCompany}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<select id="buycountSearchClient" parameterType="hashMap"
+		resultType="int">
+		SELECT COUNT(*) FROM clients
+		<where>
+			<if test="clientCode != ''">
+				clientCode like concat ('%', #{clientCode}, '%')
+			</if>
+			<if test="clientCompany != ''">
+				and clientCompany like concat ('%', #{clientCompany}, '%')
+			</if>
+			and where clientType = '발주처'
+		</where>
+	</select>
+	
+	<select id="sellcountSearchClient" parameterType="hashMap"
+		resultType="int">
+		SELECT COUNT(*) FROM clients
+		<where>
+			<if test="clientCode != ''">
+				clientCode like concat ('%', #{clientCode}, '%')
+			</if>
+			<if test="clientCompany != ''">
+				and clientCompany like concat ('%', #{clientCompany}, '%')
+			</if>
+			and clientType = '수주처'
+		</where>
+	</select>
+	<!-- 거래처 검색 게시글 갯수 출력
+
+	거래처 검색리스트 불러오기 -->
+	<select id="readSearchClient" parameterType="hashMap"
+		resultMap="clients" resultType="ClientDTO">
+		SELECT *
+		from clients
+		<where>
+			<if test="clientCode != ''">
+				clientCode like concat ('%', #{clientCode}, '%')
+			</if>
+			<if test="clientCompany != ''">
+				and clientCompany like concat ('%', #{clientCompany}, '%')
+			</if>
+		</where>
+		order by 1 desc
+		limit #{start},#{cntPerPage}
+
+	</select>
+	
+	<select id="buyreadSearchClient" parameterType="hashMap"
+		resultMap="clients" resultType="ClientDTO">
+		SELECT *
+		from clients
+		<where>
+			<if test="clientCode != ''">
+				clientCode like concat ('%', #{clientCode}, '%')
+			</if>
+			<if test="clientCompany != ''">
+				and clientCompany like concat ('%', #{clientCompany}, '%')
+			</if>
+			and where clientType = '발주처'
+		</where>
+		order by 1 desc
+		limit #{start},#{cntPerPage}
+
+	</select>
+	
+	<select id="sellreadSearchClient" parameterType="hashMap"
+		resultMap="clients" resultType="ClientDTO">
+		SELECT *
+		from clients
+		<where>
+			<if test="clientCode != ''">
+				clientCode like concat ('%', #{clientCode}, '%')
+			</if>
+			<if test="clientCompany != ''">
+				and clientCompany like concat ('%', #{clientCompany}, '%')
+			</if>
+				and clientType = '수주처'
+			
+		</where>
+		order by 1 desc
+		limit #{start},#{cntPerPage}
+
+	</select>
+	
+	<!-- ////////////////////////////////////////////////////////////////
+
+	수주 총 게시글 갯수 출력 -->
+	<select id="countSell" resultType="int">
+		SELECT COUNT(*)
+		FROM sell s
+		LEFT JOIN clients c on s.clientCode = c.clientCode
+		LEFT JOIN product p on s.prodCode = p.prodCode
+		
+	</select>
+	<!-- 수주관리 총 게시글 갯수 출력
+
+	수주 목록 불러오기 -->
+	<resultMap id="sell"
+		type="com.itwillbs.domain.SellDTO">
+
+		<id property="sellCode" column="sellCode" />
+		<result property="clientCompany" column="clientCompany" />
+
+	</resultMap>
+
+	<select id="readSell" resultMap="sell"
+		resultType="SellDTO">
+		SELECT *
+		FROM sell s
+		LEFT JOIN clients c on s.clientCode = c.clientCode
+		LEFT JOIN product p on s.prodCode = p.prodCode
+		LEFT JOIN stock st on p.prodCode = st.prodCode
+		
+		order by 1 desc
+		limit #{start}, #{cntPerPage}
+	</select>
+	<!-- 수주 목록 불러오기
+
+	수주 검색 게시글 갯수 출력 -->
+	<select id="countSearchSell" parameterType="hashMap"
+		resultType="int">
+		SELECT COUNT(*)
+		FROM sell s
+		LEFT JOIN clients c on s.clientCode = c.clientCode
+		LEFT JOIN product p on s.prodCode = p.prodCode
+		LEFT JOIN stock st on p.prodCode = st.prodCode
+		<where>
+			<if test="sellCode != ''">
+				sellCode like concat ('%', #{sellCode}, '%')
+			</if>
+			<if test="clientCompany != ''">
+				and clientCompany like concat ('%', #{clientCompany}, '%')
+			</if>
+		</where>
+	</select>
+	<!-- 수주 검색 게시글 갯수 출력
+
+	수주 검색리스트 불러오기 -->
+	<select id="readSearchSell" parameterType="hashMap"
+		resultMap="sell" resultType="SellDTO">
+		SELECT *
+		FROM sell s
+		LEFT JOIN clients c on s.clientCode = c.clientCode
+		LEFT JOIN product p on s.prodCode = p.prodCode
+		LEFT JOIN stock st on p.prodCode = st.prodCode
+		<where>
+			<if test="sellCode != ''">
+				sellCode like concat ('%', #{sellCode}, '%')
+			</if>
+			<if test="clientCompany != ''">
+				and clientCompany like concat ('%', #{clientCompany}, '%')
+			</if>
+		</where>
+		order by 1 desc
+		limit #{start},#{cntPerPage}
+
+	</select>
+	
+	<!-- ////////////////////////////////////////////////////////////////
+
+	창고 총 게시글 갯수 출력 -->
+	<select id="countWhse" resultType="int">
+		SELECT COUNT(*)
+		FROM warehouse
+		
+	</select>
+	<!-- 창고관리 총 게시글 갯수 출력
+
+	창고 목록 불러오기 -->
+	<resultMap id="whse"
+		type="com.itwillbs.domain.WarehouseDTO">
+
+		<id property="whseCode" column="whseCode" />
+		<result property="whseName" column="whseName" />
+
+	</resultMap>
+
+	<select id="readWhse" resultMap="whse"
+		resultType="WarehouseDTO">
+		SELECT *
+		FROM warehouse
+		
+		order by 1 desc
+		limit #{start}, #{cntPerPage}
+	</select>
+	
+	<!-- 창고 검색 게시글 갯수 출력 -->
+	<select id="countSearchWhse" parameterType="hashMap"
+		resultType="int">
+		SELECT COUNT(*) FROM warehouse
+		<where>
+			<if test="whseCode != ''">
+				whseCode like concat ('%', #{whseCode}, '%')
+			</if>
+			<if test="whseName != ''">
+				and whseName like concat ('%', #{whseName}, '%')
+			</if>
+		</where>
+	</select>
+	<!-- 창고 검색 게시글 갯수 출력
+
+	창고 검색리스트 불러오기 -->
+	<select id="readSearchWhse" parameterType="hashMap"
+		resultMap="whse" resultType="WarehouseDTO">
+		SELECT *
+		from warehouse
+		<where>
+			<if test="whseCode != ''">
+				whseCode like concat ('%', #{whseCode}, '%')
+			</if>
+			<if test="whseName != ''">
+				and whseName like concat ('%', #{whseName}, '%')
+			</if>
+		</where>
+		order by 1 desc
+		limit #{start},#{cntPerPage}
+
+	</select>
+	
+	<select id="countline" resultType="int">
+	select count(*) from line
+	</select>
+	
+	<select id="readline" resultType="LineDTO">
+	select * from line
+	
+	</select>
+	
+
+	<!-- //////////////////////////////////////////////////////////////// -->
+
+	<!-- 직원관리 리절트 맵 -->
+	<resultMap id="emp"
+		type="com.itwillbs.domain.EmployeesDTO">
+
+		<id property="empId" column="empID" />
+		<result property="empName" column="empName" />
+		<result property="empDepartment" column="empDepartment" />
+	</resultMap>
+	<!-- 직원관리 리절트 맵
+
+	직원관리 총 게시글 갯수 출력 -->
+	<!-- <select id="countEmp" resultType="int">
+		SELECT COUNT(*) FROM employees
+		where empDepartment = #{empDepartment}
+	</select>
+	 --><!-- 직원관리 총 게시글 갯수 출력
+
+	직원관리 목록 불러오기 -->
+	<!-- <select id="readEmp" resultType="EmployeesDTO" resultMap="emp">
+		SELECT *
+		from employees
+		where empDepartment = #{empDepartment}
+		order by 1 desc
+		limit #{start}, #{cntPerPage}
+	</select>
+	 --><!-- 직원관리 목록 불러오기
+
+	직원관리 검색 게시글 갯수 출력 -->
+	<select id="countSearchEmp" resultType="int">
+		
+		SELECT COUNT(*) FROM employees
+    WHERE empDepartment = #{empDepartment}
+
+    <if test="empId != null and empId != ''">
+        AND empId LIKE CONCAT('%', #{empId}, '%')
+    </if>
+    <if test="empName != null and empName != ''">
+        AND empName LIKE CONCAT('%', #{empName}, '%')
+    </if>
+	</select>
+	<!-- 직원관리 검색 게시글 갯수 출력
+
+	직원관리 검색리스트 불러오기 -->
+	<select id="readSearchEmp" parameterType="hashMap"
+		resultType="EmployeesDTO" resultMap="emp">
+		
+		 SELECT * FROM employees
+    WHERE empDepartment = #{empDepartment}
+
+    <if test="empId != null and empId != ''">
+        AND empId LIKE CONCAT('%', #{empId}, '%')
+    </if>
+    <if test="empName != null and empName != ''">
+        AND empName LIKE CONCAT('%', #{empName}, '%')
+    </if>
+
+    ORDER BY 1 DESC
+    LIMIT #{start}, #{cntPerPage}
+
+	</select>	
+	
+	
+	
+	<!--  ***************** 라인 *************** -->
+	<!-- ****************** 작업지시 ******************** -->
+
+	<!--  총 작업지시 개수 -->	
+	<select id="countwork" resultType="int">
+	 SELECT COUNT(*) FROM workOrder w
+    LEFT JOIN product p ON w.prodCode = p.prodCode
+
+
+	</select>
+	<!--  작업지시 총 리스트 -->
+	<select id="getworklist" resultType="workorderDTO">
+	SELECT w.* , p.prodName FROM workOrder w
+	LEFT JOIN product p on w.prodCode = p.prodCode
+	ORDER BY workCode DESC 
+	LIMIT #{start}, #{cntPerPage}
+
+	</select>
+	<!-- 해쉬맵 설정   -->
+	<resultMap id="work"
+		type="com.itwillbs.domain.WorkOrderDTO">
+
+
+	</resultMap>
+
+	<!--  작업지시 검색 개수  -->
+	<select id="searchworkcount" resultType="int" parameterType="hashMap"  resultMap="work">
+	SELECT count(*) FROM workOrder 
+	LEFT JOIN product p on w.prodCode = p.prodeCode
+	 <where>
+	      <if test="lineCode != null and lineCode=''">
+	     and  lineCode like concat ('%' , #{lineCode} , '%' )
+	         </if>
+	         <if test="prodName != null and prodName=''" >
+	         and prodName like concat ('%' , #{prodName} , '%')
+	          </if>	              	 
+	 </where>	
+	 	order by workCode desc
+		limit #{start},#{cntPerPage}  
+	</select>
+
+	<select id ="getsearchworklist" parameterType="hashMap"  resultMap="work">
+		SELECT w.* , p.prodNaME FROM workOrder w
+	   LEFT JOIN product p on w.prodCode = p.prodCode
+	   <where> 
+	    <if test="lineCode != null and lineCode=''">
+	     and  lineCode like concat ('%' , #{lineCode} , '%' )
+	         </if>
+	         <if test="prodName != null and prodName=''" >
+	         and prodName like concat ('%' , #{prodName} , '%')
+	          </if>	 
+	   </where>
+		 	order by workCode desc
+		limit #{start},#{cntPerPage}  
+	</select> 
+
+	<!-- 
+			SELECT *
+		FROM workOrder w
+        LEFT JOIN product p on w.prodCode = p.prodCode 
+		WHERE workCode != '' 
+		ORDER BY workCode DESC 
+		LIMIT #{start}, #{cntPerPage}
+	
+	 -->
+  
+  </mapper>

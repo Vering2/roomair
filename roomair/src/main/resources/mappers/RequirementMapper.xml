@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.itwillbs.mappers.RequirementMapper">
+
+	<!-- 소요량관리 총 게시글 갯수 출력 -->
+	<select id="countReq" resultType="int">
+		SELECT COUNT(*)
+		FROM requirement
+	</select>
+	<!-- 소요량관리 총 게시글 갯수 출력
+
+	소요량관리 목록 불러오기 -->
+	<resultMap id="requirements"
+		type="com.itwillbs.domain.RequirementDTO">
+
+		<id property="reqCode" column="reqCode" />
+		<result property="prodCode" column="prodCode" />
+		<result property="rawCode" column="rawCode" />
+		<result property="reqAmount" column="reqAmount" />
+		<result property="reqMemo" column="reqMemo" />
+
+		 <collection property="prod" ofType="com.itwillbs.domain.ProdDTO">
+			<result property="prodName" column="prodName" />
+		</collection>
+
+		 <collection property="raw"
+			ofType="com.itwillbs.domain.RawmaterialsDTO">
+			<result property="rawName" column="rawName" />
+		</collection> 
+
+	</resultMap>
+
+	 <select id="readReq" resultMap="requirements"
+		resultType="com.itwillbs.domain.RequirementDTO">
+		SELECT r.* , p.* ,rm.*
+		FROM requirement r
+		LEFT JOIN product p on p.prodCode = r.prodCode
+		LEFT JOIN rawMaterial rm on r.rawCode = rm.rawCode
+		order by 1 desc 
+		limit #{start}, #{cntPerPage}
+	</select> 
+	
+	<!-- 소요량관리 목록 불러오기
+
+	소요량관리 검색 게시글 갯수 출력 -->
+	 <select id="countSearchReq" parameterType="hashMap"
+		resultType="int">
+		SELECT COUNT(*) FROM requirement r
+		LEFT join product p on p.prodCode = r.prodCode
+		LEFT JOIN rawMaterial rm on r.rawCode = rm.rawCode
+		<where>
+			<if test="reqCode != ''">
+				r.reqCode like concat ('%', #{reqCode}, '%')
+			</if>
+			<if test="prodCode != ''">
+				and r.prodCode like concat ('%', #{prodCode}, '%')
+			</if>
+			<if test="rawCode != ''">
+				and r.rawCode like concat ('%', #{rawCode}, '%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 소요량관리 검색 게시글 갯수 출력
+
+	소요량관리 검색리스트 불러오기 -->
+	 <select id="readSearchReq" parameterType="hashMap"
+		resultMap="requirements" resultType="com.itwillbs.domain.RequirementDTO">
+		SELECT r.*,p.* ,rm.*
+		FROM requirement r
+		LEFT join product p on
+		p.prodCode = r.prodCode
+		LEFT JOIN rawMaterial rm on r.rawCode =
+		rm.rawCode
+		<where>
+			<if test="reqCode != ''">
+				r.reqCode like concat ('%', #{reqCode}, '%')
+			</if>
+			<if test="prodCode != ''">
+				and r.prodCode like concat ('%', #{prodCode}, '%')
+			</if>
+			<if test="rawCode != ''">
+				and r.rawCode like concat ('%', #{rawCode}, '%')
+			</if>
+		</where>
+		order by 1 desc
+		limit #{start},#{cntPerPage}
+	</select> 
+	
+	<!-- 소요량관리 검색리스트 불러오기
+	
+	소요량관리 추가버튼 클릭 시 품목코드 가져가기 -->
+	<select id="readReqCode" resultType="String">
+		select reqCode from requirement order by reqCode desc limit 1;
+	</select>
+	<!-- 소요량관리 추가버튼 클릭 시 품목코드 가져가기
+
+	소요량관리 정보 다중 입력 -->
+	<insert id="reqIn">
+	
+		insert into requirement
+		values
+		(#{reqCode},#{prodCode},#{rawCode},#{reqAmount},#{reqMemo})
+		
+	</insert>
+	<!-- 소요량관리 정보 다중 입력 -->
+	
+	<select id="findCode" resultType="int">
+		SELECT COUNT(*)
+		FROM requirement
+		WHERE prodCode = #{prodCode} AND rawCode = #{rawCode}
+    </select>
+
+	<!--  소요량관리 삭제 -->
+	<delete id="deleteReq">
+		DELETE FROM requirement
+		WHERE reqCode=#{reqCode}
+	</delete>
+	<!-- 소요량관리 삭제
+	
+	소요량관리 수정 시 조회 -->
+	
+	 <select id="readReqOne" resultMap="requirements" resultType="com.itwillbs.domain.RequirementDTO">
+		SELECT r.*,p.* ,rm.*
+		FROM requirement r
+		LEFT join
+		product p on p.prodCode = r.prodCode
+		LEFT JOIN rawMaterial rm on
+		r.rawCode = rm.rawCode
+		WHERE
+		reqCode=#{reqCode}
+	</select> 
+	<!-- 소요량관리 수정 시 조회
+
+	소요량관리 수정 -->
+	<update id="updateReq">
+		UPDATE requirement
+		SET reqCode=#{reqCode},prodCode=#{prodCode},rawCode=#{rawCode},reqAmount=#{reqAmount},
+		reqMemo=#{reqMemo}
+		WHERE reqCode=#{reqCode}
+	</update>
+	<!--  소요량관리 수정 -->
+  
+<!--   	검색엑셀 다운 -->
+  	<select id="getSearchExcelReqList" resultType="java.util.Map">
+  		SELECT rq.reqCode reqCode, p.prodCode prodCode, p.prodName prodName, r.rawCode rawCode, r.rawName rawName, rq.reqAmount reqAmount, rq.reqMemo reqMemo
+        FROM requirement rq LEFT JOIN product p
+        ON rq.prodCode = p.prodCode
+        LEFT JOIN rawMaterial r
+        ON rq.rawCode = r.rawCode
+        <where>
+			<if test="reqCode != ''">
+				rq.reqCode like concat ('%', #{reqCode}, '%')
+			</if>
+			<if test="prodCode != ''">
+				and p.prodCode like concat ('%', #{prodCode}, '%')
+			</if>
+			<if test="rawCode != ''">
+				and r.rawCode like concat ('%', #{rawCode}, '%')
+			</if>
+		</where>
+		ORDER BY 1 desc
+  	</select>
+<!--   	엑셀 다운 -->
+  	<select id="getExcelReqList" resultType="java.util.Map">
+  		SELECT rq.reqCode reqCode, p.prodCode prodCode, p.prodName prodName, r.rawCode rawCode, r.rawName rawName, rq.reqAmount reqAmount, rq.reqMemo reqMemo
+        FROM requirement rq LEFT JOIN product p
+        ON rq.prodCode = p.prodCode
+        LEFT JOIN rawMaterial r
+        ON rq.rawCode = r.rawCode
+		ORDER BY 1 desc
+  	</select>
+  </mapper>

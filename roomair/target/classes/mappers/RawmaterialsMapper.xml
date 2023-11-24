@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mappers.RawmaterialsMapper"> 
+ 
+	<select id="getMaxNum" resultType="java.lang.Integer">
+		select max(rawNum)
+		from rawMaterial
+	</select>
+
+	<insert id="insertRawmaterials">
+		insert into rawMaterial(rawNum,rawCode,rawName,rawType,rawUnit,rawPrice,whseCode,rawMemo)
+		values(#{rawNum},#{rawCode},#{rawName},#{rawType},#{rawUnit},#{rawPrice},#{whseCode},#{rawMemo})
+	</insert>
+	
+	<!-- home 페이징처리, 검색기능 -->
+	<select id="getRawmaterialsList" resultType="com.itwillbs.domain.RawmaterialsDTO">
+		select *
+		from rawMaterial r
+		left join warehouse w
+		on r.whseCode = w.whseCode
+		left join stock s on r.rawCode = s.rawCode
+		where 1=1
+   		<if test="search1 != null and search1 != ''">
+        	and r.rawCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and r.rawName like concat('%', #{search2}, '%')
+    	</if>
+   		<if test="search3 != null and search3 != ''">
+       		and r.rawType = #{search3}
+    	</if>
+    	order by rawNum desc limit #{startRow}, #{pageSize}
+	</select>
+	
+	<!-- home 페이징처리, 검색기능 -->
+ 	<select id="getRawmaterialsCount" resultType="java.lang.Integer">
+		select count(*)
+      	from rawMaterial
+     	where 1=1
+   		<if test="search1 != null and search1 != ''">
+        	and rawCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and rawName like concat('%', #{search2}, '%')
+    	</if>
+   		<if test="search3 != null and search3 != ''">
+       		and rawType = #{search3}
+    	</if>
+    </select>
+	
+	<!-- 체크박스로 선택삭제 -->
+    <delete id="delete">
+        delete from rawMaterial
+        where rawCode = #{rawCode}
+    </delete>
+    
+    <select id="getDetail" resultType="com.itwillbs.domain.RawmaterialsDTO">
+		select *
+		from rawMaterial
+		where rawCode = #{rawCode}
+	</select>
+	
+	<update id="updateRawmaterials">
+		update rawMaterial
+		set rawName=#{rawName}, rawType=#{rawType}, rawUnit=#{rawUnit}, rawPrice=#{rawPrice}, whseCode=#{whseCode}, rawMemo=#{rawMemo}
+		where rawCode = #{rawCode}
+	</update>
+	
+	<!-- selectclient 페이징처리, 검색기능 -->
+	<select id="getClientList" resultType="com.itwillbs.domain.ClientDTO">
+		select *
+		from clients
+		where 1=1
+   		<if test="search1 != null and search1 != ''">
+        	and clientCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and clientCompany like concat('%', #{search2}, '%')
+    	</if>
+    	<if test="search3 != null and search3 != ''">
+    		and clientName like concat('%', #{search3}, '%')
+    	</if>
+    	and clientType like concat('%', '발주처', '%')
+     	order by clientCode asc limit #{startRow}, #{pageSize}
+	</select>
+	
+	<!-- selectclient 페이징처리, 검색기능 -->
+	<select id="getClientCount" resultType="java.lang.Integer">
+      	select count(*)
+      	from clients
+      	where 1=1
+   		<if test="search1 != null and search1 != ''">
+        	and clientCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and clientCompany like concat('%', #{search2}, '%')
+    	</if>
+    	<if test="search3 != null and search3 != ''">
+    		and clientName like concat('%', #{search3}, '%')
+    	</if>
+    	and clientType like concat('%', '발주처', '%')
+ 	</select>
+ 	
+ 	<!-- selectwarehouse 페이징처리, 검색기능 -->
+	<select id="getWarehouseList" resultType="com.itwillbs.domain.WarehouseDTO">
+		select *
+		from warehouse
+		where 1=1
+   		<if test="search1 != null and search1 != ''">
+        	and whseCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and whseName like concat('%', #{search2}, '%')
+    	</if>
+    	<if test="search3 != null and search3 != ''">
+        	and whseAddr like concat('%', #{search3}, '%')
+    	</if>
+    	<if test="search4 != null and search4 != ''">
+        	and rawCode like concat('%', #{search4}, '%')
+    	</if>
+    	and whseType like concat('%', '원자재', '%')
+     	order by whseCode desc limit #{startRow}, #{pageSize}
+	</select>
+	
+	<!-- selectwarehouse 페이징처리, 검색기능 -->
+	<select id="getWarehouseCount" resultType="java.lang.Integer">
+      	select count(*)
+      	from warehouse
+      	where 1=1
+   		<if test="search1 != null and search1 != ''">
+        	and whseCode like concat('%', #{search1}, '%')
+    	</if>
+    	<if test="search2 != null and search2 != ''">
+        	and whseName like concat('%', #{search2}, '%')
+    	</if>
+    	<if test="search3 != null and search3 != ''">
+        	and whseAddr like concat('%', #{search3}, '%')
+    	</if>
+    	<if test="search4 != null and search4 != ''">
+        	and rawCode like concat('%', #{search4}, '%')
+    	</if>
+    	and whseType like concat('%', '원자재', '%')
+ 	</select>
+ 	
+ 	<select id="getMemo" resultType="com.itwillbs.domain.RawmaterialsDTO">
+		select *
+		from rawMaterial
+		where rawCode = #{rawCode}
+	</select>
+	
+	<select id="getMemo2" resultType="com.itwillbs.domain.ClientDTO">
+		select *
+		from clients
+		where clientCode = #{clientCode}
+	</select>
+	
+	<!-- 종류 선택하면 자동으로 원자재코드 값 생성 -->
+	<select id="getRawCodesPE" resultType="java.lang.Integer">
+		select count(*)
+		from rawMaterial
+		where rawCode like 'PE%'
+	</select>
+	
+	<select id="getRawCodesGL" resultType="java.lang.Integer">
+		select count(*)
+		from rawMaterial
+		where rawCode like 'GL%'
+	</select>
+	
+	<select id="getRawCodesST" resultType="java.lang.Integer">
+		select count(*)
+		from rawMaterial
+		where rawCode like 'ST%'
+	</select>
+	
+	<select id="getRawCodesLB" resultType="java.lang.Integer">
+		select count(*)
+		from rawMaterial
+		where rawCode like 'LB%'
+	</select>
+	
+	<select id="getRawCodesPC" resultType="java.lang.Integer">
+		select count(*)
+		from rawMaterial
+		where rawCode like 'PC%'
+	</select>
+ 	
+ 	<select id="rawmaterialsCount" resultType="java.lang.Integer">
+		select count(*)
+      	from rawMaterial
+    </select>
+ 	
+</mapper>

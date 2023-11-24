@@ -1,0 +1,93 @@
+@charset "UTF-8";
+
+body {
+/* 	background-color: #f5f6fa; */
+	background-color: #fff;
+	margin:0;
+}
+
+#con {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#con_1, #con_2, #con_3 {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	margin-top: 2em;
+	margin-bottom: 2em;
+	margin-left: auto;
+	margin-right: auto;
+	justify-content: space-evenly;
+	align-items: center;
+	text-align: center;
+}
+#con_2{
+	gap:2%;
+}
+
+#con_1>#calendar {
+	width: 40%;
+}
+
+#chart_1 {
+	width: 40%;
+}
+#chart_2 {
+	width: 45%;
+}
+#chart_3{
+	width:45%;
+	height:45%;
+}
+#pie_chart_size {
+	margin : 0 auto;
+	width: 70%;
+	height: 70%;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row; /* 기본값이므로 생략해도 됩니다. */
+    justify-content: center;
+    text-align: center;
+ 	gap: 1%;
+}
+
+.fc-event-main {
+	font-size: 10px;
+}
+
+.chart-header {
+    display: flex; /* Flexbox를 사용하여 내부 요소를 가로로 나란히 배치 */
+    justify-content: center; /* 요소 사이에 공간 배분 */
+    gap:5%;
+}
+
+.chart-header h3 {
+    border: 1px solid black; 
+    padding: 5px 10px; 
+    cursor: pointer; 
+    margin: 0; 
+}
+
+.chart-header h3:hover {
+    background-color: #9AC5F4; 
+    border: 1px solid #9AC5F4;
+    color: black;
+}
+
+.chart-header-item.selected {
+	 border: 1px solid #9AC5F4; 
+	 color: #9AC5F4
+}
+
+/* 달력 바탕색 */
+/* .fc-view-harness-active{ */
+/* 	background-color: #fff; */
+/* } */
+

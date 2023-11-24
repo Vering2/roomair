@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mappers.sellMapper">
+
+
+ 	<select id="getSellList"
+	resultType="com.itwillbs.domain.SellDTO">
+	select s.sellCode sellCode, s.sellDate sellDate,
+	s.sellDuedate
+	sellDuedate,s.sellEmpId sellEmpId,s.sellCount sellCount,s.sellMemo sellMemo,s.sellState
+	sellState,s.clientCode
+	clientCode,s.sellPrice sellPrice,s.prodCode
+	prodCode,
+	p.prodName
+	prodName,p.prodPrice prodPrice
+	from sell s left
+	join product p
+	on
+	s.prodCode = p.prodCode
+	order by sellCode desc
+	limit
+	#{startRow},
+	#{pageSize}
+	</select>
+
+
+	<select id="getSellCount" resultType="java.lang.Integer">
+		select count(*)
+		from sell
+	</select>
+
+
+	<insert id="insertSell">
+		insert into
+		sell(sellCode,sellDate,sellDuedate,sellEmpId,sellCount,prodCode,sellMemo,sellState,clientCode,sellPrice)
+		values(#{sellCode},#{sellDate},#{sellDuedate},#{sellEmpId},#{sellCount},#{prodCode},
+		#{sellMemo},#{sellState},#{clientCode},#{sellCount}*(SELECT
+		prodPrice FROM product WHERE prodCode = #{prodCode}))
+	</insert>
+
+	<select id="getSell" resultType="com.itwillbs.domain.SellDTO">
+	select *
+	from sell s
+	left join product p	on s.prodCode = p.prodCode
+	left join clients c on s.clientCode = c.clientCode
+		where sellCode = #{sellCode}
+		
+	</select>
+
+	<update id="sellUpdate">
+	update sell
+	set
+	clientCode=#{clientCode},
+	prodCode=#{prodCode},
+	sellCount=#{sellCount},
+	sellPrice=#{sellCount}*(SELECT prodPrice FROM product WHERE prodCode = #{prodCode}),
+	sellDate=#{sellDate},
+	sellDuedate=#{sellDuedate},
+	sellEmpId=#{sellEmpId},
+	sellMemo=#{sellMemo}
+	where sellCode = #{sellCode}
+	</update>
+	
+	<delete id="sellDelete">
+		delete
+		from sell
+		where sellCode = #{sellCode}
+	</delete>
+	
+	<select id="getSellMemo"
+		resultType="com.itwillbs.domain.SellDTO">
+		select *
+		from sell
+		where sellCode = #{sellCode}
+	</select>
+
+	<update id="insertSellMemo">
+		update sell
+		set sellMemo=#{sellMemo}
+		where sellCode = #{sellCode}
+	</update>
+
+	<update id="updateSellMemo">
+		update sell
+		set sellMemo = #{sellMemo}
+		where
+		sellCode = #{sellCode}
+	</update>
+
+	<select id="getSellListAllSearch" resultType="com.itwillbs.domain.SellDTO">
+	select s.sellCode sellCode, s.sellDate sellDate, s.sellDuedate sellDuedate,s.sellEmpId sellEmpId,
+			s.sellCount sellCount,s.sellMemo sellMemo,s.sellState sellState,s.clientCode clientCode,
+			s.sellPrice sellPrice,s.prodCode prodCode, p.prodName prodName,p.prodPrice prodPrice
+	from sell s left join product p
+	on s.prodCode = p.prodCode
+	<where>
+		<if test="prodCode != ''">
+			and s.prodCode like concat('%',#{prodCode},'%')
+		</if>
+		<if test="clientCode != ''">
+			and s.clientCode like concat('%',#{clientCode},'%')
+		</if>
+		<if test="sellCode != ''">
+			and s.sellCode like concat('%',#{sellCode},'%')
+		</if>
+		<if test="sellDate != ''">
+			and s.sellDate between #{sellDate} and #{sellEndDate}
+		</if>
+		<if test="sellDuedate != ''">
+			and s.sellDuedate between #{sellDuedate} and #{sellEndDuedate}
+		</if>
+		<if test="sellState != ''">
+			and s.sellState like concat('%',#{sellState},'%')
+		</if>
+	</where>
+	order by sellCode desc
+	limit
+	#{startRow},
+	#{pageSize}
+	</select>
+		
+   <!--  <select id="getSellListSearch"
+	resultType="com.itwillbs.domain.SellDTO">
+	select s.sellCode sellCode, s.sellDate sellDate,
+	s.sellDuedate
+	sellDuedate,s.sellEmpId sellEmpId,s.sellCount sellCount,s.sellMemo
+	sellMemo,s.sellState
+	sellState,s.clientCode
+	clientCode,s.sellPrice
+	sellPrice,s.prodCode
+	prodCode,
+	p.prodName
+	prodName,p.prodPrice prodPrice
+	from sell s left
+	join product p
+	on
+	s.prodCode = p.prodCode
+	<where>
+		<if test="prodCode != ''">
+			and s.prodCode like concat('%',#{prodCode},'%')
+		</if>
+		<if test="clientCode != ''">
+			and s.clientCode like concat('%',#{clientCode},'%')
+		</if>
+		<if test="sellCode != ''">
+			and s.sellCode like concat('%',#{sellCode},'%')
+		</if>
+		<if test="sellDate != ''">
+			and s.sellDate between #{sellDate} and #{sellEndDate}
+		</if>
+		<if test="sellDuedate != ''">
+			and s.sellDuedate between #{sellDuedate} and
+			#{sellEndDuedate}
+		</if>
+		
+	</where>
+	order by sellDate desc
+	
+</select> -->
+	
+	<select id="getSellSearchCount" resultType="java.lang.Integer">
+		select count(*)
+	from sell s
+	left join product p
+	on s.prodCode = p.prodCode
+	<where>
+		<if test="prodCode != ''">
+			and s.prodCode like concat('%',#{prodCode},'%')
+		</if>
+		<if test="clientCode != ''">
+			and s.clientCode like concat('%',#{clientCode},'%')
+		</if>
+		<if test="sellCode != ''">
+			and s.sellCode like concat('%',#{sellCode},'%')
+		</if>
+		<if test="sellDate != ''">
+			and s.sellDate between #{sellDate} and #{sellEndDate}
+		</if>
+		<if test="sellDuedate != ''">
+			and s.sellDuedate between #{sellDuedate} and
+			#{sellEndDuedate}
+		</if>
+		<if test="sellState != ''">
+			and s.sellState like concat('%',#{sellState},'%')
+		</if>
+	</where>
+	</select>
+
+	<select id="getExcelList" resultType="com.itwillbs.domain.SellDTO">
+		select s.sellCode sellCode, s.sellDate sellDate, s.sellDuedate sellDuedate,s.sellEmpId sellEmpId,
+				s.sellCount sellCount,s.sellMemo sellMemo,s.sellState sellState,s.clientCode clientCode, c.clientCompany clientCompany,
+				s.sellPrice sellPrice,s.prodCode prodCode, p.prodName prodName,p.prodPrice prodPrice
+		from sell s left join product p
+		on s.prodCode = p.prodCode
+        left join clients c
+        on s.clientCode = c.clientCode
+		<where>
+			<if test="prodCode != ''">
+				and s.prodCode like concat('%',#{prodCode},'%')
+			</if>
+			<if test="clientCode != ''">
+				and s.clientCode like concat('%',#{clientCode},'%')
+			</if>
+			<if test="sellCode != ''">
+				and s.sellCode like concat('%',#{sellCode},'%')
+			</if>
+			<if test="sellDate != ''">
+				and s.sellDate between #{sellDate} and #{sellEndDate}
+			</if>
+			<if test="sellDuedate != ''">
+				and s.sellDuedate between #{sellDuedate} and #{sellEndDuedate}
+			</if>
+			<if test="sellState != ''">
+				and s.sellState like concat('%',#{sellState},'%')
+			</if>
+		</where>
+		order by sellCode desc
+	</select>
+	
+</mapper>
+
+
+
+

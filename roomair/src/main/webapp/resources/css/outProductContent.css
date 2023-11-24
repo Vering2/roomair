@@ -1,0 +1,221 @@
+@charset "UTF-8";
+@charset "UTF-8";
+body {
+	background-color: #F5F6FA;
+}
+
+hr {
+	background: #adb5bb;
+	width: 100%;
+	height: 2px;
+	border: 0;
+	position: relative;
+	transform-origin: 0 0;
+	transform: rotate(0deg) scale(1, -1);
+}
+
+
+
+h2 {
+	display: block; 
+	font-size: 24px;
+	font-weight: bold;
+    text-align: center; 
+	margin: 10px auto;
+}
+
+label {
+	font: 300 16px/16px "Inter", sans-serif;
+}
+
+input[type="text"] {
+/* 	border: 1px solid #adb5bb; */
+/* 	border-radius: 5px; */
+	border:none;
+	width: 90%;
+	height: 25px;
+	font: 300 15px/15px "Inter", sans-serif;
+	text-align: center;
+	background-color: inherit;
+}
+
+input[type="number"]{
+	border:none;
+	width: 90%;
+	height: 20px;
+	font: 300 15px/15px "Inter", sans-serif;
+	text-align: center;
+	background-color: inherit;
+}
+#inputNum {
+	border:1px solid #eee;
+	border-radius: 5px;
+}
+
+#buttons {
+	display:flex;
+	margin-top: 15px;
+	margin-bottom: 5px;
+	justify-content: center;
+	gap: 1%;
+}
+input[type="button"], input[type="submit"]{
+background-color:#9AC5F4;
+	width:100px;
+	height:30px;
+	border-radius:5px;
+	color: #FFFFFF;
+	border: 0;
+	text-align: center;
+	font: 300 18px/18px "Inter", sans-serif;
+}
+#closeButton{
+	background-color:#4D4D4D;
+}
+input[type="button"]:hover, input[type="submit"]:hover {
+	background-color: #1D5D9B !important;
+    cursor: pointer; /* pointer 커서는 일반적으로 손가락 모양입니다 */
+}
+
+
+table {
+    border: 1px solid rgba(221, 221, 221, 0.78);
+    border-collapse: collapse; /* 테두리 간격을 합치기 */
+    margin: 0 auto;
+    color: #000000;
+    width: 450px;
+    max-width: 450px;
+    font: 300 16px/16px "Inter", sans-serif;
+    text-align: center;
+    border-radius: 10px; /* 테이블 모서리에 radius 적용 */
+}
+
+
+table td {
+    min-width: 100px;
+    white-space: nowrap;
+    padding: 0 15px;
+    height: 30px;
+    border: 1px solid rgba(221, 221, 221, 0.78); /* 테두리 설정 */
+}
+
+
+table th {
+    background-color: rgba(94, 195, 151, 0.6);
+    height: 30px;
+    border: 1px solid rgba(221, 221, 221, 0.78); /* 테두리 설정 */
+    font-weight: nomal;
+}
+.tableHead {
+	background-color: #9AC5F4;
+    height: 30px;
+}
+
+.outProductTable {
+    max-width: 450px;
+    border: 1px solid rgba(221, 221, 221, 0.78); /* 테두리 설정 */
+}
+
+.outProductTable td, .outProductTable th {
+	width: 130px;
+	max-width: 140px;
+}
+
+#inputNum {
+	border: 1px solid #4D4D4D;
+	border-radius: 5px;
+}
+#inputMemo {
+	border: 1px solid #4D4D4D;
+	border-radius: 5px;
+}
+
+#searchButton {
+	color: white;
+    background-color: #9AC5F4;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	/* margin-left : 220px; */
+	margin-left: 20px;
+	font-weight: bold;
+}
+
+
+/* 모달 스타일 */
+.modal {
+  display: none;
+  position: absolute; /* position 속성을 absolute로 변경 */
+  z-index: 1;
+  background-color: transparent; /* 배경색을 투명으로 변경 */
+}
+
+.modal-content {
+	font-size: 15px;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #888;
+  width: 200px;
+  position: fixed; /* 모달 내용도 position을 absolute로 변경 */
+}
+
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover {
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+/* table { */
+/*  	border: 1px solid rgba(221, 221, 221, 0.78);  */
+/* 	margin : 0 auto; */
+/*   	color: #000000;  */
+/*   	width:600px; */
+/*   	max-width:600px; */
+/*   	font: 500 18px/18px "Inter", sans-serif; */
+/*   	text-align: center; */
+  	
+/* } */
+/* table td { */
+/* 	min-width: 100px; */
+/*     white-space: nowrap; 텍스트 줄 바꿈 방지 */
+/*     padding: 0 15px; */
+/* } */
+
+/* table td{ */
+/* 	height: 45px; */
+/* } */
+/* table th { */
+/* 	background-color:rgba(94.0000019967556, 195.0000035762787, 151.00000619888306, 1); */
+/* 	height: 45px; */
+/* } */
+/* .numHead{ */
+/* 	background-color:rgba(94.0000019967556, 195.0000035762787, 151.00000619888306, 1); */
+/* } */
+/* .numHead th, .numHead td{ */
+/* 	min-width: 40px; */
+/* } */
+/* .outProductTable { */
+/* 	max-width: 600px; */
+/* } */
+
+/* table tbody tr:nth-child(even) { */
+/*     background-color: #f2f2f2; 짝수 행의 백그라운드 색상 설정 */
+/* } */
+
+/* table tbody tr:nth-child(odd) { */
+/*     background-color: #ffffff; 홀수 행의 백그라운드 색상 설정 */
+/* } */

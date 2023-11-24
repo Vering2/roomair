@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.itwillbs.mappers.ModalMapper">
+  
+<!-- 품목관리 리절트 맵 -->
+	<resultMap id="prod" type="com.itwillbs.domain.ProdDTO">
+<result property="prodCode" column="prodCode" />
+		<result property="prodName" column="prodName" />
+		<result property="prodUnit" column="prodUnit" />
+		<result property="prodSize" column="prodSize" />
+		<result property="prodPerfume" column="prodPerfume" />
+		<result property="clientCode" column="clientCode" />
+		<result property="whseCode" column="whseCode" />
+		<result property="prodPrice" column="prodPrice" />
+		<result property="prodMemo" column="prodMemo" />		
+	</resultMap>
+	
+	
+	<!-- 품목 정보(String prodName) -->
+	<select id="modalprod" resultType="ProdDTO" resultMap="prod"> 
+		select *
+		from product
+		where prodCode = #{prodCode}
+	</select>
+	<resultMap id="raw" type="com.itwillbs.domain.RawmaterialsDTO">
+		<result property="rawCode" column="rawCode" />
+		<result property="rawName" column="rawName" />
+		<result property="rawType" column="rawType" />
+		<result property="rawUnit" column="rawUnit" />
+		<result property="rawPrice" column="rawPrice" />
+		<result property="clientCode" column="clientCode" />
+		<result property="whseCode" column="whseCode" />
+		<result property="rawMemo" column="rawMemo	" />	
+		
+	</resultMap>
+	<select id="modalraw" resultType="RawmaterialsDTO" resultMap="raw"> 
+		select *
+		from rawMaterial
+		where rawCode = #{rawCode}
+	</select>
+  
+  
+  <resultMap id="sell" type="com.itwillbs.domain.SellDTO">
+		<result property="sellCode" column="sellCode" />
+		<result property="sellDate" column="sellDate" />
+		<result property="sellDuedate" column="sellDuedate" />
+		<result property="sellEmpId" column="sellEmpId" />
+		<result property="sellCount" column="sellCount" />
+		<result property="sellPrice" column="sellPrice" />
+		<result property="prodCode" column="prodCode" />
+		<result property="prodName" column="prodName" />	
+		<result property="sellMemo" column="sellMemo" />	
+		<result property="sellState" column="sellState" />	
+		<result property="clientCompany" column="clientCompany" />	
+		<result property="clientCode" column="clientCode" />	
+		
+	</resultMap>
+	<select id="modalsell" resultType="SellDTO" resultMap="sell"> 
+		select *
+		from sell
+		where sellCode = #{sellCode}
+	</select>
+	
+	 <resultMap id="client" type="com.itwillbs.domain.ClientDTO">
+		<result property="clientCode" column="clientCode" />
+		<result property="clientCompany" column="clientCompany" />
+		<result property="clientNumber" column="clientNumber" />
+		<result property="clientDetail" column="clientDetail" />
+		<result property="clientCeo" column="clientCeo" />
+		<result property="clientName" column="clientName" />
+		<result property="clientAddr1" column="clientAddr1" />
+		<result property="clientAddr2" column="clientAddr2" />	
+		<result property="clientTel" column="clientTel" />	
+		<result property="clientPhone" column="clientPhone" />	
+		<result property="clientFax" column="clientFax" />	
+		<result property="clientEmail" column="clientEmail" />
+		<result property="clientMemo" column="clientMemo" />
+		<result property="clientSale" column="clientSale" />			
+	</resultMap>
+	<select id="modalclient" resultType="ClientDTO" resultMap="client"> 
+		select *
+		from clients
+		where clientCode = #{clientCode}
+	</select>
+	
+	 <resultMap id="whse" type="com.itwillbs.domain.WarehouseDTO">
+		<result property="whseCode" column="whseCode" />
+		<result property="whseName" column="whseName" />
+		<result property="whseType" column="whseType" />
+		<result property="whseState" column="whseState" />
+		<result property="whseAddr" column="whseAddr" />
+		<result property="whseTel" column="whseTel" />
+		<result property="whseMemo" column="whseMemo" />
+		<result property="prodCode" column="prodCode" />	
+		<result property="rawCode" column="rawCode" />	
+		<result property="whseEmpId" column="whseEmpId" />			
+	</resultMap>
+	<select id="modalwhse" resultType="WarehouseDTO" resultMap="whse"> 
+		select *
+		from warehouse
+		where whseCode = #{whseCode}
+	</select>
+	
+	 <resultMap id="emp" type="com.itwillbs.domain.EmployeesDTO">
+		<result property="empName" column="empCName" />
+		<result property="empDepartment" column="empDepartment" />
+		<result property="empPosition" column="empPosition" />
+		<result property="empEmail" column="empEmail" />
+		<result property="empTel" column="empTel" />
+		<result property="empState" column="empState" />
+		<result property="empHiredate" column="empHiredate" />		
+	</resultMap>
+	<select id="modalemp" resultType="EmployeesDTO" resultMap="emp"> 
+		select *
+		from employees
+		where empId = #{empId}
+	</select>
+	
+	 <resultMap id="work" type="com.itwillbs.domain.WorkOrderDTO">
+		<result property="prodCode" column="prodCode" />
+		<result property="sellCode" column="sellCode" />
+		<result property="workDate" column="workDate" />
+		<result property="lineCode" column="lineCode" />
+		<result property="workAmount" column="workAmount" />
+		<result property="workEmpId" column="workEmpId" />
+		<result property="workDatechange" column="workDatechange" />	
+		<result property="workInfo" column="workInfo" />	
+	</resultMap>
+	<select id="modalwork" resultType="WorkOrderDTO" resultMap="work"> 
+		select *
+		from workOrder
+		where workCode = #{workCode}
+	</select>
+		
+	
+	
+  </mapper>
