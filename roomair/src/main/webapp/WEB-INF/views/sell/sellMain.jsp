@@ -1,6 +1,5 @@
 
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="javax.servlet.http.HttpServletRequest"%>
@@ -12,156 +11,135 @@
 <title>sell/sellMain.jsp</title>
 
 <!-- side.jsp css-->
-<link href="${pageContext.request.contextPath }/resources/css/side.css"	rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/side.css" rel="stylesheet" type="text/css">
 <!-- 본문 css -->
 <%-- <link href="${pageContext.request.contextPath }/resources/css/outProduct.css">
- --%><link href="${pageContext.request.contextPath }/resources/css/sell.css" rel="stylesheet" type="text/css">
+ --%>
+<link href="${pageContext.request.contextPath }/resources/css/sell.css" rel="stylesheet" type="text/css">
 
-<script	src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <!-- J쿼리 호출 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 <!-- 엑셀 다운로드 -->
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
-<script	src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 <!-- 수주일자 기간선택 -->
-<link href="${pageContext.request.contextPath}/resources/css/daterange.css" rel="stylesheet" type="text/css"><!-- 수주일자 기간선택 -->
+<link href="${pageContext.request.contextPath}/resources/css/daterange.css" rel="stylesheet" type="text/css">
+<!-- 수주일자 기간선택 -->
 <style>
 /* 모달 스타일 */
 .modal {
-  display: none;
-  position: absolute; /* position 속성을 absolute로 변경 */
-  z-index: 1;
-  background-color: transparent; /* 배경색을 투명으로 변경 */
+	display: none;
+	position: absolute; /* position 속성을 absolute로 변경 */
+	z-index: 1;
+	background-color: transparent; /* 배경색을 투명으로 변경 */
 }
 
 .modal-content {
-	    font-size: 15px;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #888;
-    position: fixed;
+	font-size: 15px;
+	background-color: #fff;
+	padding: 5px;
+	border: 1px solid #888;
+	position: fixed;
 }
 
 .close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
 }
 
 .close:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 table {
-    border-collapse: collapse;
-    width: 96%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    border-right: 1px solid #D9D9D9;
-    border-bottom: 1px solid #D9D9D9;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
+	border-collapse: collapse;
+	width: 96%;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	text-align: center;
+	border-right: 1px solid #D9D9D9;
+	border-bottom: 1px solid #D9D9D9;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
 }
 </style>
 </head>
 
 <body>
-<!-- 모달 대화상자 -->
+	<!-- 모달 대화상자 -->
 	<div id="myModal" class="modal">
-	  <div class="modal-content">
-	    <div class="modal-header">
-	      <span class="close" id="closeModal">&times;</span>
-	    </div>
-	    <div class="modal-body">
-	      <p>모달 내용을 여기에 넣으세요</p>
-	    </div>
-	  </div>
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close" id="closeModal">&times;</span>
+			</div>
+			<div class="modal-body">
+				<p>모달 내용을 여기에 넣으세요</p>
+			</div>
+		</div>
 	</div>
 	<!------------------------------------------------------- 사이드바 ---------------------------------------------------->
 	<jsp:include page="../inc/side.jsp"></jsp:include>
 
 	<!------------------------------------------------------- 본문 타이틀 ---------------------------------------------------->
 	<div class="container">
-		<h2><a href="${pageContext.request.contextPath}/sell/sellMain" style=" text-decoration: none; color:black;">수주 관리</a></h2>
+		<h2>
+			<a href="${pageContext.request.contextPath}/sell/sellMain" style="text-decoration: none; color: black;">수주 관리</a>
+		</h2>
 
 		<!------------------------------------------------------- 상단 검색란 ---------------------------------------------------->
-		<form action="${pageContext.request.contextPath}/sell/sellMain"	method="get" id="searchBox">
-		<div id="searchform" style="border-radius: 5px;">
-			
-				<label>수주 코드</label> <input type="text" id="sellCode" name="sellCode" value="${sellDTO.sellCode}"> 
-				
-				<label>거래처</label> 
-	        <input type="text" id="sellclientCode9999" name="clientCode" value="${sellDTO.clientCode}" onclick=searchItem('sellclient','sellclientCode9999'); placeholder="거래처 코드" readonly >
-        	<input type="text" id="sellclientCompany9999" name="clientCompany" placeholder="거래처명" value="${sellDTO.clientCompany}" onclick=searchItem('sellclient','sellclientCode9999'); readonly >
-		
-				
-				
-				<label>제품</label>  
-	        <input type="text" name="prodCode" id="prodCode9999" value="${sellDTO.prodCode}"  onclick=searchItem('prod','prodCode9999'); placeholder="제품 코드" readonly>
-	      	<input type="text" name="prodName" id="prodName9999" value="${sellDTO.prodName}"  placeholder="제품명" readonly onclick="searchItem('prod','prodCode9999')">
-	      
-				
-				
-				<label for="startDate">수주 일자</label> 
-	       		<input type="text" id="sellDate" name="daterange1" value="${sellDTO.sellDate}" class="daterange" style="width:180px;">
-				
-				<label for="startDate">납기일자</label> 
-				<input type="text" id="sellDuedate" name="daterange2" value="${sellDTO.sellDuedate}" class="daterange" style="width:180px;">
-				
-				<input type="hidden" id="sellState" name="sellState" value="${sellDTO.sellState}">
-			
-				<input type="submit" value="조회" id="searchButton" class="btn">
-				<input type="button" value="취소" id="resetButton" class="btn">
-			
-		</div>
-		<br>
-		<!------------------------------------------------------- 추가, 수정, 삭제 버튼 ---------------------------------------------------->
-		<div id="sample">
-			<div id="buttons">
-			<input type="submit" class="buttons"  value="전체" id="allButton">
-    		<input type="submit" class="buttons"  value="미출고" id="non_deliveryButton">
-    		<input type="submit" class="buttons"   value="중간납품" id="interim_deliveryButton">
-    		<input type="submit" class="buttons"  value="출고완료" id="deliveryButton">
+		<form action="${pageContext.request.contextPath}/sell/sellMain" method="get" id="searchBox">
+			<div id="searchform" style="border-radius: 5px;">
+
+				<label>수주 코드</label> <input type="text" id="sellCode" name="sellCode" value="${sellDTO.sellCode}"> <label>거래처</label> <input type="text" id="sellclientCode9999" name="clientCode" value="${sellDTO.clientCode}" onclick=searchItem( 'sellclient','sellclientCode9999'); placeholder="거래처 코드" readonly> <input type="text" id="sellclientCompany9999" name="clientCompany" placeholder="거래처명" value="${sellDTO.clientCompany}" onclick=searchItem( 'sellclient','sellclientCode9999'); readonly> <label>제품</label> <input type="text" name="prodCode" id="prodCode9999" value="${sellDTO.prodCode}" onclick=searchItem( 'prod','prodCode9999'); placeholder="제품 코드" readonly> <input type="text" name="prodName" id="prodName9999" value="${sellDTO.prodName}" placeholder="제품명" readonly onclick="searchItem('prod','prodCode9999')"> <label for="startDate">수주 일자</label> <input type="text" id="sellDate" name="daterange1" value="${sellDTO.sellDate}" class="daterange"
+					style="width: 180px;"
+				> <label for="startDate">납기일자</label> <input type="text" id="sellDuedate" name="daterange2" value="${sellDTO.sellDuedate}" class="daterange" style="width: 180px;"> <input type="hidden" id="sellState" name="sellState" value="${sellDTO.sellState}"> <input type="submit" value="조회" id="searchButton" class="btn"> <input type="button" value="취소" id="resetButton" class="btn">
+
 			</div>
-			
-			<div class="buttons">
-			
-			
-			<button  style="display: none;" id="add" onclick="openSellAdd()" class="btn">추가</button>
-			<button  style="display: none;" id="delete" class="btn">삭제</button>
+			<br>
+			<!------------------------------------------------------- 추가, 수정, 삭제 버튼 ---------------------------------------------------->
+			<div id="sample">
+				<div id="buttons">
+					<input type="submit" class="buttons" value="전체" id="allButton"> <input type="submit" class="buttons" value="미출고" id="non_deliveryButton"> <input type="submit" class="buttons" value="중간납품" id="interim_deliveryButton"> <input type="submit" class="buttons" value="출고완료" id="deliveryButton">
+				</div>
+
+				<div class="buttons">
+
+
+					<button style="display: none;" id="add" onclick="openSellAdd()" class="btn">추가</button>
+					<button style="display: none;" id="delete" class="btn">삭제</button>
+				</div>
+				<!------------------------------------------------------- 수주 상태---------------------------------------------------->
 			</div>
-		<!------------------------------------------------------- 수주 상태---------------------------------------------------->
-		</div>
 		</form>
-	<div class="total-items">
-		 <div>
-			 <label>총 ${sellDTO.count}건</label>
-		 </div>
-		 <div class="PageSelect">
- 			<label for="perPageSelect" style ="bottom:2px;">항목 수 </label>
-			<select id="perPageSelect" class="input_box" style ="width:100px; bottom:2px;" onchange="applyFilters()" value="${sellDTO.pageSize}">
-			    <option value="10" ${sellDTO.pageSize == 10 ? 'selected' : ''}>10개씩</option>
-			    <option value="50" ${sellDTO.pageSize == 50 ? 'selected' : ''}>50개씩</option>
-			    <option value="100" ${sellDTO.pageSize == 100 ? 'selected' : ''}>100개씩</option>
-			    <option value="9999" ${sellDTO.pageSize == 9999 ? 'selected' : ''}>전체</option>
-			</select>
+		<div class="total-items">
+			<div>
+				<label>총 ${sellDTO.count}건</label>
+			</div>
+			<div class="PageSelect">
+				<label for="perPageSelect" style="bottom: 2px;">항목 수 </label> <select id="perPageSelect" class="input_box" style="width: 100px; bottom: 2px;" onchange="applyFilters()" value="${sellDTO.pageSize}">
+					<option value="10" ${sellDTO.pageSize == 10 ? 'selected' : ''}>10개씩</option>
+					<option value="50" ${sellDTO.pageSize == 50 ? 'selected' : ''}>50개씩</option>
+					<option value="100" ${sellDTO.pageSize == 100 ? 'selected' : ''}>100개씩</option>
+					<option value="9999" ${sellDTO.pageSize == 9999 ? 'selected' : ''}>전체</option>
+				</select>
+			</div>
 		</div>
-	</div>
 
 		<!------------------------------------------------------- 수주 목록 ---------------------------------------------------->
-		
+
 
 		<form id="selltList">
 			<div id="sellList">
-				<table class="tg" id="sellTable"  style="border-radius: 5px;">
+				<table class="tg" id="sellTable" style="border-radius: 5px;">
 					<thead>
 						<tr>
-							<td><input type="checkbox" id="select-list-all"	name="select-list-all" data-group="select-list"></td>
+							<td><input type="checkbox" id="select-list-all" name="select-list-all" data-group="select-list"></td>
 							<td>처리 상태</td>
 							<td>수주 코드</td>
 							<td>거래처 코드</td>
@@ -176,110 +154,100 @@ table {
 							<td>비고</td>
 						</tr>
 					</thead>
-					
-					
-					
+
+
+
 					<tbody>
 						<c:forEach var="sellDTO" items="${sellList}">
 							<tr>
-								<td><input type="checkbox"
-									value="${sellDTO.sellCode}" name="selectedSellCode"
-									data-group="select-list"></td>
+								<td><input type="checkbox" value="${sellDTO.sellCode}" name="selectedSellCode" data-group="select-list"></td>
 
-								
-								<td>${sellDTO.sellState}</td><!-- 처리(출고)상태 -->
-								
-								<td	onclick="openSellDetail('${sellDTO.sellCode}')" class="sellDetailLink">${sellDTO.sellCode}</td><!-- 수주코드 -->
-								
-								<%-- <td>${sellDTO.clientCode}</td> --%><!-- 거래처코드 -->
+
+								<td>${sellDTO.sellState}</td>
+								<!-- 처리(출고)상태 -->
+
+								<td onclick="openSellDetail('${sellDTO.sellCode}')" class="sellDetailLink">${sellDTO.sellCode}</td>
+								<!-- 수주코드 -->
+
+								<%-- <td>${sellDTO.clientCode}</td> --%>
+								<!-- 거래처코드 -->
 								<td style='cursor: pointer;' onclick="openModal(event)" id="${sellDTO.clientCode }" name="sellCode" value="${sellDTO.clientCode }">${sellDTO.clientCode }</td>
-						
-								
+
+
 								<%-- <td>${sellDTO.prodCode}</td><!-- 제품코드 --> --%>
 								<td style='cursor: pointer;' onclick="openModal(event)" id="${sellDTO.prodCode}" name="sellCode" value="${sellDTO.prodCode}">${sellDTO.prodCode}</td>
-						
-								<td>${sellDTO.prodName}</td><!-- 제품명 -->
-								
-								<td><fmt:formatNumber value="${sellDTO.prodPrice}"
-										pattern="###,###원" /></td><!-- 제품단가 -->
-								
-								<td>${sellDTO.sellCount}개</td><!-- 수주수량-->
-								
-								<td><fmt:formatNumber value="${sellDTO.sellPrice}"
-										pattern="###,###원" /></td><!-- 수주단가 -->
-								
-								<td>${sellDTO.sellDate}</td><!-- 수주일자 -->
-								
-								<td>${sellDTO.sellDuedate}</td><!-- 납기일자  -->
-								
+
+								<td>${sellDTO.prodName}</td>
+								<!-- 제품명 -->
+
+								<td><fmt:formatNumber value="${sellDTO.prodPrice}" pattern="###,###원" /></td>
+								<!-- 제품단가 -->
+
+								<td>${sellDTO.sellCount}개</td>
+								<!-- 수주수량-->
+
+								<td><fmt:formatNumber value="${sellDTO.sellPrice}" pattern="###,###원" /></td>
+								<!-- 수주단가 -->
+
+								<td>${sellDTO.sellDate}</td>
+								<!-- 수주일자 -->
+
+								<td>${sellDTO.sellDuedate}</td>
+								<!-- 납기일자  -->
+
 								<%-- <td>${sellDTO.sellEmpId}</td><!-- 수주담당직원 --> --%>
 								<td style='cursor: pointer;' onclick="openModal(event)" id="${sellDTO.sellEmpId}" name="sellCode" value="${sellDTO.sellEmpId}">${sellDTO.sellEmpId}</td>
-						
-								
-							
+
+
+
 								<c:choose>
-    <c:when test="${not empty sellDTO.sellMemo}">
-        <td class="tg-llyw2">
-            <a href="#" onclick="openSellMemo('${sellDTO.sellCode}'); return sellMemoClose();" 
-            style="color:#C63D2F; text-decoration: none;">보기</a>
-        </td>
-    </c:when>
-    <c:otherwise>
-    <td class="tg-llyw2">
-                    <a href="#" onclick="addSellMemo('${sellDTO.sellCode}'); return sellMemoClose();" 
-                     style="display: none; color: #384855; text-decoration: none;"  class="memoAdd">입력</a>
-                     
-                </td>
-       
-    </c:otherwise>
-</c:choose>
+									<c:when test="${not empty sellDTO.sellMemo}">
+										<td class="tg-llyw2"><a href="#" onclick="openSellMemo('${sellDTO.sellCode}'); return sellMemoClose();" style="color: #C63D2F; text-decoration: none;">보기</a></td>
+									</c:when>
+									<c:otherwise>
+										<td class="tg-llyw2"><a href="#" onclick="addSellMemo('${sellDTO.sellCode}'); return sellMemoClose();" style="display: none; color: #384855; text-decoration: none;" class="memoAdd">입력</a></td>
+
+									</c:otherwise>
+								</c:choose>
 							</tr>
 						</c:forEach>
 					</tbody>
 
 				</table>
-				</div>
-				
+			</div>
+
 		</form>
-	
-			
-			
-			<!------------------------------------------------- 페이징 ------------------------------------------>
-			<div id="pagination" class="page_wrap">
+
+
+
+		<!------------------------------------------------- 페이징 ------------------------------------------>
+		<div id="pagination" class="page_wrap">
 			<input type="submit" id="exportButton" value="엑셀">
 			<div class="page_nation">
-			<c:if test="${sellDTO.startPage > sellDTO.pageBlock}">
-				<a class="arrow prev"
-					href="${pageContext.request.contextPath}/sell/sellMain?pageNum=${sellDTO.startPage - sellDTO.pageBlock}&sellCode=${sellDTO.sellCode}&prodCode=${sellDTO.prodCode}&clientCode=${sellDTO.clientCode}&sellDate=${sellDTO.sellDate}&sellDuedate=${sellDTO.sellDuedate}&sellState=${sellDTO.sellState}"
-					style="text-decoration: none; color: #5EC397;">◀</a>
-			</c:if>
-			
-			
-<c:forEach var="i" begin="${sellDTO.startPage}"	end="${sellDTO.endPage}" step="1">
-  <c:choose>
-        <c:when test="${i eq sellDTO.currentPage}">
-            <a class="a active"
-					href="${pageContext.request.contextPath}/sell/sellMain?pageNum=${i}&sellCode=${sellDTO.sellCode}&prodCode=${sellDTO.prodCode}&clientCode=${sellDTO.clientCode}&sellDate=${sellDTO.sellDate}&sellDuedate=${sellDTO.sellDuedate}&sellState=${sellDTO.sellState}"
-					>${i}</a>
-			 		 </c:when>
-					 <c:otherwise>
-			
-				<a class="a"
-					href="${pageContext.request.contextPath}/sell/sellMain?pageNum=${i}&sellCode=${sellDTO.sellCode}&prodCode=${sellDTO.prodCode}&clientCode=${sellDTO.clientCode}&sellDate=${sellDTO.sellDate}&sellDuedate=${sellDTO.sellDuedate}&sellState=${sellDTO.sellState}"
-					>${i}</a>
-			 </c:otherwise>
-</c:choose>
-</c:forEach>
+				<c:if test="${sellDTO.startPage > sellDTO.pageBlock}">
+					<a class="arrow prev" href="${pageContext.request.contextPath}/sell/sellMain?pageNum=${sellDTO.startPage - sellDTO.pageBlock}&sellCode=${sellDTO.sellCode}&prodCode=${sellDTO.prodCode}&clientCode=${sellDTO.clientCode}&sellDate=${sellDTO.sellDate}&sellDuedate=${sellDTO.sellDuedate}&sellState=${sellDTO.sellState}" style="text-decoration: none; color: #5EC397;">◀</a>
+				</c:if>
 
-			<c:if test="${sellDTO.endPage < sellDTO.pageCount}">
-				<a class="arrow next"
-					href="${pageContext.request.contextPath}/sell/sellMain?pageNum=${sellDTO.startPage + sellDTO.pageBlock}&sellCode=${sellDTO.sellCode}&prodCode=${sellDTO.prodCode}&clientCode=${sellDTO.clientCode}&sellDate=${sellDTO.sellDate}&sellDuedate=${sellDTO.sellDuedate}&sellState=${sellDTO.sellState}"
-					style="text-decoration: none; color: #5EC397;">▶</a>
-			</c:if>
+
+				<c:forEach var="i" begin="${sellDTO.startPage}" end="${sellDTO.endPage}" step="1">
+					<c:choose>
+						<c:when test="${i eq sellDTO.currentPage}">
+							<a class="a active" href="${pageContext.request.contextPath}/sell/sellMain?pageNum=${i}&sellCode=${sellDTO.sellCode}&prodCode=${sellDTO.prodCode}&clientCode=${sellDTO.clientCode}&sellDate=${sellDTO.sellDate}&sellDuedate=${sellDTO.sellDuedate}&sellState=${sellDTO.sellState}">${i}</a>
+						</c:when>
+						<c:otherwise>
+
+							<a class="a" href="${pageContext.request.contextPath}/sell/sellMain?pageNum=${i}&sellCode=${sellDTO.sellCode}&prodCode=${sellDTO.prodCode}&clientCode=${sellDTO.clientCode}&sellDate=${sellDTO.sellDate}&sellDuedate=${sellDTO.sellDuedate}&sellState=${sellDTO.sellState}">${i}</a>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+
+				<c:if test="${sellDTO.endPage < sellDTO.pageCount}">
+					<a class="arrow next" href="${pageContext.request.contextPath}/sell/sellMain?pageNum=${sellDTO.startPage + sellDTO.pageBlock}&sellCode=${sellDTO.sellCode}&prodCode=${sellDTO.prodCode}&clientCode=${sellDTO.clientCode}&sellDate=${sellDTO.sellDate}&sellDuedate=${sellDTO.sellDuedate}&sellState=${sellDTO.sellState}" style="text-decoration: none; color: #5EC397;">▶</a>
+				</c:if>
 			</div>
-			</div>
-			</div>
-			
+		</div>
+	</div>
+
 
 
 
@@ -287,9 +255,9 @@ table {
 
 
 	<!--################################################################ script ###################################################################-->
-	
 
-	
+
+
 	<script type="text/javascript">
 
 	 
@@ -316,11 +284,11 @@ table {
 
 </script>
 
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
-<script>
+	<script>
 <!------------------------------------------------- 팝업창 옵션 ------------------------------------------>
 //팝업 옵션
 const popupOpt = "top=60,left=140,width=720,height=600";
@@ -554,59 +522,7 @@ function openSellDetail(sellCode) {
 		  });
 		    
 		  <!--------------------------------------------------- 엑셀 다운로드 ----------------------------------------->
-// 		document.addEventListener('DOMContentLoaded', ()=> {
-//            	exportButton.addEventListener('click', exportExcel);
-//           	});
-		
-// 			 const exportButton = document.querySelector('#exportButton');
-// 			 exportButton.addEventListener('click', exportExcel);
-// 					function exportExcel() {
-// 					    // 1. 워크북 생성
-// 					    var wb = XLSX.utils.book_new();
-// 					    // 2. 워크시트 생성
-// 					    var newWorksheet = excelHandler.getWorksheet();
-// 					    // 3. 워크시트를 워크북에 추가
-// 					    XLSX.utils.book_append_sheet(wb, newWorksheet, excelHandler.getSheetName());
-// 					    // 4. 엑셀 파일 생성
-// 					    var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-// 					    // 5. 엑셀 파일 내보내기
-// 					    saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), excelHandler.getExcelFileName());
-// 					}
 
-// 					// 현재 날짜를 가져오는 함수
-// 					function getToday() {
-// 					    var date = new Date();
-// 					    var year = date.getFullYear();
-// 					    var month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 두 자리로 맞춥니다.
-// 					    var day = date.getDate().toString().padStart(2, '0'); // 일을 두 자리로 맞춥니다.
-// 					    return year + month + day;
-// 					}
-
-// 			var excelHandler = {
-// 			getExcelFileName : function() {
-// 				return '수주 리스트 '+getToday()+'.xlsx'; //파일명
-// 			},
-// 			getSheetName : function() {
-// 				return 'Sell Sheet'; //시트명
-// 			},
-// 			getExcelData : function() {
-// 				return document.getElementById('sellTable'); //table id
-// 			},
-// 			getWorksheet : function() {
-// 				return XLSX.utils.table_to_sheet(this.getExcelData());
-// 			}
-// 		} //excelHandler
-			
-// 			function s2ab(s) {
-				
-// 				var buf = new ArrayBuffer(s.length);  // s -> arrayBuffer
-// 				var view = new Uint8Array(buf);  
-// 				for(var i=0; i<s.length; i++) {
-// 					view[i] = s.charCodeAt(i) & 0xFF;
-// 				}
-// 				/* alert("이까지 옴"); */
-// 				return buf;
-// 			}
 	  });
     
    <!--------------------------------------------------- 상단 조건 검색 ----------------------------------------->
@@ -765,7 +681,7 @@ function openSellDetail(sellCode) {
 	}
 	
 </script>
-<script>
+	<script>
       //modal창에 열기 위한 이벤트 헨들러
         function openModal(event) {
         	  const clickedElementId = event.target.id;
@@ -1061,11 +977,7 @@ openModalWithData(event, dataformat, 200); // 데이터를 모달로 표시
     		closeModal.addEventListener('click', function() {
     		    modal.style.display = 'none';
     		});
-    	   	/* window.addEventListener('click', function(event) {
-    		    if (event.target != modal && !modal.contains(event.target)) {
-    		        modal.style.display = 'none';
-    		    }
-    		}); */
+    	   
     	 
  </script>
 

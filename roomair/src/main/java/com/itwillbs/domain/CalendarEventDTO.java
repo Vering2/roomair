@@ -9,11 +9,11 @@ import lombok.ToString;
 @ToString
 public class CalendarEventDTO {
 	private int id;
-    private String title;
-    private String start;
-    private String end;
-    private String description;
-    private String otherDate;
-    private String backgroundColor;
-    
+	private String title;
+	private String start;
+	private String end;
+	private String description;
+	private String otherDate;
+	private String backgroundColor;
+
 }

@@ -1,24 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="javax.servlet.http.HttpServletRequest"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html>
 <meta charset="UTF-8">
-<link href="${pageContext.request.contextPath }/resources/css/side.css"
-	rel="stylesheet" type="text/css">
-<link
-	href="${pageContext.request.contextPath }/resources/css/product.css"
-	rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/side.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/product.css" rel="stylesheet" type="text/css">
 
 <%
 //관리자 또는 자재팀 출고 상세 페이지 열람 가능 게시판 접근 가능 (권한)
 String department = "";
 if (session.getAttribute("empDepartment") != null) {
-department = (String) session.getAttribute("empDepartment");
+	department = (String) session.getAttribute("empDepartment");
 }
 
 //상수 정의
@@ -33,7 +29,7 @@ final String ADMIN_DEPARTMENT = "자재팀";
 <title>roomair</title>
 
 <!-- 모달창 script -->
-	<script>
+<script>
       //modal창에 열기 위한 이벤트 헨들러
         function openModal(e) {
         	
@@ -273,9 +269,8 @@ final String ADMIN_DEPARTMENT = "자재팀";
         
                
     </script>
-    
-<script
-	src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
 <!-- J쿼리 호출 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -284,169 +279,140 @@ final String ADMIN_DEPARTMENT = "자재팀";
 <!-- <script src="../resources/js/productList_im.js"></script> -->
 <!-- 		추가안되면 사이드바에 있는 이거^때문임 -->
 
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <!-- SheetJS -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
 <!--FileSaver [savaAs 함수 이용] -->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
 </head>
 
 
 <body>
-<!-- 모달창 -->
-	<div id="myModal" style="display: none;
-	position: absolute;
-	background-color: #fff;
-	border: 1px solid #000;
-	padding: 10px;
-	z-index: 1;">
-	</div>
 	<!-- 모달창 -->
-<c:choose>
-         <c:when test="${!(empty sessionScope.empDepartment)}">
-	<!-- 사이드바 -->
-	<jsp:include page="../inc/side.jsp"></jsp:include>
-	<!-- 사이드바 -->
+	<div id="myModal" style="display: none; position: absolute; background-color: #fff; border: 1px solid #000; padding: 10px; z-index: 1;"></div>
+	<!-- 모달창 -->
+	<c:choose>
+		<c:when test="${!(empty sessionScope.empDepartment)}">
+			<!-- 사이드바 -->
+			<jsp:include page="../inc/side.jsp"></jsp:include>
+			<!-- 사이드바 -->
 
-	<div class="container">
-	
-		<h2>제품 관리</h2>
-		<div id="searchform">
-			<form action="${pageContext.request.contextPath}/product/list"
-				method="get" id="selectedProId">
-				<label>제품 코드</label> <input type="text" placeholder="제품코드" name="prodCode" id="prodCode" value="${prodDTO.prodCode }"> 
-				<label>제품명</label> <input type="text" placeholder="제품명" name="prodName" id="prodName" value="${prodDTO.prodName }"> 
-				<label>거래처명</label> <input type="text" name="clientCompany" id="sellclientCompany9999" value="${prodDTO.clientCompany }" readonly placeholder="거래처명" onclick="searchItem('sellclient','sellwhseCode9999')" style="cursor: pointer !important;">
-				<!--         <input type="text" placeholder="거래처를 선택하세요." name="a3"> -->
-				<button type="submit">조회</button>
-			</form>
-		</div>
-		<%--     <form action="${pageContext.request.contextPath}/product/write" method="post"> --%>
-		<c:if
-			test="${!(empty sessionScope.empDepartment) && (sessionScope.empDepartment eq '관리자' || sessionScope.empDepartment eq '자재팀')}">
-			<div class="buttons">
-				<button id="add"
-					onclick="openPopup1('${pageContext.request.contextPath}/product/write')">추가</button>
-				<!-- 			<button id="modify">수정</button> -->
-				<!--     <button id="delete" onclick="deleteSelectedProducts()">삭제</button> -->
-				<button id="delete">삭제</button>
-				<!-- 			<button id="cancel">취소</button> -->
-				<!-- 			<button id="save">저장</button> -->
-				<!-- 				<button id="excelDownload" class="buttons">엑셀⬇</button> -->
-			</div>
-		</c:if>
-		
-			<label style="padding-left: 1%;" id="listCount">총 ${pageDTO.count}건</label> 
+			<div class="container">
 
-		<form id="productList">
-			<div id="productList">
-				<table class="tab" id="productTable">
-					<thead>
-						<tr>
-							<!-- 체크박스 열 추가 -->
-							<th><input type="checkbox" id="select-list-all"
-								name="select-list-all" data-group="select-list"></th>
-							<th>제품 코드</th>
-							<th>제품명</th>
-							<th>제품 단위</th>
-							<th>용량</th>
-							<th>향기 종류</th>
-							<th>거래처 코드</th>
-							<th>창고 코드</th>
-							<th>매출 단가</th>
-							<th>비고</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="prodDTO" items="${prodList}">
-							<tr>
-								<td><input type="checkbox" id="select-list"
-									value="${prodDTO.prodCode}" name="selectedProId"
-									data-group="select-list"></td>
-								<!-- 체크박스 열 -->
+				<h2>제품 관리</h2>
+				<div id="searchform">
+					<form action="${pageContext.request.contextPath}/product/list" method="get" id="selectedProId">
+						<label>제품 코드</label> <input type="text" placeholder="제품코드" name="prodCode" id="prodCode" value="${prodDTO.prodCode }"> <label>제품명</label> <input type="text" placeholder="제품명" name="prodName" id="prodName" value="${prodDTO.prodName }"> <label>거래처명</label> <input type="text" name="clientCompany" id="sellclientCompany9999" value="${prodDTO.clientCompany }" readonly placeholder="거래처명" onclick="searchItem('sellclient','sellwhseCode9999')" style="cursor: pointer !important;">
+						<!--         <input type="text" placeholder="거래처를 선택하세요." name="a3"> -->
+						<button type="submit">조회</button>
+					</form>
+				</div>
+				<%--     <form action="${pageContext.request.contextPath}/product/write" method="post"> --%>
+				<c:if test="${!(empty sessionScope.empDepartment) && (sessionScope.empDepartment eq '관리자' || sessionScope.empDepartment eq '자재팀')}">
+					<div class="buttons">
+						<button id="add" onclick="openPopup1('${pageContext.request.contextPath}/product/write')">추가</button>
+						<!-- 			<button id="modify">수정</button> -->
+						<!--     <button id="delete" onclick="deleteSelectedProducts()">삭제</button> -->
+						<button id="delete">삭제</button>
+						<!-- 			<button id="cancel">취소</button> -->
+						<!-- 			<button id="save">저장</button> -->
+						<!-- 				<button id="excelDownload" class="buttons">엑셀⬇</button> -->
+					</div>
+				</c:if>
 
-								<td>
-									<!-- 								<a href="#" --> <%-- 									onclick="openPopup2('${pageContext.request.contextPath}/product/update?prodCode=${prodDTO.prodCode}')"> --%>
-									<%-- 									${prodDTO.prodCode}</a> --%> <c:choose>
-										<c:when
-											test="${!(empty sessionScope.empDepartment) && (sessionScope.empDepartment eq '관리자' || sessionScope.empDepartment eq '자재팀')}">
-											<a href="#"
-												onclick="openPopup2('${pageContext.request.contextPath}/product/update?prodCode=${prodDTO.prodCode}')">
-												${prodDTO.prodCode} </a>
-										</c:when>
-										<c:otherwise>
+				<label style="padding-left: 1%;" id="listCount">총 ${pageDTO.count}건</label>
+
+				<form id="productList">
+					<div id="productList">
+						<table class="tab" id="productTable">
+							<thead>
+								<tr>
+									<!-- 체크박스 열 추가 -->
+									<th><input type="checkbox" id="select-list-all" name="select-list-all" data-group="select-list"></th>
+									<th>제품 코드</th>
+									<th>제품명</th>
+									<th>제품 단위</th>
+									<th>용량</th>
+									<th>향기 종류</th>
+									<th>거래처 코드</th>
+									<th>창고 코드</th>
+									<th>매출 단가</th>
+									<th>비고</th>
+								</tr>
+							</thead>
+							<tbody>
+								<c:forEach var="prodDTO" items="${prodList}">
+									<tr>
+										<td><input type="checkbox" id="select-list" value="${prodDTO.prodCode}" name="selectedProId" data-group="select-list"></td>
+										<!-- 체크박스 열 -->
+
+										<td>
+											<!-- 								<a href="#" --> <%-- 									onclick="openPopup2('${pageContext.request.contextPath}/product/update?prodCode=${prodDTO.prodCode}')"> --%> <%-- 									${prodDTO.prodCode}</a> --%> <c:choose>
+												<c:when test="${!(empty sessionScope.empDepartment) && (sessionScope.empDepartment eq '관리자' || sessionScope.empDepartment eq '자재팀')}">
+													<a href="#" onclick="openPopup2('${pageContext.request.contextPath}/product/update?prodCode=${prodDTO.prodCode}')"> ${prodDTO.prodCode} </a>
+												</c:when>
+												<c:otherwise>
         ${prodDTO.prodCode}
     </c:otherwise>
-									</c:choose> <%--                 ${prodDTO.prodCode} --%>
-								</td>
-								<td >${prodDTO.prodName}</td>
-								<td id="prodUnit">${prodDTO.prodUnit}</td>
-								<td id="prodSize">${prodDTO.prodSize}ml</td>
-								<td id="prodPerfume">${prodDTO.prodPerfume}</td>
-								<%-- <td id="clientCompany">${prodDTO.clientCompany}</td> --%>
-								<td> <label style='cursor: pointer;' onclick="openModal(this)" id="${prodDTO.clientCode }"name="clientCode" value="${prodDTO.clientCode}">${prodDTO.clientCode}</label></td>
-								<%-- <td id="clientName">${prodDTO.clientName}</td> --%>
-								<td> <label style='cursor: pointer;' onclick="openModal(this)" id="${prodDTO.whseCode }" name="whseCode" value="${prodDTO.whseCode}">${prodDTO.whseCode}</label></td>
-								<td id="prodPrice"><fmt:formatNumber>${prodDTO.prodPrice}</fmt:formatNumber>원</td>
-								<c:choose>
-									<c:when test="${not empty prodDTO.prodMemo}">
-										<td class="tg-llyw2"><a href="#"
-											onclick="openProdMemo('${prodDTO.prodCode}'); return prodMemoClose();"
-											style="color: red;">[보기]</a></td>
-									</c:when>
-									<c:otherwise>
+											</c:choose> <%--                 ${prodDTO.prodCode} --%>
+										</td>
+										<td>${prodDTO.prodName}</td>
+										<td id="prodUnit">${prodDTO.prodUnit}</td>
+										<td id="prodSize">${prodDTO.prodSize}ml</td>
+										<td id="prodPerfume">${prodDTO.prodPerfume}</td>
+										<%-- <td id="clientCompany">${prodDTO.clientCompany}</td> --%>
+										<td><label style='cursor: pointer;' onclick="openModal(this)" id="${prodDTO.clientCode }" name="clientCode" value="${prodDTO.clientCode}">${prodDTO.clientCode}</label></td>
+										<%-- <td id="clientName">${prodDTO.clientName}</td> --%>
+										<td><label style='cursor: pointer;' onclick="openModal(this)" id="${prodDTO.whseCode }" name="whseCode" value="${prodDTO.whseCode}">${prodDTO.whseCode}</label></td>
+										<td id="prodPrice"><fmt:formatNumber>${prodDTO.prodPrice}</fmt:formatNumber>원</td>
+										<c:choose>
+											<c:when test="${not empty prodDTO.prodMemo}">
+												<td class="tg-llyw2"><a href="#" onclick="openProdMemo('${prodDTO.prodCode}'); return prodMemoClose();" style="color: red;">[보기]</a></td>
+											</c:when>
+											<c:otherwise>
 
-										<td class="tg-llyw2"><a href="#"
-											onclick="addProdMemo('${prodDTO.prodCode}'); return prodMemoClose();"
-											style="color: #384855;">[입력]</a></td>
-									</c:otherwise>
-								</c:choose>
-							</tr>
+												<td class="tg-llyw2"><a href="#" onclick="addProdMemo('${prodDTO.prodCode}'); return prodMemoClose();" style="color: #384855;">[입력]</a></td>
+											</c:otherwise>
+										</c:choose>
+									</tr>
+								</c:forEach>
+							</tbody>
+
+						</table>
+					</div>
+					<div class="page">
+						<!-- 				<button id="exportButton" class="buttons">엑셀</button> -->
+						<input type="button" id="exportButton" class="buttons" value="엑셀">
+						<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
+							<a href="${pageContext.request.contextPath}/product/list?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&prodCode=${prodDTO.prodCode}&prodName=${prodDTO.prodName}&clientCompany=${prodDTO.clientCompany}">Prev</a>
+						</c:if>
+
+						<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+							<a href="${pageContext.request.contextPath}/product/list?pageNum=${i}&prodCode=${prodDTO.prodCode}&prodName=${prodDTO.prodName}&clientCompany=${prodDTO.clientCompany}">${i}</a>
 						</c:forEach>
-					</tbody>
 
-				</table>
+
+						<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+							<a href="${pageContext.request.contextPath}/product/list?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&prodCode=${prodDTO.prodCode}&prodName=${prodDTO.prodName}&clientCompany=${prodDTO.clientCompany}">Next</a>
+						</c:if>
+					</div>
+
+				</form>
 			</div>
-			<div class="page">
-<!-- 				<button id="exportButton" class="buttons">엑셀</button> -->
-				<input type="button"  id="exportButton"  class="buttons" value="엑셀">
-				<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-					<a
-						href="${pageContext.request.contextPath}/product/list?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&prodCode=${prodDTO.prodCode}&prodName=${prodDTO.prodName}&clientCompany=${prodDTO.clientCompany}">Prev</a>
-				</c:if>
+		</c:when>
+		<c:otherwise>
 
-				<c:forEach var="i" begin="${pageDTO.startPage}"
-					end="${pageDTO.endPage}" step="1">
-					<a
-						href="${pageContext.request.contextPath}/product/list?pageNum=${i}&prodCode=${prodDTO.prodCode}&prodName=${prodDTO.prodName}&clientCompany=${prodDTO.clientCompany}">${i}</a>
-				</c:forEach>
+			<input type="text" hidden="">
 
-
-				<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
-					<a
-						href="${pageContext.request.contextPath}/product/list?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&prodCode=${prodDTO.prodCode}&prodName=${prodDTO.prodName}&clientCompany=${prodDTO.clientCompany}">Next</a>
-				</c:if>
-			</div>
-
-		</form>
-	</div>
-	</c:when>
-  <c:otherwise >
-
-		  <input type="text" hidden=""> 
-	 
-        </c:otherwise>
-        </c:choose>
+		</c:otherwise>
+	</c:choose>
 	<script>
 
 var contextPath = "${pageContext.request.contextPath}";
 // 권한
-var department = "<%= department %>";
-var ADMIN_DEPARTMENT = "<%= ADMIN_DEPARTMENT %>";
+var department = "<%=department%>";
+var ADMIN_DEPARTMENT = "<%=ADMIN_DEPARTMENT%>";
 
 <!-------------------------- 목록 전체선택 -------------------------->
 
@@ -584,70 +550,7 @@ const popupOpt = "top=60,left=140,width=720,height=600";
 	 	var url = "${pageContext.request.contextPath}/search/search?type=" + type + "&input=" + inputId;
 	var popup = window.open(url, "", popupOpt);
 } //openWindow()
-//--------------------------------------------------------------------------
-//   $(document).ready(function () {
-// 		//엑셀
-		
-// 			 const excelDownload = document.querySelector('#exportButton');
-// 					excelDownload.addEventListener('click', exportExcel);
-					
-// 					function exportExcel() {
-// 						//권한
-// 						if (!(department !== ADMIN_DEPARTMENT && department !== "관리자")) {
-// 					    // 1. 워크북 생성
-// 					    var wb = XLSX.utils.book_new();
-// 					    // 2. 워크시트 생성
-// 					    var newWorksheet = excelHandler.getWorksheet();
-// 					    // 3. 워크시트를 워크북에 추가
-// 					    XLSX.utils.book_append_sheet(wb, newWorksheet, excelHandler.getSheetName());
-// 					    // 4. 엑셀 파일 생성
-// 					    var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'binary' });
-// 					    // 5. 엑셀 파일 내보내기
-// 					    saveAs(new Blob([s2ab(wbout)], { type: 'application/octet-stream' }), excelHandler.getExcelFileName());
-// 						}else {
-// 							 Swal.fire({
-// 			                        text: '자재팀만 가능',
-// 			                        icon: 'warning',
-// 			                        confirmButtonText: '확인',
-// 			                    });
-// 						}
-// 					}
-// 					// 현재 날짜를 가져오는 함수
-// 					function getToday() {
-						
-// 					    var date = new Date();
-// 					    var year = date.getFullYear();
-// 					    var month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월은 0부터 시작하므로 1을 더하고 두 자리로 맞춥니다.
-// 					    var day = date.getDate().toString().padStart(2, '0'); // 일을 두 자리로 맞춥니다.
-// 					    return year + month + day;
-// 					}
 
-// 			var excelHandler = {
-// 			getExcelFileName : function() {
-// 				return 'productList'+getToday()+'.xlsx'; //파일명
-// 			},
-// 			getSheetName : function() {
-// 				return 'product Sheet'; //시트명
-// 			},
-// 			getExcelData : function() {
-// 				return document.getElementById('productTable'); //table id
-// 			},
-// 			getWorksheet : function() {
-// 				return XLSX.utils.table_to_sheet(this.getExcelData());
-// 			}
-// 		} //excelHandler
-			
-// 			function s2ab(s) {
-				
-// 				var buf = new ArrayBuffer(s.length);  // s -> arrayBuffer
-// 				var view = new Uint8Array(buf);  
-// 				for(var i=0; i<s.length; i++) {
-// 					view[i] = s.charCodeAt(i) & 0xFF;
-// 				}
-// 				alert("이까지 옴");
-// 				return buf;
-// 			}
-// 	  });
 
 //버튼 클릭 시 실행
 // 클라이언트에서 서버로 데이터 요청

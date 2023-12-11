@@ -1,78 +1,57 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <%--     <jsp:include page="test4.jsp"></jsp:include> --%>
-    <title>Sell/sellAdd</title>
+<title>Sell/sellAdd</title>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link href="${pageContext.request.contextPath}/resources/css/popup.css" rel="stylesheet" type="text/css">
-    <%-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> --%>
+<%-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> --%>
 <%--     <link href="${pageContext.request.contextPath}/resources/css/daterange.css" rel="stylesheet" type="text/css"> --%>
 <%--  <link href="${pageContext.request.contextPath}/resources/css/sell.css" rel="stylesheet" type="text/css"> --%>
- 
+
 </head>
 
 <!------------------------------------------------------ 본문 ---------------------------------------------------->
 
 <body>
-<div class="popupContainer" id="body">
-<h1>수주 등록</h1>
-<div class="horizontal-line"></div>
-    <form action="${pageContext.request.contextPath}/sell/sellAddPro" id=sellAdd class="popup"  method="post"> <!-- onsubmit="checkForm()" --> 
+	<div class="popupContainer" id="body">
+		<h1>수주 등록</h1>
+		<div class="horizontal-line"></div>
+		<form action="${pageContext.request.contextPath}/sell/sellAddPro" id=sellAdd class="popup" method="post">
+			<!-- onsubmit="checkForm()" -->
 
-       <!--  <label class="popupLabel">수주 코드 : </label>
+			<!--  <label class="popupLabel">수주 코드 : </label>
       	<input type="text" id="sellCode" name="selCode" required="required" ><br> -->
-      	
-      	<div class="popupSerch">
-        <label class="popupLabel">거래처</label>
-        <input type="text" id="sellclientCode9999" name="clientCode" onclick=searchItem('sellclient','sellclientCode9999'); placeholder="거래처 코드" required="required">
-        <input type="text" id="sellclientCompany9999" name="clientCompany" onclick=searchItem('sellclient','sellclientCode9999'); placeholder="거래처명"  required><br>
-		</div>
-		
-		<div class="popupSerch">
- 		<label class="popupLabel">제품</label>
- 		<input type="text" name="prodCode" id="prodCode9999" onclick=searchItem('prod','prodCode9999'); placeholder="제품 코드"  required>
-		<input type="text" name="prodName" id="prodName9999" placeholder="제품명"  onclick="searchItem('prod','prodCode9999')" required><br>
-		</div>
-		
-		<label class="popupLabel">제품 단가</label>
-        <input type="text" name="prodPrice" id="prodPrice9999" onclick=searchItem('prod','prodPrice9999'); placeholder="제품 단가"  required>원<br>
-        
-        <label class="popupLabel">수주 수량</label>
-        <input type="number" id="sellCount" name="sellCount" min="0" max="10000" step="5" placeholder="0"  required >개<br>
 
- 	    <label class="popupLabel">수주 단가</label>
-		<input type="text" id="sellPrice" min="0"  placeholder="수주 단가" value="${formattedSellPrice}" readonly="readonly" >원<br>    
-     	
-     	<label class="popupLabel">수주 일자</label>
-        <input type="text" id="sellDate" name="sellDate"><br>
-<!--         <input type="text" id="sellDate" name="sellDate" readonly><br> -->
+			<div class="popupSerch">
+				<label class="popupLabel">거래처</label> <input type="text" id="sellclientCode9999" name="clientCode" onclick=searchItem( 'sellclient','sellclientCode9999'); placeholder="거래처 코드" required="required"> <input type="text" id="sellclientCompany9999" name="clientCompany" onclick=searchItem( 'sellclient','sellclientCode9999'); placeholder="거래처명" required><br>
+			</div>
 
-        <label class="popupLabel">납기 일자</label>
-        <input type="text" id="sellDuedate" name="sellDuedate"  placeholder="선택하세요" required><br>
+			<div class="popupSerch">
+				<label class="popupLabel">제품</label> <input type="text" name="prodCode" id="prodCode9999" onclick=searchItem( 'prod','prodCode9999'); placeholder="제품 코드" required> <input type="text" name="prodName" id="prodName9999" placeholder="제품명" onclick="searchItem('prod','prodCode9999')" required><br>
+			</div>
 
-        <label class="popupLabel">담당자</label>
-        <input type="text" id="sellEmpId" name="sellEmpId" value="${sessionScope.empId}" readonly="readonly" ><br>
+			<label class="popupLabel">제품 단가</label> <input type="text" name="prodPrice" id="prodPrice9999" onclick=searchItem( 'prod','prodPrice9999'); placeholder="제품 단가" required>원<br> <label class="popupLabel">수주 수량</label> <input type="number" id="sellCount" name="sellCount" min="0" max="10000" step="5" placeholder="0" required>개<br> <label class="popupLabel">수주 단가</label> <input type="text" id="sellPrice" min="0" placeholder="수주 단가" value="${formattedSellPrice}" readonly="readonly">원<br> <label class="popupLabel">수주 일자</label> <input type="text" id="sellDate" name="sellDate"><br>
+			<!--         <input type="text" id="sellDate" name="sellDate" readonly><br> -->
 
-        <label class="popupLabel">비고</label><br>
-        <textarea id="sellMemo" name="sellMemo" style="width: 300px; height: 150px;"></textarea><br>
-		
-		<br>
-		<div class="btn">
-        <button type="button" onclick="formCheck()" class="add-btn">등록</button>
-        <button type="reset" class="reset-btn">취소</button>
-        <button type="button" onclick="window.close()" class="close-btn">닫기</button>
-    	</div>
-	</form>
+			<label class="popupLabel">납기 일자</label> <input type="text" id="sellDuedate" name="sellDuedate" placeholder="선택하세요" required><br> <label class="popupLabel">담당자</label> <input type="text" id="sellEmpId" name="sellEmpId" value="${sessionScope.empId}" readonly="readonly"><br> <label class="popupLabel">비고</label><br>
+			<textarea id="sellMemo" name="sellMemo" style="width: 300px; height: 150px;"></textarea>
+			<br> <br>
+			<div class="btn">
+				<button type="button" onclick="formCheck()" class="add-btn">등록</button>
+				<button type="reset" class="reset-btn">취소</button>
+				<button type="button" onclick="window.close()" class="close-btn">닫기</button>
+			</div>
+		</form>
 
-</div>
-<!--  ************************************************ javaScript *************************************************************-->
-<script type="text/javascript">
+	</div>
+	<!--  ************************************************ javaScript *************************************************************-->
+	<script type="text/javascript">
 
 //----------------------------------------------------- 팝업 옵션 -------------------------------------------
 const popupOpt = "top=60,left=140,width=720,height=600";

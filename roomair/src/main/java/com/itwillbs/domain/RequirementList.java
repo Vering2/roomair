@@ -8,9 +8,9 @@ import lombok.Data;
 @Data
 public class RequirementList {
 	private List<RequirementDTO> reqs;
-	
+
 	public RequirementList() {
 		reqs = new ArrayList<RequirementDTO>();
 	}
-	
+
 }

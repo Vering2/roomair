@@ -65,11 +65,7 @@ public class InMaterialDAO {
 		sqlSession.selectOne(namespace + ".insertList", inMaterialDTO);
 	}
 
-//	public List<InMaterialDTO> inMaterialContent(InMaterialDTO inMaterialDTO) {
-//	public List<InMaterialDTO> inMaterialContent(String inNum) {
 	public InMaterialDTO inMaterialContent(String inNum) {
-//		return sqlSession.selectOne(namespace + ".inMaterialContent", inNum);
-//		return sqlSession.selectList(namespace + ".inMaterialContent", inNum);
 		return sqlSession.selectOne(namespace + ".inMaterialContent", inNum);
 	}
 
@@ -84,7 +80,7 @@ public class InMaterialDAO {
 	}
 
 	public void updateInDate(InMaterialDTO inMaterialDTO) {
-		sqlSession.update(namespace+".updateInDate",inMaterialDTO);
+		sqlSession.update(namespace + ".updateInDate", inMaterialDTO);
 	}
 
 	public List<InMaterialDTO> getExcelList(InMaterialDTO inMaterialDTO) {
@@ -100,32 +96,22 @@ public class InMaterialDAO {
 		}
 	}
 
-//	public void updateInEmpId(InMaterialDTO inMaterialDTO) {
-//		System.out.println("InMaterialDAO updateInEmpId");
-//		sqlSession.update(namespace+".updateInEmpId",inMaterialDTO);
-//	}
-
-//	public void updateInMaterial(InMaterialDTO inMaterialDTO) {
-//		System.out.println("InMaterialDAO updateInMaterial");
-//		sqlSession.update(namespace+".updateInMaterial",inMaterialDTO);
-//	}
-
 	public void updateList(InMaterialDTO inMaterialDTO) {
 		sqlSession.update(namespace + ".updateList", inMaterialDTO);
 	}
 
 	public void deleteSell(String checked) {
-			sqlSession.delete(namespace + ".deleteSell", checked);
-		
+		sqlSession.delete(namespace + ".deleteSell", checked);
+
 	}
 
 	public void updateInRedate(InMaterialDTO inMaterialDTO) {
 		sqlSession.update(namespace + ".updateInRedate", inMaterialDTO);
-		
+
 	}
 
 	public void updateInMaterialContent(InMaterialDTO inMaterialDTO) {
 		sqlSession.update(namespace + ".updateInMaterialContent", inMaterialDTO);
-		
+
 	}
 }

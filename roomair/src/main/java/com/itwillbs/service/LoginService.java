@@ -7,30 +7,18 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.dao.LoginDAO;
 import com.itwillbs.domain.LoginDTO;
 
-
-
 @Service
 public class LoginService {
 
 	@Inject
 	private LoginDAO loginDAO;
 
-	//----------------------------------------------------- userCheck --------------------------------------------------------	
+	// ----------------------------------------------------- userCheck
+	// --------------------------------------------------------
 	public LoginDTO userCheck(LoginDTO loginDTO) {
 		System.out.println("LoginService userCheck()");
 
 		return loginDAO.userCheck(loginDTO);
-	}//userCheck
-	
-	
+	}// userCheck
 
-
-
-
-
-
-	
-
-}//class
-
-
+}// class

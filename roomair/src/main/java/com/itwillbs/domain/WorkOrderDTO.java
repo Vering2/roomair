@@ -23,7 +23,7 @@ public class WorkOrderDTO {
 	private String workProcess;
 	private String prodName;
 	private String workInfo;
-	
+
 //	private ProductVO product;
-	
-} //WorkOrder
+
+} // WorkOrder

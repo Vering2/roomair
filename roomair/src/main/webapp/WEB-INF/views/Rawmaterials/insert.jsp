@@ -1,55 +1,70 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
 <!-- head -->
 <head>
-<meta charset="UTF-8">  
+<meta charset="UTF-8">
 <title>Insert title here</title>
 <link href="${pageContext.request.contextPath }/resources/css/Rawmaterialspop.css" rel="stylesheet" type="text/css">
 </head>
 
 <!-- body -->
 <body>
-<div class="content">
-<h2>원자재 추가</h2>
+	<div class="content">
+		<h2>원자재 추가</h2>
 
-<!-- form -->
-<form action="${pageContext.request.contextPath}/Rawmaterials/insertPro" method="post">
-<table>
-<tr>
-<td id="td1">종류</td>
-<td id="tdup">
-<select name="rawType" onchange="updateRawCode()">
-<option value="">전체</option>
-<option value="향기">향기</option>
-<option value="용기">용기</option>
-<option value="스틱">스틱</option>
-<option value="라벨">라벨</option>
-<option value="포장재">포장재</option>
-</select>
-</td>
-</tr>
-<tr><td id="td1">원자재코드</td><td id="tdup"><input type="text" name="rawCode" id="rawCodeField" readonly="readonly" required></td></tr>
-<tr><td id="td1">원자재명</td><td id="tdup"><input type="text" name="rawName" required></td></tr>
-<tr><td id="td1">단위</td><td id="tdup"><input type="text" name="rawUnit" value="EA"></td></tr>
-<tr><td id="td1">매입단가</td><td id="tdup"><input type="number" name="rawPrice" required></td></tr>
-<tr><td id="td1">창고코드</td><td id="tdup1"><input type="text" name="whseCode" id="pInput2" readonly="readonly" required> <input type="button" value="목록" onclick="openPopup2()" id=btn3></td></tr>
-<tr><td id="td1">비고</td><td id="tdup"><input type="text" name="rawMemo"></td></tr>
-</table>
+		<!-- form -->
+		<form action="${pageContext.request.contextPath}/Rawmaterials/insertPro" method="post">
+			<table>
+				<tr>
+					<td id="td1">종류</td>
+					<td id="tdup"><select name="rawType" onchange="updateRawCode()">
+							<option value="">전체</option>
+							<option value="향기">향기</option>
+							<option value="용기">용기</option>
+							<option value="스틱">스틱</option>
+							<option value="라벨">라벨</option>
+							<option value="포장재">포장재</option>
+					</select></td>
+				</tr>
+				<tr>
+					<td id="td1">원자재코드</td>
+					<td id="tdup"><input type="text" name="rawCode" id="rawCodeField" readonly="readonly" required></td>
+				</tr>
+				<tr>
+					<td id="td1">원자재명</td>
+					<td id="tdup"><input type="text" name="rawName" required></td>
+				</tr>
+				<tr>
+					<td id="td1">단위</td>
+					<td id="tdup"><input type="text" name="rawUnit" value="EA"></td>
+				</tr>
+				<tr>
+					<td id="td1">매입단가</td>
+					<td id="tdup"><input type="number" name="rawPrice" required></td>
+				</tr>
+				<tr>
+					<td id="td1">창고코드</td>
+					<td id="tdup1"><input type="text" name="whseCode" id="pInput2" readonly="readonly" required> <input type="button" value="목록" onclick="openPopup2()" id=btn3></td>
+				</tr>
+				<tr>
+					<td id="td1">비고</td>
+					<td id="tdup"><input type="text" name="rawMemo"></td>
+				</tr>
+			</table>
 
-<!-- button -->
-<div id="buttons">
-<input type="submit" value="추가" id=btn1>
-</div>
-</form>
-</div>
+			<!-- button -->
+			<div id="buttons">
+				<input type="submit" value="추가" id=btn1>
+			</div>
+		</form>
+	</div>
 
-<!-- javascript -->
-<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-<script type="text/javascript">
+	<!-- javascript -->
+	<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
+	<script type="text/javascript">
 
 // 참고사이트
 // https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-%EB%B6%80%EB%AA%A8%EC%B0%BD-%E2%9E%9C-%EC%9E%90%EC%8B%9D%EC%B0%BD%EC%9D%

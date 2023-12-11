@@ -19,7 +19,6 @@ import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.ProdDTO;
 import com.itwillbs.service.ProdService;
 
-
 @Controller
 @RequestMapping("/product/*")
 public class ProdController {
@@ -37,11 +36,11 @@ public class ProdController {
 		return "redirect:/product/list";
 	}
 
+	// 제품 목록 페이지
 	@GetMapping("/list")
 	public String list(ProdDTO prodDTO, Model model, HttpServletRequest request) {
 		System.out.println("1");
-		
-	
+
 		// 검색어 가져오기
 		// 페이징-------------------------------------------
 		// 한 화면에 보여줄 글개수 설정
@@ -72,7 +71,7 @@ public class ProdController {
 			count = prodService.getProdCount(pageDTO);
 		}
 
-		// 한화면에 보여줄 페이지 개수 설정
+		// 한 화면에 보여줄 페이지 개수 설정
 		int pageBlock = 10;
 		// 시작하는 페이지 번호
 		int startPage = (currentPage - 1) / pageBlock * pageBlock + 1;
@@ -97,8 +96,9 @@ public class ProdController {
 		model.addAttribute("prodDTO", prodDTO);
 
 		return "product/list";
-	}//
+	}
 
+	// 제품 등록 페이지
 	@GetMapping("/write")
 	public String write(Model model) {
 		String code = prodService.makeCode();
@@ -106,26 +106,28 @@ public class ProdController {
 		prodDTO.setProdCode(code);
 		model.addAttribute("prodDTO", prodDTO);
 		return "product/write";
-	}//
+	}
 
+	// 제품 등록 처리
 	@PostMapping("/writePro")
 	public String writePro(ProdDTO prodDTO) {
 
 		System.out.println("ProdController writePro()");
 		System.out.println(prodDTO);
-		// 디비에 글쓰기
+		// 디비에 제품 등록
 		prodService.insert(prodDTO);
 
-		// 글목록 주소변경하면서 이동 /board/list
+		// 제품 목록 페이지로 이동
 		return "redirect:/product/list";
-	}//
+	}
 
+	// 제품 수정 페이지
 	@GetMapping("/update")
 	public String update(HttpServletRequest request, Model model) {
 		System.out.println("prodController update()");
 		String prodCode = request.getParameter("prodCode");
 
-		// 내용가져오기
+		// 내용 가져오기
 		ProdDTO prodDTO = prodService.getProd(prodCode);
 
 		model.addAttribute("prodDTO", prodDTO);
@@ -133,34 +135,32 @@ public class ProdController {
 		return "product/update";
 	}
 
+	// 제품 수정 처리
 	@PostMapping("/updatePro")
 	public String updatePro(ProdDTO prodDTO) {
 		System.out.println("ProdController updatePro()");
-		// 수정
+		// 제품 수정
 		prodService.updateProd(prodDTO);
 
 		return "redirect:/product/list";
-	}//
+	}
 
-	// ----------------------------------------------------- 비고 보기
-	// ---------------------------------------
+	// 제품 비고 페이지
 	@GetMapping("/memo")
 	public String memo(HttpServletRequest request, Model model) {
 		System.out.println("ProdController memo()");
 
 		String prodCode = request.getParameter("prodCode");
 
-		// PordMemo 가져오기
+		// 제품 메모 가져오기
 		ProdDTO prodDTO = prodService.getProdMemo(prodCode);
 		System.out.println("prodDTO" + prodDTO);
 		model.addAttribute("prodDTO", prodDTO);
 
 		return "product/memo";
+	}
 
-	}// prodMemo
-
-	// ----------------------------------------------------- 비고 추가
-	// ---------------------------------------
+	// 제품 비고 추가 페이지
 	@GetMapping("/memotype")
 	public String prodMemoAdd(HttpServletRequest request, Model model) {
 		System.out.println("ProdController memotype()");
@@ -175,66 +175,71 @@ public class ProdController {
 		model.addAttribute("memotype", memotype);
 
 		return "product/memotype";
-	}// prodMemotype
+	}
 
+	// 제품 비고 추가 처리
 	@PostMapping("/memotypePro")
 	public ResponseEntity<String> prodMemoAddPro(ProdDTO prodDTO) {
 		System.out.println("ProdController memotypePro()");
 		System.out.println(prodDTO);
 		prodService.insertProdMemo(prodDTO);
-		return ResponseEntity.ok("<script>window.onunload = function() { if (window.opener && !window.opener.closed) { window.opener.location.reload(); } }; window.close();</script>");
+		// 창을 닫기 위한 스크립트를 반환
+		return ResponseEntity.ok(
+				"<script>window.onunload = function() { if (window.opener && !window.opener.closed) { window.opener.location.reload(); } }; window.close();</script>");
+	}
 
-
-	}// prodMemotypePro
-
-	// ----------------------------------------------------- 비고 수정
-	// ---------------------------------------
+	// 제품 비고 수정 페이지
 	@GetMapping("/memoUpdate")
 	public String updateProdMemo(HttpServletRequest request, Model model) {
 		System.out.println("ProdController memoUpdate()");
 
 		String prodCode = request.getParameter("prodCode");
 
-		// 글가져오기
+		// 제품 가져오기
 		ProdDTO prodDTO = prodService.getProdMemo(prodCode);
 
 		model.addAttribute("prodDTO", prodDTO);
 
 		return "product/updateMemo";
-	}// prodMemoUpdate
+	}
+
+	//
 
 	@PostMapping("/memoUpdatePro")
 	public ResponseEntity<String> memoUpdatePro(ProdDTO prodDTO) {
-		System.out.println("ProdController memoUpdatePro()");
-		System.out.println(prodDTO);
-		prodService.updateProdMemo(prodDTO);
-		// 창을 닫기 위한 스크립트를 반환합니다.
-		return ResponseEntity.ok("<script>window.onunload = function() { if (window.opener && !window.opener.closed) { window.opener.location.reload(); } }; window.close();</script>");
-
+	    System.out.println("ProdController memoUpdatePro()");
+	    System.out.println(prodDTO);
+	    // 제품 비고 수정 처리
+	    prodService.updateProdMemo(prodDTO);
+	    // 창을 닫기 위한 스크립트를 반환합니다.
+	    return ResponseEntity.ok(
+	        "<script>window.onunload = function() { if (window.opener && !window.opener.closed) { window.opener.location.reload(); } }; window.close();</script>");
 	}// memoUpdatePro
-	
-	
+
 	@PostMapping("/getExcel")
 	public ResponseEntity<List<ProdDTO>> excelList(ProdDTO prodDTO) {
-		
-		if("".equals(prodDTO.getProdCode()) || "null".equals(prodDTO.getProdCode()) || prodDTO.getProdCode() == null) {
-			System.out.println("제품 코드 변경");
-			prodDTO.setProdCode("");
-		}
-		if("".equals(prodDTO.getProdName()) || "null".equals(prodDTO.getProdName()) || prodDTO.getProdName() == null) {
-			System.out.println("제품 이름 변경");
-			prodDTO.setProdName("");
-		}
-		if("".equals(prodDTO.getClientCompany()) || "null".equals(prodDTO.getClientCompany()) || prodDTO.getClientCompany() == null) {
-			System.out.println("거래처 이름 변경");
-			prodDTO.setClientCompany("");
-		}
-		
-		List<ProdDTO> prodList =  prodService.getExcelProdSearch(prodDTO);
-	
 
-		ResponseEntity<List<ProdDTO>> entity = new ResponseEntity<>(prodList, HttpStatus.OK);
-		return entity;
-		
+	    // 검색 조건이 빈 문자열이거나 "null"일 경우 처리
+	    if ("".equals(prodDTO.getProdCode()) || "null".equals(prodDTO.getProdCode()) || prodDTO.getProdCode() == null) {
+	        System.out.println("제품 코드 변경");
+	        prodDTO.setProdCode("");
+	    }
+	    if ("".equals(prodDTO.getProdName()) || "null".equals(prodDTO.getProdName()) || prodDTO.getProdName() == null) {
+	        System.out.println("제품 이름 변경");
+	        prodDTO.setProdName("");
+	    }
+	    if ("".equals(prodDTO.getClientCompany()) || "null".equals(prodDTO.getClientCompany())
+	            || prodDTO.getClientCompany() == null) {
+	        System.out.println("거래처 이름 변경");
+	        prodDTO.setClientCompany("");
+	    }
+
+	    // 엑셀 다운로드를 위한 제품 목록 조회
+	    List<ProdDTO> prodList = prodService.getExcelProdSearch(prodDTO);
+
+	    // ResponseEntity를 이용하여 데이터와 상태코드 전송
+	    ResponseEntity<List<ProdDTO>> entity = new ResponseEntity<>(prodList, HttpStatus.OK);
+	    return entity;
 	}
+
 }

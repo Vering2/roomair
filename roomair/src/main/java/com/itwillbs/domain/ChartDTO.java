@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 public class ChartDTO {
 	private String label;
-    private int data;
+	private int data;
 
 }

@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-        <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
@@ -13,18 +12,16 @@
 
 
 <style>
-
-table{
-border: 1px solid rgba(221, 221, 221, 0.78);
-    border-collapse: collapse;
-    margin: 0 auto;
-    color: #000000;
-    width: 450px;
-    max-width: 450px;
-    font: 300 16px/16px "Inter", sans-serif;
-    text-align: center;
-    border-radius: 10px;
-
+table {
+	border: 1px solid rgba(221, 221, 221, 0.78);
+	border-collapse: collapse;
+	margin: 0 auto;
+	color: #000000;
+	width: 450px;
+	max-width: 450px;
+	font: 300 16px/16px "Inter", sans-serif;
+	text-align: center;
+	border-radius: 10px;
 }
 
 table th, table td {
@@ -34,43 +31,39 @@ table th, table td {
 	border: none;
 }
 
-
-table th{
-   background-color: #9AC5F4;
-    height: 30px;
-    border: 1px solid rgba(221, 221, 221, 0.78);
-
+table th {
+	background-color: #9AC5F4;
+	height: 30px;
+	border: 1px solid rgba(221, 221, 221, 0.78);
 }
 
-table td{
-min-width: 100px;
-    white-space: nowrap;
-    padding: 0 15px;
-    height: 30px;
-    border: 1px solid rgba(221, 221, 221, 0.78);
+table td {
+	min-width: 100px;
+	white-space: nowrap;
+	padding: 0 15px;
+	height: 30px;
+	border: 1px solid rgba(221, 221, 221, 0.78);
 }
 
 input[type="text"] {
-    /* border: 1px solid #adb5bb; */
-    /* border-radius: 5px; */
-    border: none;
-    width: 95%;
-    height: 25px;
-    font: 300 15px/15px "Inter", sans-serif;
-    text-align: center;
-    background-color: inherit;
-    }
-    
- .inputnum {
-        border: 1px solid rgba(94, 195, 151, 1);
-    border-radius: 5px;
-    text-align: center;
-    }
-    
-    
-    
-    input[type="number"]{
-	border:none;
+	/* border: 1px solid #adb5bb; */
+	/* border-radius: 5px; */
+	border: none;
+	width: 95%;
+	height: 25px;
+	font: 300 15px/15px "Inter", sans-serif;
+	text-align: center;
+	background-color: inherit;
+}
+
+.inputnum {
+	border: 1px solid rgba(94, 195, 151, 1);
+	border-radius: 5px;
+	text-align: center;
+}
+
+input[type="number"] {
+	border: none;
 	width: 90%;
 	height: 20px;
 	font: 300 15px/15px "Inter", sans-serif;
@@ -78,121 +71,120 @@ input[type="text"] {
 	background-color: inherit;
 }
 
-.footerbtn{
-
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-    
+.footerbtn {
+	display: flex;
+	justify-content: center;
+	margin-top: 30px;
 }
-.h2head {
- text-align: center;
 
+.h2head {
+	text-align: center;
 }
 
 input[type="button"], input[type="submit"] {
-    color: white;
-    background-color: #9AC5F4;
-    width: 50px;
-    height: 30px;
-    border-radius: 3px;
-    border: 0;
-    text-align: center;
-    font: 500 15px/20px "Inter", sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-    margin-right: 5px;
+	color: white;
+	background-color: #9AC5F4;
+	width: 50px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+	cursor: pointer;
+	margin-right: 5px;
 }
-
 </style>
 
 </head>
 <body>
-<h2 class="h2head"> 생산실적 내역 </h2>
-<form id="detailform" >
-<table>
-<tbody>
-  <tr>
-    <th> 실적코드 </th> 
-    <td class="tg-0lax" id="perfCodeDisplay" ><input type="text" name="perfCode" value="${perfDTO.perfCode}" readonly> </td>
-    </tr>
-    
-    <tr>
-    <th> 지시코드 </th> 
-    <td><input type="text" name="workCode" value="${perfDTO.workCode}" readonly></td>
-    </tr>
-    <tr>
-    <th> 라인정보 </th>
-    <td><input type="text" name="lineCode" value="${perfDTO.workInfo}"readonly> </td>
-    </tr>
-    <tr>
-    <th> 제품코드</th>
-    <td><input type="text" name="prodCode" value="${perfDTO.prodCode}"readonly></td>
-    </tr>
-    
-    <tr>
-    <th> 지시일자 </th>
-    <td> <input type="text" name="perfDate" value="${perfDTO.perfDate}"readonly> </td> 
-    </tr>
-    
-    <tr>
-    <th> 담당자 </th>
-    <td><input type="text" name="perfEmpId" value="${sessionScope.empId}"></td>
-    </tr>
-    </tbody>
-    </table>
-    <br>
-    
-   <table id="tg">
-  <tr>
-    <th colspan=2>지시수량</th>
-    <th colspan=2>양품수</th>
-    <th colspan=2 >불량수</th>
+	<h2 class="h2head">생산실적 내역</h2>
+	<form id="detailform">
+		<table>
+			<tbody>
+				<tr>
+					<th>실적코드</th>
+					<td class="tg-0lax" id="perfCodeDisplay"><input type="text" name="perfCode" value="${perfDTO.perfCode}" readonly></td>
+				</tr>
 
-  </tr>
-  <tr>
-    <td colspan=2> <input type="number" id="workAmount" class="inputnum"  name="workAmount" value="${perfDTO.workAmount}" readonly> </td>
-    <td  colspan=2> <input type="number" id="perfFair" class="inputnum"  name="perfFair" value="${perfDTO.perfFair}"> </td>
-   <td  colspan=2> <input type="number" id="perfDefect"   class="inputnum"  name="perfDefect" value="${perfDTO.perfDefect}" readonly></td>
-  </tr>
-  
-  <tr>
-  <th colspan=2> 불량사유 </th>
-  <th colspan=2> 불량내역 </th>	
-    <th colspan=2> 비고 </th>
-  
-  </tr>
-  
-  <tr>
-    <td  colspan=2><select id="perfDefectreason" name="perfDefectreason">
-	                    	    <option value="무결함">무결함</option>
-		                      	<option value="파손">파손</option> <!-- 병깨짐 , 포장박스 꾸겨진거 등 -->
-								<option value="누락">누락</option> <!--  포장 박스에 물건이 없다던가 포장이 안된다던가 -->
-								<option value="기타">기타</option>
-						       </select>        </td>
-  <td colspan=2>   <input type="text" name="perfDefectreasonmemo" value="${perfDTO.perfDefectmemo}"></td>
-  <td colspan=2><input type="text" name="perfmemo" value="${perfDTO.perfMemo}"></td>
-  </tr>
-</table>
+				<tr>
+					<th>지시코드</th>
+					<td><input type="text" name="workCode" value="${perfDTO.workCode}" readonly></td>
+				</tr>
+				<tr>
+					<th>라인정보</th>
+					<td><input type="text" name="lineCode" value="${perfDTO.workInfo}" readonly></td>
+				</tr>
+				<tr>
+					<th>제품코드</th>
+					<td><input type="text" name="prodCode" value="${perfDTO.prodCode}" readonly></td>
+				</tr>
 
+				<tr>
+					<th>지시일자</th>
+					<td><input type="text" name="perfDate" value="${perfDTO.perfDate}" readonly></td>
+				</tr>
 
-<div class="footerbtn">
-<div class="ftbtn">
-<input type="button" class="okbtn" id="okbtn" value="확인">
-	<c:if test="${sessionScope.empDepartment eq '생산팀' || sessionScope.empDepartment eq '관리자'}">
-<input type="button" class="update2" id="update2" value="수정">
-<input type="button" class="deletebtn" id="deletebtn" value="삭제">
-</c:if>
-</div>
-</div>
+				<tr>
+					<th>담당자</th>
+					<td><input type="text" name="perfEmpId" value="${sessionScope.empId}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<br>
+
+		<table id="tg">
+			<tr>
+				<th colspan=2>지시수량</th>
+				<th colspan=2>양품수</th>
+				<th colspan=2>불량수</th>
+
+			</tr>
+			<tr>
+				<td colspan=2><input type="number" id="workAmount" class="inputnum" name="workAmount" value="${perfDTO.workAmount}" readonly></td>
+				<td colspan=2><input type="number" id="perfFair" class="inputnum" name="perfFair" value="${perfDTO.perfFair}"></td>
+				<td colspan=2><input type="number" id="perfDefect" class="inputnum" name="perfDefect" value="${perfDTO.perfDefect}" readonly></td>
+			</tr>
+
+			<tr>
+				<th colspan=2>불량사유</th>
+				<th colspan=2>불량내역</th>
+				<th colspan=2>비고</th>
+
+			</tr>
+
+			<tr>
+				<td colspan=2><select id="perfDefectreason" name="perfDefectreason">
+						<option value="무결함">무결함</option>
+						<option value="파손">파손</option>
+						<!-- 병깨짐 , 포장박스 꾸겨진거 등 -->
+						<option value="누락">누락</option>
+						<!--  포장 박스에 물건이 없다던가 포장이 안된다던가 -->
+						<option value="기타">기타</option>
+				</select></td>
+				<td colspan=2><input type="text" name="perfDefectreasonmemo" value="${perfDTO.perfDefectmemo}"></td>
+				<td colspan=2><input type="text" name="perfmemo" value="${perfDTO.perfMemo}"></td>
+			</tr>
+		</table>
 
 
+		<div class="footerbtn">
+			<div class="ftbtn">
+				<input type="button" class="okbtn" id="okbtn" value="확인">
+				<c:if test="${sessionScope.empDepartment eq '생산팀' || sessionScope.empDepartment eq '관리자'}">
+					<input type="button" class="update2" id="update2" value="수정">
+					<input type="button" class="deletebtn" id="deletebtn" value="삭제">
+				</c:if>
+			</div>
+		</div>
 
 
 
 
-</form>
-<script>
+
+
+	</form>
+	<script>
 window.onload = function() {
     var defectReasonSelect = document.getElementById("perfDefectreason");
     var defectMemoInput = document.querySelector('input[name="perfDefectreasonmemo"]');

@@ -12,17 +12,16 @@ public class LoginDAO {
 	// 마이바티스 객체생성
 	@Inject
 	private SqlSession sqlSession;
-										
+
 	private static final String namespace = "com.itwillbs.mappers.loginMapper";
 
 //----------------------------------------------------- userCheck --------------------------------------------------------	
 	public LoginDTO userCheck(LoginDTO loginDTO) {
 		System.out.println("LoginDAO userCheck()");
 
-		return sqlSession.selectOne(namespace+".userCheck", loginDTO);
-	}//userCheck
+		return sqlSession.selectOne(namespace + ".userCheck", loginDTO);
+	}// userCheck
 
 //----------------------------------------------------- userCheck --------------------------------------------------------	
-
 
 }// class

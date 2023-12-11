@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
@@ -9,10 +8,8 @@
 <meta charset="UTF-8">
 <title>재고관리</title>
 <script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
-<link href="${pageContext.request.contextPath }/resources/css/side.css"
-	rel="stylesheet" type="text/css">
-<link href="${pageContext.request.contextPath }/resources/css/stock.css"
-	rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/side.css" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/stock.css" rel="stylesheet" type="text/css">
 
 <script type="text/javascript">
 	//수정
@@ -65,33 +62,20 @@
 </head>
 <body>
 
-<!-- 모달창 -->
-	<div id="myModal" style="display: none;
-	position: absolute;
-	background-color: #fff;
-	border: 1px solid #000;
-	padding: 10px;
-	z-index: 1;">
-	</div>
-	
+	<!-- 모달창 -->
+	<div id="myModal" style="display: none; position: absolute; background-color: #fff; border: 1px solid #000; padding: 10px; z-index: 1;"></div>
+
 	<div class="container">
 		<h2>재고 관리</h2>
 		<div id="searchform">
-			<form action="${pageContext.request.contextPath}/stock/listpro"
-				method="get" id="selected">
-				<label>제품코드</label> <input type="text" name="search1"
-					placeholder="제품코드"> 
-					<label>창고코드</label> <input type="text"
-					name="search2" placeholder="창고코드">
-				<button  class="aaa" type="submit">조회</button>
+			<form action="${pageContext.request.contextPath}/stock/listpro" method="get" id="selected">
+				<label>제품코드</label> <input type="text" name="search1" placeholder="제품코드"> <label>창고코드</label> <input type="text" name="search2" placeholder="창고코드">
+				<button class="aaa" type="submit">조회</button>
 			</form>
 		</div>
 		<br>
 		<div style="margin-left: 1%; margin-bottom: 1%">
-			<a href="${pageContext.request.contextPath}/stock/listraw"><input
-				type="button" value="원자재" class="ab1"></input></a> <a
-				href="${pageContext.request.contextPath}/stock/listpro"><input
-				type="button" value="완제품" class="ab1"></input></a>
+			<a href="${pageContext.request.contextPath}/stock/listraw"><input type="button" value="원자재" class="ab1"></input></a> <a href="${pageContext.request.contextPath}/stock/listpro"><input type="button" value="완제품" class="ab1"></input></a>
 		</div>
 
 		<div class="x_title">
@@ -118,8 +102,7 @@
 				<tbody>
 					<c:forEach var="stockDTO" items="${stockListP}">
 						<tr>
-							<td><input type="checkbox" name="RowCheck"
-								value="${stockDTO.stockNum}" class="bt1"></td>
+							<td><input type="checkbox" name="RowCheck" value="${stockDTO.stockNum}" class="bt1"></td>
 							<td>${stockDTO.stockType }</td>
 							<td>${stockDTO.prodCode }</td>
 							<td>${stockDTO.whseCode }</td>
@@ -133,19 +116,15 @@
 
 		<div class="page">
 			<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-				<a
-					href="${pageContext.request.contextPath}/stock/listpro?pageNum=${pageDTO.startPage - pageDTO.pageBlock}">Prev</a>
+				<a href="${pageContext.request.contextPath}/stock/listpro?pageNum=${pageDTO.startPage - pageDTO.pageBlock}">Prev</a>
 			</c:if>
 
-			<c:forEach var="i" begin="${pageDTO.startPage}"
-				end="${pageDTO.endPage}" step="1">
-				<a
-					href="${pageContext.request.contextPath}/stock/listpro?pageNum=${i}">${i}</a>
+			<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+				<a href="${pageContext.request.contextPath}/stock/listpro?pageNum=${i}">${i}</a>
 			</c:forEach>
 
 			<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
-				<a
-					href="${pageContext.request.contextPath}/stock/listpro?pageNum=${pageDTO.startPage + pageDTO.pageBlock}">Next</a>
+				<a href="${pageContext.request.contextPath}/stock/listpro?pageNum=${pageDTO.startPage + pageDTO.pageBlock}">Next</a>
 			</c:if>
 
 		</div>

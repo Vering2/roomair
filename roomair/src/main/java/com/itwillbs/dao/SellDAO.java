@@ -20,7 +20,7 @@ public class SellDAO {
 
 	private static final String namespace = "com.itwillbs.mappers.sellMapper";
 	private static final Logger logger = LoggerFactory.getLogger(SellDAO.class);;
-	
+
 //----------------------------------------------------- 수주 목록 --------------------------------------------------------	
 	public List<SellDTO> getSellList(SellDTO sellDTO) {
 		System.out.println("SellDAO getSellList()");
@@ -34,25 +34,25 @@ public class SellDAO {
 
 		return sqlSession.selectOne(namespace + ".getSellCount");
 	}// getSellCount
- 
+
 //----------------------------------------------------- 수주 추가 --------------------------------------------------------
 	public void insertSell(SellDTO sellDTO) {
 		System.out.println("SellDAO insertSell()");
 
 		sqlSession.insert(namespace + ".insertSell", sellDTO);
 	}// insertSell
-	
+
 //----------------------------------------------------- 수주 정보 보기 ---------------------------------------
 	public SellDTO getSell(String sellCode) {
-		return sqlSession.selectOne(namespace+".getSell", sellCode);
-	}//getSell
+		return sqlSession.selectOne(namespace + ".getSell", sellCode);
+	}// getSell
 
 //----------------------------------------------------- 수주 수정 ---------------------------------------	
 	public void sellUpdate(SellDTO sellDTO) {
-		sqlSession.update(namespace+".sellUpdate",sellDTO);
-		
-	}//sellUpdate
-	
+		sqlSession.update(namespace + ".sellUpdate", sellDTO);
+
+	}// sellUpdate
+
 //----------------------------------------------------- 수주 삭제 --------------------------------------------------------
 	public int sellDelete(List<String> checked) throws Exception {
 
@@ -65,59 +65,49 @@ public class SellDAO {
 			result += sqlSession.delete(namespace + ".sellDelete", sellCode);
 		}
 		return result;
-	}//sellDelete
-	
+	}// sellDelete
+
 //----------------------------------------------------- 비고 추가 --------------------------------------------------------
 	public void insertSellMemo(SellDTO sellDTO) {
 		System.out.println("SellDAO insertSellMemo()");
 		System.out.println(sellDTO);
 
-
 		sqlSession.insert(namespace + ".insertSellMemo", sellDTO);
 	}// insertSellMemo
-	
+
 //----------------------------------------------------- 비고 보기 --------------------------------------------------------		
-		public SellDTO getSellMemo(String sellCode) {
-			System.out.println("SellDAO getSellMemo()");
-			
-			return sqlSession.selectOne(namespace+".getSellMemo", sellCode);
-	
-		}//getSellMemo
-		
+	public SellDTO getSellMemo(String sellCode) {
+		System.out.println("SellDAO getSellMemo()");
+
+		return sqlSession.selectOne(namespace + ".getSellMemo", sellCode);
+
+	}// getSellMemo
+
 //----------------------------------------------------- 비고 수정 ---------------------------------------
-		public void updateSellMemo(SellDTO sellDTO) {
-			System.out.println("SellDAO updateSellMemo()");
+	public void updateSellMemo(SellDTO sellDTO) {
+		System.out.println("SellDAO updateSellMemo()");
 
-			sqlSession.update(namespace + ".updateSellMemo", sellDTO);
-		}// updateSellMemo
+		sqlSession.update(namespace + ".updateSellMemo", sellDTO);
+	}// updateSellMemo
 
-		
-		//---------------------------------------------- 수주 조회 목록 ------------------------------------------------
-		public List<SellDTO> getSellListSearch(SellDTO sellDTO) {
-			/*if("전체".equals(sellDTO.getSellState())) {*/
-				return sqlSession.selectList(namespace + ".getSellListAllSearch", sellDTO);
-				/*
-				 * }else { return sqlSession.selectList(namespace + ".getSellListSearch",
-				 * sellDTO); }
-				 */
-		}//getSellListSearch
+	// ---------------------------------------------- 수주 조회 목록
+	// ------------------------------------------------
+	public List<SellDTO> getSellListSearch(SellDTO sellDTO) {
 
-	//----------------------------------------------------- 수주 조회 개수 --------------------------------------------------------
-		public int getSellSearchCount(SellDTO sellDTO) {
-			System.out.println("SellDAO getSellSearchCount()");
+		return sqlSession.selectList(namespace + ".getSellListAllSearch", sellDTO);
 
-			return sqlSession.selectOne(namespace + ".getSellSearchCount", sellDTO);
-		}//getSellSearchCount
+	}// getSellListSearch
 
-		public List<SellDTO> getExcelList(SellDTO sellDTO) {
-			return sqlSession.selectList(namespace + ".getExcelList", sellDTO);
-		}
-		
-		
+	// ----------------------------------------------------- 수주 조회 개수
+	// --------------------------------------------------------
+	public int getSellSearchCount(SellDTO sellDTO) {
+		System.out.println("SellDAO getSellSearchCount()");
 
-		
-		
+		return sqlSession.selectOne(namespace + ".getSellSearchCount", sellDTO);
+	}// getSellSearchCount
 
-
+	public List<SellDTO> getExcelList(SellDTO sellDTO) {
+		return sqlSession.selectList(namespace + ".getExcelList", sellDTO);
+	}
 
 }// class

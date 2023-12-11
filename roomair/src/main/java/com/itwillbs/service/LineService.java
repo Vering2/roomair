@@ -15,12 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class LineService {
-	
+
 	@Inject
 	private LineDAO lineDAO;
 
 	public List<LineDTO> getlineList(PageDTO pageDTO) {
-		int startRow = (pageDTO.getCurrentPage()-1)*pageDTO.getPageSize() + 1;
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
 		int endRow = startRow + pageDTO.getPageSize() - 1;
 		pageDTO.setStartRow(startRow - 1);
 		pageDTO.setEndRow(endRow);
@@ -46,6 +46,5 @@ public class LineService {
 	public void updateLine(LineDTO lineDTO) {
 		lineDAO.updateLine(lineDTO);
 	}
-	
 
 }

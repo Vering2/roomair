@@ -17,37 +17,30 @@ import lombok.extern.slf4j.Slf4j;
 public class LineDAO {
 	@Inject
 	private SqlSession sqlSession;
-	private static final String namespace="com.itwillbs.Mappers.LineMapper";
+	private static final String namespace = "com.itwillbs.Mappers.LineMapper";
 
 	public List<LineDTO> getlineList(PageDTO pageDTO) {
-		return sqlSession.selectList(namespace+".getlineList", pageDTO);
+		return sqlSession.selectList(namespace + ".getlineList", pageDTO);
 	}
-
 
 	public int getlineCount(PageDTO pageDTO) {
-		return sqlSession.selectOne(namespace+".getlineCount", pageDTO);
+		return sqlSession.selectOne(namespace + ".getlineCount", pageDTO);
 	}
-
 
 	public void insertLine(LineDTO lineDTO) {
-		sqlSession.insert(namespace+".insertLine", lineDTO);
+		sqlSession.insert(namespace + ".insertLine", lineDTO);
 	}
-
 
 	public void delete(String lineCode) {
-		sqlSession.delete(namespace+".delete", lineCode);
+		sqlSession.delete(namespace + ".delete", lineCode);
 	}
-
 
 	public LineDTO getLine(String lineCode) {
-		return sqlSession.selectOne(namespace+".getLine", lineCode);
+		return sqlSession.selectOne(namespace + ".getLine", lineCode);
 	}
-
 
 	public void updateLine(LineDTO lineDTO) {
-		sqlSession.update(namespace+".updateLine", lineDTO);
+		sqlSession.update(namespace + ".updateLine", lineDTO);
 	}
-	
-	
 
 }

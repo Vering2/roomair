@@ -12,9 +12,9 @@ import com.itwillbs.domain.PageDTO;
 import com.itwillbs.domain.RawmaterialsDTO;
 import com.itwillbs.domain.WarehouseDTO;
 
-@Service 
+@Service
 public class RawmaterialsService implements RawmaterialsService2 {
- 
+
 	// RawmaterialsDAO 객체생성
 	@Inject
 	private RawmaterialsDAO rawmaterialsDAO;
@@ -23,9 +23,9 @@ public class RawmaterialsService implements RawmaterialsService2 {
 		System.out.println("RawmaterialsService insertRawmaterials()");
 
 		// 원자재 등록시 글번호 증가
-		if(rawmaterialsDAO.getMaxNum() == null) {
+		if (rawmaterialsDAO.getMaxNum() == null) {
 			rawmaterialsDTO.setRawNum(1);
-		}else {
+		} else {
 			rawmaterialsDTO.setRawNum(rawmaterialsDAO.getMaxNum() + 1);
 		}
 		rawmaterialsDAO.insertRawmaterials(rawmaterialsDTO);
@@ -34,13 +34,13 @@ public class RawmaterialsService implements RawmaterialsService2 {
 	// home 페이징처리, 검색기능
 	public List<RawmaterialsDTO> getRawmaterialsList(PageDTO pageDTO) {
 		System.out.println("RawmaterialsService getRawmaterialsList()");
-		int startRow = (pageDTO.getCurrentPage()-1)*pageDTO.getPageSize() + 1;
-        int endRow = startRow + pageDTO.getPageSize() - 1;
-        pageDTO.setStartRow(startRow - 1);
-        pageDTO.setEndRow(endRow);
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int endRow = startRow + pageDTO.getPageSize() - 1;
+		pageDTO.setStartRow(startRow - 1);
+		pageDTO.setEndRow(endRow);
 		return rawmaterialsDAO.getRawmaterialsList(pageDTO);
 	}
-	
+
 	// home 페이징처리, 검색기능
 	public int getRawmaterialsCount(PageDTO pageDTO) {
 		System.out.println("RawmaterialsService getRawmaterialsCount()");
@@ -49,7 +49,7 @@ public class RawmaterialsService implements RawmaterialsService2 {
 
 	// 체크박스로 선택삭제
 	@Override
-	public void delete(String rawCode){
+	public void delete(String rawCode) {
 		rawmaterialsDAO.delete(rawCode);
 	}
 
@@ -66,10 +66,10 @@ public class RawmaterialsService implements RawmaterialsService2 {
 	// selectclient 페이징처리, 검색기능
 	public List<ClientDTO> getClientList(PageDTO pageDTO) {
 		System.out.println("RawmaterialsService getClientList()");
-		int startRow = (pageDTO.getCurrentPage()-1)*pageDTO.getPageSize() + 1;
-        int endRow = startRow + pageDTO.getPageSize() - 1;
-        pageDTO.setStartRow(startRow - 1);
-        pageDTO.setEndRow(endRow);
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int endRow = startRow + pageDTO.getPageSize() - 1;
+		pageDTO.setStartRow(startRow - 1);
+		pageDTO.setEndRow(endRow);
 		return rawmaterialsDAO.getClientList(pageDTO);
 	}
 
@@ -78,11 +78,11 @@ public class RawmaterialsService implements RawmaterialsService2 {
 		System.out.println("RawmaterialsService getClientCount()");
 		return rawmaterialsDAO.getClientCount(pageDTO);
 	}
-	
+
 	// selectwarehouse 페이징처리, 검색기능
 	public List<WarehouseDTO> getWarehouseList(PageDTO pageDTO) {
 		System.out.println("RawmaterialsService getWarehouseList()");
-		int startRow = (pageDTO.getCurrentPage()-1)*pageDTO.getPageSize() + 1;
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
 		int endRow = startRow + pageDTO.getPageSize() - 1;
 		pageDTO.setStartRow(startRow - 1);
 		pageDTO.setEndRow(endRow);
@@ -114,15 +114,15 @@ public class RawmaterialsService implements RawmaterialsService2 {
 	public int getRawCodesGL() {
 		return rawmaterialsDAO.getRawCodesGL();
 	}
-	
+
 	public int getRawCodesST() {
 		return rawmaterialsDAO.getRawCodesST();
 	}
-	
+
 	public int getRawCodesLB() {
 		return rawmaterialsDAO.getRawCodesLB();
 	}
-	
+
 	public int getRawCodesPC() {
 		return rawmaterialsDAO.getRawCodesPC();
 	}
@@ -130,5 +130,5 @@ public class RawmaterialsService implements RawmaterialsService2 {
 	public int rawmaterialsCount() {
 		return rawmaterialsDAO.rawmaterialsCount();
 	}
-	
+
 }

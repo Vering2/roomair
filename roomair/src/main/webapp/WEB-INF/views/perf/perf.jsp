@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
@@ -9,229 +8,238 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-labels"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
-    <script src="https://kit.fontawesome.com/25ef23e806.js" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-labels"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.14.3/xlsx.full.min.js"></script>
+<script src="https://kit.fontawesome.com/25ef23e806.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-	
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/perf.css">
-	<link href="${pageContext.request.contextPath }/resources/css/side.css" rel="stylesheet" type="text/css">
-	
-	 
-    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/datepicker.css"> 
+
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/perf.css">
+<link href="${pageContext.request.contextPath }/resources/css/side.css" rel="stylesheet" type="text/css">
+
+
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/datepicker.css">
 
 <style>
 /* 모달 스타일 */
 .modal {
-  display: none;
-  position: absolute; /* position 속성을 absolute로 변경 */
-  z-index: 1;
-  background-color: transparent; /* 배경색을 투명으로 변경 */
+	display: none;
+	position: absolute; /* position 속성을 absolute로 변경 */
+	z-index: 1;
+	background-color: transparent; /* 배경색을 투명으로 변경 */
 }
 
 .modal-content {
-	    font-size: 15px;
-    background-color: #fff;
-    padding: 5px;
-    border: 1px solid #888;
-    position: fixed;
+	font-size: 15px;
+	background-color: #fff;
+	padding: 5px;
+	border: 1px solid #888;
+	position: fixed;
 }
 
 .close {
-  color: #aaaaaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+	color: #aaaaaa;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
 }
 
 .close:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 table {
-    border-collapse: collapse;
-    width: 96%;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    border-right: 1px solid #D9D9D9;
-    border-bottom: 1px solid #D9D9D9;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
+	border-collapse: collapse;
+	width: 96%;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+	text-align: center;
+	border-right: 1px solid #D9D9D9;
+	border-bottom: 1px solid #D9D9D9;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
 }
 </style>
-	
+
 </head>
 <body>
 <body>
-<!-- 모달 대화상자 -->
+	<!-- 모달 대화상자 -->
 	<div id="myModal" class="modal">
-	  <div class="modal-content">
-	    <div class="modal-header">
-	      <span class="close" id="closeModal">&times;</span>
-	    </div>
-	    <div class="modal-body">
-	      <p>모달 내용을 여기에 넣으세요</p>
-	    </div>
-	  </div>
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close" id="closeModal">&times;</span>
+			</div>
+			<div class="modal-body">
+				<p>모달 내용을 여기에 넣으세요</p>
+			</div>
+		</div>
 	</div>
-<jsp:include page="../inc/side.jsp"></jsp:include>
+	<jsp:include page="../inc/side.jsp"></jsp:include>
 
-<!--  여기서부터 시작  -->
-<div class="clientBody">
+	<!--  여기서부터 시작  -->
+	<div class="clientBody">
 		<h1 class="toptitle">생산실적 관리</h1>
 
 
-<div class="perfcd">
-<form method ="get">
-<div class="perfcd1">
-<label> 라인코드:</label>  <input type="text" id="lineCode2" name="lineCode" onclick="" class="cdbox" value="라인코드" readonly> <label>제품코드:</label> <input type="text" id="prodCode2" name="prodCode" onclick="" placeholder="제품코드" class="cdbox" onclick="" readonly> <input type="submit" value="조회" class="subbtn">
+		<div class="perfcd">
+			<form method="get">
+				<div class="perfcd1">
+					<label> 라인코드:</label> <input type="text" id="lineCode2" name="lineCode" onclick="" class="cdbox" value="라인코드" readonly> <label>제품코드:</label> <input type="text" id="prodCode2" name="prodCode" onclick="" placeholder="제품코드" class="cdbox" onclick="" readonly> <input type="submit" value="조회" class="subbtn">
 
 
 
-</div>
-<!-- <div class="perfcd1">
- 실적일: <input type="text" id="workdate1" name="perfDate1" class="form-control" placeholder="날짜 선택" readonly> ~ <input type="text" id="workdate2" name="perfDate2" class="form-control" placeholder="날짜 선택" readonly>
-</div>  -->
+				</div>
 
-</form>
-</div> <!--  perfcd -->
-
-	
-
-	
-<!--  본문 내용  -->
-	<div class="clientbody1">
-	<div class="tableform"> 
-			<div class="clienttotal">
-			 <h2> 총 ${pageDTO.count} 건 </h2>
-			
-			</div>   <!--  생산실적 총:x건 라인-->
-			<div class="total-items">
-		 <div>
-			 <label>총 ${sellDTO.count}건</label>
-		 </div>
-		 <div class="PageSelect">
- 			<label for="perPageSelect" style ="bottom:2px;">항목 수 </label>
-			<select id="perPageSelect" class="input_box" style ="width:100px; bottom:2px;" onchange="applyFilters()" value="${pageDTO.pageSize}">
-			    <option value="10" ${pageDTO.pageSize == 10 ? 'selected' : ''}>10개씩</option>
-			    <option value="50" ${pageDTO.pageSize == 50 ? 'selected' : ''}>50개씩</option>
-			    <option value="100" ${pageDTO.pageSize == 100 ? 'selected' : ''}>100개씩</option>
-			    <option value="9999" ${pageDTO.pageSize == 9999 ? 'selected' : ''}>전체</option>
-			</select>
+			</form>
 		</div>
+		<!--  perfcd -->
+
+
+
+
+		<!--  본문 내용  -->
+		<div class="clientbody1">
+			<div class="tableform">
+				<div class="clienttotal">
+					<h2>총 ${pageDTO.count} 건</h2>
+
+				</div>
+				<!--  생산실적 총:x건 라인-->
+				<div class="total-items">
+					<div>
+						<label>총 ${sellDTO.count}건</label>
+					</div>
+					<div class="PageSelect">
+						<label for="perPageSelect" style="bottom: 2px;">항목 수 </label> <select id="perPageSelect" class="input_box" style="width: 100px; bottom: 2px;" onchange="applyFilters()" value="${pageDTO.pageSize}">
+							<option value="10" ${pageDTO.pageSize == 10 ? 'selected' : ''}>10개씩</option>
+							<option value="50" ${pageDTO.pageSize == 50 ? 'selected' : ''}>50개씩</option>
+							<option value="100" ${pageDTO.pageSize == 100 ? 'selected' : ''}>100개씩</option>
+							<option value="9999" ${pageDTO.pageSize == 9999 ? 'selected' : ''}>전체</option>
+						</select>
+					</div>
+				</div>
+
+				<table class="ct" id="ct" class="ctcl">
+					<thead>
+						<tr class="cthead">
+							<th class="ctth">생산실적코드</th>
+							<th class="ctth">작업지시코드</th>
+							<th class="ctth">제품코드</th>
+							<th class="ctth">실적일</th>
+							<th class="ctth">실적수량</th>
+							<th class="ctth">양품수</th>
+							<th class="ctth">불량수</th>
+							<th class="ctth">불량사유</th>
+							<th class="ctth">현황</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="perfDTO" items="${perflist}">
+							<tr class="ctcontents">
+								<td class="cttg">${perfDTO.perfCode}<i class="fa-solid fa-magnifying-glass magnifier" data-perfcode="${perfDTO.perfCode}"></i></td>
+								<%-- <td class="cttg">${perfDTO.workCode}</td> --%>
+								<td style='cursor: pointer;' onclick="openModal(event)" id="${perfDTO.workCode }" name="sellCode" value="${perfDTO.workCode }">${perfDTO.workCode }</td>
+
+								<%-- <td class="cttg">${perfDTO.prodCode}</td> --%>
+								<td style='cursor: pointer;' onclick="openModal(event)" id="${perfDTO.prodCode }" name="sellCode" value="${perfDTO.prodCode }">${perfDTO.prodCode }</td>
+
+								<td class="cttg">${perfDTO.perfDate}</td>
+								<td class="cttg">${perfDTO.perfAmount}</td>
+								<td class="cttg">${perfDTO.perfFair}</td>
+								<td class="cttg">${perfDTO.perfDefect}</td>
+								<td class="cttg">${perfDTO.perfDefectreason}</td>
+								<td class="cttg">${perfDTO.workProcess}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+
+				</table>
+
+				<div class="footlo">
+					<div class="excel">
+
+						<button type="button" id="entrytable" class="entrytable" onclick="window.location.href='${pageContext.request.contextPath}/perf/perf?pageNum=1&endPage=100&lineCode=${perfDTO.lineCode}&prodCode=${clientDTO.prodCode}'">전체 보기</button>
+						<button type="button" id="exceldownload" class="exceldown">액셀 다운</button>
+					</div>
+					<div class="page">
+						<!--  페이징 영역 -->
+						<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
+							<a class="a" href="${pageContext.request.contextPath}/perf/perf?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&lineCode=${perfDTO.lineCode}&prodCode=${clientDTO.prodCode}">Prev</a>
+						</c:if>
+
+
+						<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+							<a class="a" href="${pageContext.request.contextPath}/perf/perf?pageNum=${i}&lineCode=${perfDTO.perfCode}&prodCode=${perfDTO.prodCode}">${i}</a>
+						</c:forEach>
+
+
+						<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
+							<a class="a" href="${pageContext.request.contextPath}/perf/perf?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&lineCode=${perfDTO.lineCode}&prodCode=${perfDTO.prodCode}">Next</a>
+						</c:if>
+
+					</div>
+					<!--  페이징영역 -->
+				</div>
+			</div>
+
+
+
+
+
+
+		</div>
+		<!--  TABLE FORM -->
+
+		<div class="chart">
+			<h2>생산실적 현황</h2>
+			<div class="chartbody">
+
+				<div class="chart1head">
+					<h2 class="labelhead">실적수</h2>
+					<div class="chart1">
+						<canvas id="donutChart" width="400px" height="400px"></canvas>
+						<!-- totalamount -->
+					</div>
+					<!--  chart1 -->
+				</div>
+				<!-- chart1head -->
+				<div class="chart2">
+					<h2 class="labelhead">양품수</h2>
+					<div class="chart2head">
+						<canvas id="donutChart2" width="600px" height="400px"></canvas>
+						<!-- - totalfair -->
+					</div>
+				</div>
+
+				<div class="chart3">
+					<h2 class="labelhaed">불량수</h2>
+					<div class="chart3haed">
+						<canvas id="donutChart3" width="400px" height="400px"></canvas>
+						<!--  totaldefect -->
+					</div>
+				</div>
+
+
+
+
+			</div>
+			<!--  chartbody -->
+		</div>
+		<!--  chart -->
+
+
 	</div>
+	<!--  CLIENTBODY -->
 
-		 <table class="ct" id="ct" class="ctcl">	
-			<thead>
-				<tr class="cthead">
-				    <th class="ctth">생산실적코드</th>
-					<th class="ctth">작업지시코드</th>
-					<th class="ctth">제품코드</th>
-					<th class="ctth">실적일</th>
-					<th class="ctth">실적수량</th>
-					<th class="ctth">양품수</th>
-					<th class="ctth">불량수</th>
-					<th class="ctth">불량사유</th>
-					<th class="ctth">현황</th> 
-					
-				</tr>
-			</thead> 
-		 <tbody>
-				<c:forEach var="perfDTO" items="${perflist}">
-					<tr class="ctcontents">	    
-						<td class="cttg">${perfDTO.perfCode} <i class="fa-solid fa-magnifying-glass magnifier" data-perfcode="${perfDTO.perfCode}"></i></td>
-						<%-- <td class="cttg">${perfDTO.workCode}</td> --%>
-						<td style='cursor: pointer;' onclick="openModal(event)" id="${perfDTO.workCode }" name="sellCode" value="${perfDTO.workCode }">${perfDTO.workCode }</td>
-						
-						<%-- <td class="cttg">${perfDTO.prodCode}</td> --%>
-						<td style='cursor: pointer;' onclick="openModal(event)" id="${perfDTO.prodCode }" name="sellCode" value="${perfDTO.prodCode }">${perfDTO.prodCode }</td>
-						
-						<td class="cttg">${perfDTO.perfDate}</td>
-						<td class="cttg">${perfDTO.perfAmount}</td>
-						<td class="cttg">${perfDTO.perfFair}</td>
-						<td class="cttg">${perfDTO.perfDefect}</td>
-						<td class="cttg">${perfDTO.perfDefectreason}</td>
-						<td class="cttg">${perfDTO.workProcess}</td>				
-					</tr>
-					</c:forEach>
-			</tbody> 
-
-		</table>
-		
-		<div class="footlo">
-		<div class="excel">
-
-		 <button type="button" id="entrytable" class="entrytable" onclick="window.location.href='${pageContext.request.contextPath}/perf/perf?pageNum=1&endPage=100&lineCode=${perfDTO.lineCode}&prodCode=${clientDTO.prodCode}'">전체 보기</button>
-		  <button type="button" id="exceldownload" class="exceldown" >액셀 다운 </button>
-		  </div>
-		  <div class="page"> <!--  페이징 영역 -->
-				<c:if test="${pageDTO.startPage > pageDTO.pageBlock}">
-					<a class="a" href="${pageContext.request.contextPath}/perf/perf?pageNum=${pageDTO.startPage - pageDTO.pageBlock}&lineCode=${perfDTO.lineCode}&prodCode=${clientDTO.prodCode}">Prev</a>
-				</c:if>
-				
-
-				<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-					<a  class="a" href="${pageContext.request.contextPath}/perf/perf?pageNum=${i}&lineCode=${perfDTO.perfCode}&prodCode=${perfDTO.prodCode}">${i}</a>
-				</c:forEach>
-
-
-				<c:if test="${pageDTO.endPage < pageDTO.pageCount}">
-					<a class="a" href="${pageContext.request.contextPath}/perf/perf?pageNum=${pageDTO.startPage + pageDTO.pageBlock}&lineCode=${perfDTO.lineCode}&prodCode=${perfDTO.prodCode}">Next</a>
-				</c:if>
-				
-			</div> <!--  페이징영역 -->
-		 </div>
-		 </div>
-		 
-		 	
-		
-		
-		
-		
-		</div> <!--  TABLE FORM -->
-		 
-		 <div class="chart">
-		 <h2> 생산실적 현황 </h2>
-		 <div class="chartbody">
-		 
-		 <div class="chart1head">
-		 <h2 class="labelhead"> 실적수</h2>
-		 <div class="chart1">
-		 <canvas id="donutChart" width="400px" height="400px"></canvas><!-- totalamount --> 
-		 </div> <!--  chart1 -->
-		 </div> <!-- chart1head -->
-		 <div class="chart2">
-		 <h2 class="labelhead"> 양품수 </h2>
-		 <div class="chart2head">
-		 <canvas id="donutChart2" width="600px" height="400px"></canvas> <!-- - totalfair -->
-		 </div>
-		 </div>
-		 
-		 <div class="chart3">
-		 <h2 class="labelhaed"> 불량수</h2>
-		 <div class="chart3haed">
-		  <canvas id="donutChart3" width="400px" height="400px"></canvas> <!--  totaldefect -->
-		 </div>
-		</div>
-		 
-
-
-	
-		 </div> <!--  chartbody -->
-		 </div> <!--  chart -->
-
-			
-			</div> <!--  CLIENTBODY -->
-			
 
 
 </body>
@@ -498,56 +506,15 @@ $(document).ready(function() {
 	
     
     
-   /*  $(function() {
-        $("#workdate1").datepicker({
-            dateFormat: 'yy-mm-dd',
-            prevText: '이전 달',
-            nextText: '다음 달',
-            monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-            dayNames: ['일','월','화','수','목','금','토'],
-            dayNamesShort: ['일','월','화','수','목','금','토'],
-            dayNamesMin: ['일','월','화','수','목','금','토'],
-            showMonthAfterYear: true,
-            yearSuffix: '년',
-
-            // 여기에 데이트피커에서 날짜를 선택했을 때 실행할 코드 작성
-            onSelect: function(selectedDate) {
-                console.log("선택한 날짜: " + selectedDate);
-            }
-     
-    }); // datekpicker1 끝
-          
-          
-          $(function() {
-              $("#workdate2").datepicker({
-                  dateFormat: 'yy-mm-dd',
-                  prevText: '이전 달',
-                  nextText: '다음 달',
-                  monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                  monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'],
-                  dayNames: ['일','월','화','수','목','금','토'],
-                  dayNamesShort: ['일','월','화','수','목','금','토'],
-                  dayNamesMin: ['일','월','화','수','목','금','토'],
-                  showMonthAfterYear: true,
-                  yearSuffix: '년',
-
-                  // 데이트피커의 onSelect 이벤트 핸들러 설정
-                  onSelect: function(selectedDate) {
-                      // 여기에 데이트피커에서 날짜를 선택했을 때 실행할 코드 작성
-                      console.log("선택한 날짜: " + selectedDate);
-                  }
-              });
-          }); // datepicker2 끝  */
+  
    
    
 });
-</script>	
-	</script>
+</script>
 
 
 
-	<script>
+<script>
       //modal창에 열기 위한 이벤트 헨들러
         function openModal(event) {
         	  const clickedElementId = event.target.id;
@@ -856,5 +823,5 @@ openModalWithData(event, dataformat, 200); // 데이터를 모달로 표시
     		        modal.style.display = 'none';
     		    }
     		}); */ 
-     </script>		
+     </script>
 </html>

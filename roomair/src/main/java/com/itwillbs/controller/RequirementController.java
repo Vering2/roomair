@@ -43,20 +43,15 @@ public class RequirementController {
 	private RequirementService service;
 
 	private static final Logger logger = LoggerFactory.getLogger(RequirementController.class);
-	
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String requirementmain() {
-		
+
 		return "redirect:/requirement/reqDetail";
 	}
 
 	// ======================================================================================
 
-	/*
-	 * @RequestMapping(value = "NewFile") public void name() {
-	 * 
-	 * }
-	 */
 	// 소요량관리
 	// http://localhost:8088/requirement/reqdetail
 	@RequestMapping(value = "/reqDetail", method = RequestMethod.GET)
@@ -68,7 +63,6 @@ public class RequirementController {
 		List<RequirementDTO> reqs = new ArrayList<RequirementDTO>();
 		model.addAttribute("reqs", reqs);
 		logger.debug("DTO : " + dto);
-		
 
 		if (dto.getReqCode() != null || dto.getProdCode() != null || dto.getRawCode() != null) {
 
@@ -114,27 +108,26 @@ public class RequirementController {
 
 	// 소요량관리 정보 추가
 	@ResponseBody
-	  @RequestMapping(value = "/reqAdd", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/reqAdd", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public String requirementPOST(RequirementList reqs) throws Exception {
-		  
+
 		int findCode = 0;
 		findCode = service.findCode(reqs.getReqs());
-		String result="";
+		String result = "";
 
 		if (findCode > 0) {
 			System.out.println("존재");
-			result="존재";
-		        return result;
-		    }  // 저장 작업 수행
-		  logger.debug("requirementPOST() 호출");
-		  logger.debug("reqs : " + reqs.getReqs());
-		  service.insertReq(reqs.getReqs());
-		  System.out.println("성공");
-		  result="성공";
-		    // 성공 응답 반환
-		    return result;	
-	  }
-	 
+			result = "존재";
+			return result;
+		} // 저장 작업 수행
+		logger.debug("requirementPOST() 호출");
+		logger.debug("reqs : " + reqs.getReqs());
+		service.insertReq(reqs.getReqs());
+		System.out.println("성공");
+		result = "성공";
+		// 성공 응답 반환
+		return result;
+	}
 
 	// 소요량관리 정보 삭제
 	@RequestMapping(value = "/requirementDelete", method = RequestMethod.POST)
@@ -173,13 +166,13 @@ public class RequirementController {
 
 		return "redirect:/requirement/reDetail";
 	}
-	
+
 	// 엑셀 다운
 	@RequestMapping(value = "/reqExcel", method = RequestMethod.POST)
 	public ResponseEntity<List<Map<String, Object>>> getReqExcel(RequirementDTO dto) throws Exception {
 
 		logger.debug("getReqExcel() 호출");
-		
+
 		List<Map<String, Object>> list = null; // 리스트 초기화
 
 		if (dto.getReqCode() != null || dto.getProdCode() != null || dto.getRawCode() != null) {
@@ -197,11 +190,11 @@ public class RequirementController {
 			list = service.getExcelReqList();
 			logger.debug(" 모든 리스트 가져감");
 		}
-		
+
 		ResponseEntity<List<Map<String, Object>>> entity = new ResponseEntity<>(list, HttpStatus.OK);
-		
+
 		return entity;
 
 	}
-	
+
 }// RequirementController

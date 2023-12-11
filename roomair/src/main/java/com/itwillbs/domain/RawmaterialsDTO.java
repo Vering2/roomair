@@ -10,8 +10,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class RawmaterialsDTO {
- 
-	private String rawCode; 
+
+	private String rawCode;
 	private String rawName;
 	private String rawType;
 	private String rawUnit;
@@ -21,11 +21,11 @@ public class RawmaterialsDTO {
 	private String whseName;
 	private String rawMemo;
 	private int shortageAmount;
-	
+
 	// 내가 추가한 변수
 	private int rawNum;
 	private Timestamp date;
 	private int stockCount;
 	private int whseCount;
-	
+
 }

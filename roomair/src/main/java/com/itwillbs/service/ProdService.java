@@ -66,7 +66,7 @@ public class ProdService {
 		prodDAO.updateProd(prodDTO);
 
 	}
-	
+
 	public int getSearchcount(ProdDTO prodDTO) {
 		return prodDAO.getSearchcount(prodDTO);
 	}
@@ -78,37 +78,34 @@ public class ProdService {
 	public String makeCode() {
 		String code = "PR";
 		Integer inNum = prodDAO.getMaxNum(code);
-		if(inNum == null) {
+		if (inNum == null) {
 			inNum = 0;
 		}
 		return this.codeChange(code, inNum);
 	}
 
-	public String codeChange(String code_id, int num){
+	public String codeChange(String code_id, int num) {
 		return String.format("%s%04d", code_id, ++num);
 	}
 
 	public ProdDTO getProdMemo(String prodCode) {
 		System.out.println("ProdService getProdMemo()");
 		return prodDAO.getProdMemo(prodCode);
-	}//getProdMemo
-
+	}// getProdMemo
 
 	public void insertProdMemo(ProdDTO prodDTO) {
 		System.out.println("ProdService insertProdMemo()");
 
-		prodDAO.insertProdMemo(prodDTO);	
-	}//insertProdMemo
+		prodDAO.insertProdMemo(prodDTO);
+	}// insertProdMemo
 
 	public void updateProdMemo(ProdDTO prodDTO) {
 		System.out.println("ProdService updateMemo");
 		prodDAO.updateProdMemo(prodDTO);
-	}//updateMemo
-
+	}// updateMemo
 
 	public List<ProdDTO> getExcelProdSearch(ProdDTO prodDTO) {
 		return prodDAO.getExcelProdSearch(prodDTO);
 	}
-
 
 }

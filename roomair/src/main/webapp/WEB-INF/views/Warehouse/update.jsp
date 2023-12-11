@@ -1,37 +1,31 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>창고 수정</title>
 
-<link
-	href="${pageContext.request.contextPath }/resources/css/warehousewrite.css"
-	rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/warehousewrite.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
-function closeWindow() {
-    window.close();
-}
+	function closeWindow() {
+		window.close();
+	}
 </script>
 </head>
 <body>
 
 	<div class="container">
 		<h2>창고 수정</h2>
-		<form action="${pageContext.request.contextPath}/Warehouse/updatePro"
-			method="post">
+		<form action="${pageContext.request.contextPath}/Warehouse/updatePro" method="post">
 
 			<div class="form-group">
 				<p>창고코드</p>
-				<input type="text" name="whseCode" value="${warehouseDTO.whseCode}"
-					readonly>
+				<input type="text" name="whseCode" value="${warehouseDTO.whseCode}" readonly>
 			</div>
 
 			<div class="form-group">
 				<p>창고이름</p>
-				<input type="text" name="whseName" value="${warehouseDTO.whseName}"
-					readonly>
+				<input type="text" name="whseName" value="${warehouseDTO.whseName}" readonly>
 			</div>
 
 			<div class="form-group">
@@ -62,8 +56,7 @@ function closeWindow() {
 
 			<div class="form-group">
 				<p>창고 관리사원 아이디</p>
-				<input type="text" name="whseEmpId"
-					value=" ${warehouseDTO.whseEmpId}">
+				<input type="text" name="whseEmpId" value=" ${warehouseDTO.whseEmpId}">
 			</div>
 
 			<div class="form-group">
@@ -72,8 +65,7 @@ function closeWindow() {
 			</div>
 
 			<div id="button">
-				<input type="submit" value="수정">
-				<input type="button" value="닫기" onclick="closeWindow()">
+				<input type="submit" value="수정"> <input type="button" value="닫기" onclick="closeWindow()">
 			</div>
 
 		</form>

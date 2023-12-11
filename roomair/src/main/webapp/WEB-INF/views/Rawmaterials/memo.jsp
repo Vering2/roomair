@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -13,20 +12,20 @@
 
 <!-- body -->
 <body>
-<div class="memo-content">
-<h2>비고</h2>
+	<div class="memo-content">
+		<h2>비고</h2>
 
-<!-- form -->
-<form id="memo2">
-<textarea id="rawMemo" readonly="readonly" style="width:350px; height:250px;">${rawmaterialsDTO.rawMemo}</textarea><br>
-<input type="hidden" name="rawCode" value="${rawmaterialsDTO.rawCode}"/>
+		<!-- form -->
+		<form id="memo2">
+			<textarea id="rawMemo" readonly="readonly" style="width: 350px; height: 250px;">${rawmaterialsDTO.rawMemo}</textarea>
+			<br> <input type="hidden" name="rawCode" value="${rawmaterialsDTO.rawCode}" />
 
-<!-- button -->
-<div id="buttons">
-<button type="button" onclick="window.close()" id=btn2>닫기</button>
-</div>
-</form>
-</div>
+			<!-- button -->
+			<div id="buttons">
+				<button type="button" onclick="window.close()" id=btn2>닫기</button>
+			</div>
+		</form>
+	</div>
 
 </body>
 </html>

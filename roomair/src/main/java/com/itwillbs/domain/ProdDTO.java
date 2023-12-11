@@ -20,5 +20,4 @@ public class ProdDTO {
 	private float prodPrice;
 	private String prodMemo;
 
-	
 }

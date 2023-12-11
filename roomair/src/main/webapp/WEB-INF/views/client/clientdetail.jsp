@@ -1,158 +1,184 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- SweetAlert2 라이브러리 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- SweetAlert2 라이브러리 추가 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <style>
-
-body{
-background-color: #F5F6FA;
-
+body {
+	background-color: #F5F6FA;
 }
 
-#clientDetail2{
-display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
+#clientDetail2 {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
 }
 
-.headh{
-text-align: center;
+.headh {
+	text-align: center;
 }
 
 td {
-margin-left : 50px;
-margin-right : 15px;
-font-size : 18px;
-    text-align: center;
-    font-weight: bold;
-
+	margin-left: 50px;
+	margin-right: 15px;
+	font-size: 18px;
+	text-align: center;
+	font-weight: bold;
 }
 
-
-.upform{
-
-height : 20px;
-width: 200px;
-}
-.addres{
-    background-color: white;
-    width: 100px;
-    height: 25px;
-    border-radius: 5px;
-    text-align: center;
-    border: 1px solid black;
-    margin-top: 5px;
+.upform {
+	height: 20px;
+	width: 200px;
 }
 
-.btngroup{
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    margin-top: 15px;
-
+.addres {
+	background-color: white;
+	width: 100px;
+	height: 25px;
+	border-radius: 5px;
+	text-align: center;
+	border: 1px solid black;
+	margin-top: 5px;
 }
 
-.footbtn{
-color: white;
-    background-color: #9AC5F4;
-    width: 70px;
-    height: 30px;
-    border-radius: 3px;
-    border: 0;
-    text-align: center;
-    font: 500 15px/20px "Inter", sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-      margin-right: 10px;
-
+.btngroup {
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	margin-top: 15px;
 }
-.deletebtn{
-color: white;
-    background-color: #9AC5F4;
-    width: 70px;
-    height: 30px;
-    border-radius: 3px;
-    border: 0;
-    text-align: center;
-    font: 500 15px/20px "Inter", sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-  
+
+.footbtn {
+	color: white;
+	background-color: #9AC5F4;
+	width: 70px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+.deletebtn {
+	color: white;
+	background-color: #9AC5F4;
+	width: 70px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+	cursor: pointer;
 }
 
 span {
-
-font-size : 14px;
-font-weight: bold;
-color : red;
+	font-size: 14px;
+	font-weight: bold;
+	color: red;
 }
-
 </style>
 </head>
 <body>
 
-<h2 class="headh">거래처 정보</h2>
-<form id="clientsub">
-<table id="clientDetail2">
-<tr><td>구분</td><td><input type="text" id="clientType"  name="clientType" class="upform" value="${clientDTO.clientType}"></td></tr>
-<tr><td>거래처코드</td><td><input type="text" id="clientCode" name="clientCode" value="${clientDTO.clientCode}" class="upform"></td></tr>
-<tr><td>거래처명</td><td><input type="text" id="clientCompany" name="clientCompany" value="${clientDTO.clientCompany}" class="upform"><br><span id="clientCompany_msg"></span></td></tr>
-<tr><td>사업자번호</td><td><input type="text" id="clientNumber" name="clientNumber" value="${clientDTO.clientNumber}" class="upform" maxlength="12"><br><span id="clientNumber_msg"></span></td></tr>
-<tr><td>업태</td><td><input type="text"  id="clientDetail" name="clientDetail" value="${clientDTO.clientDetail}" class="upform" maxlength="10"><br><span id="clientDetail_msg"></span></td></tr>
-<tr><td>대표자</td><td><input type="text" id ="clientCeo" name="clientCeo" value="${clientDTO.clientCeo}" class="upform"><br><span id="clientCeo_msg"></span></td></tr>
-<tr><td>담당자</td><td><input type="text" id ="clientName" name="clientName" value="${clientDTO.clientName}" class="upform" ><br><span id="clientName_msg"></span></td></tr>  
-<tr><td>거래처주소</td><td><input  type="text" id="sample4_roadAddress" placeholder="도로명주소"
-			name="clientAddr1" value="${clientDTO.clientAddr1}" class="upform" readonly required onclick="sample4_execDaumPostcode()"   >  
-	
-			
-			
-          </td></tr>  
-<tr><td>상세주소</td><td><input type="text" id="sample4_extraAddress" placeholder="상세주소"
-			name="clientAddr2" size="60" value="${clientDTO.clientAddr2}" class="upform" required></td></tr>  
-<tr><td>거래처번호</td><td><input type="text" id="clientTel" name="clientTel" value="${clientDTO.clientTel}" class="upform" maxlength="12"><br><span id="clientTel_msg"></span></td></tr>  
-<tr><td>휴대폰번호</td><td><input type="tel" id="clientPhone" name="clientPhone" value="${clientDTO.clientPhone}" class="upform" maxlength="13"><br><span id="clientPhone_msg"></span></td></tr>  
-<tr><td>팩스번호</td><td><input type="tel" id="clientFax" name="clientFax" value="${clientDTO.clientFax}" class="upform" maxlength="12"><br><span id="clientFax_msg"></span></td></tr>  
-<tr><td>이메일</td><td><input type="email" id ="clientEmail" name="clientEmail" value="${clientDTO.clientEmail}" class="upform"><br><span id="clientEmail_msg"></span></td></tr>  
-<tr><td>비고</td><td><input type="text"  id="clientMemo "name="clientMemo" value="${clientDTO.clientMemo}" class="upform"><br><span id="clientMemo_msg"></span></td></tr>  
-<c:if test="${clientDTO.clientType eq '수주처'}">
-    <tr>
-        <td>매출액</td>
-        <td>
-            <c:choose>
-                <c:when test="${clientDTO.clientSale eq 0}">
+	<h2 class="headh">거래처 정보</h2>
+	<form id="clientsub">
+		<table id="clientDetail2">
+			<tr>
+				<td>구분</td>
+				<td><input type="text" id="clientType" name="clientType" class="upform" value="${clientDTO.clientType}"></td>
+			</tr>
+			<tr>
+				<td>거래처코드</td>
+				<td><input type="text" id="clientCode" name="clientCode" value="${clientDTO.clientCode}" class="upform"></td>
+			</tr>
+			<tr>
+				<td>거래처명</td>
+				<td><input type="text" id="clientCompany" name="clientCompany" value="${clientDTO.clientCompany}" class="upform"><br> <span id="clientCompany_msg"></span></td>
+			</tr>
+			<tr>
+				<td>사업자번호</td>
+				<td><input type="text" id="clientNumber" name="clientNumber" value="${clientDTO.clientNumber}" class="upform" maxlength="12"><br> <span id="clientNumber_msg"></span></td>
+			</tr>
+			<tr>
+				<td>업태</td>
+				<td><input type="text" id="clientDetail" name="clientDetail" value="${clientDTO.clientDetail}" class="upform" maxlength="10"><br> <span id="clientDetail_msg"></span></td>
+			</tr>
+			<tr>
+				<td>대표자</td>
+				<td><input type="text" id="clientCeo" name="clientCeo" value="${clientDTO.clientCeo}" class="upform"><br> <span id="clientCeo_msg"></span></td>
+			</tr>
+			<tr>
+				<td>담당자</td>
+				<td><input type="text" id="clientName" name="clientName" value="${clientDTO.clientName}" class="upform"><br> <span id="clientName_msg"></span></td>
+			</tr>
+			<tr>
+				<td>거래처주소</td>
+				<td><input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="clientAddr1" value="${clientDTO.clientAddr1}" class="upform" readonly required onclick="sample4_execDaumPostcode()"></td>
+			</tr>
+			<tr>
+				<td>상세주소</td>
+				<td><input type="text" id="sample4_extraAddress" placeholder="상세주소" name="clientAddr2" size="60" value="${clientDTO.clientAddr2}" class="upform" required></td>
+			</tr>
+			<tr>
+				<td>거래처번호</td>
+				<td><input type="text" id="clientTel" name="clientTel" value="${clientDTO.clientTel}" class="upform" maxlength="12"><br> <span id="clientTel_msg"></span></td>
+			</tr>
+			<tr>
+				<td>휴대폰번호</td>
+				<td><input type="tel" id="clientPhone" name="clientPhone" value="${clientDTO.clientPhone}" class="upform" maxlength="13"><br> <span id="clientPhone_msg"></span></td>
+			</tr>
+			<tr>
+				<td>팩스번호</td>
+				<td><input type="tel" id="clientFax" name="clientFax" value="${clientDTO.clientFax}" class="upform" maxlength="12"><br> <span id="clientFax_msg"></span></td>
+			</tr>
+			<tr>
+				<td>이메일</td>
+				<td><input type="email" id="clientEmail" name="clientEmail" value="${clientDTO.clientEmail}" class="upform"><br> <span id="clientEmail_msg"></span></td>
+			</tr>
+			<tr>
+				<td>비고</td>
+				<td><input type="text" id="clientMemo " name="clientMemo" value="${clientDTO.clientMemo}" class="upform"><br> <span id="clientMemo_msg"></span></td>
+			</tr>
+			<c:if test="${clientDTO.clientType eq '수주처'}">
+				<tr>
+					<td>매출액</td>
+					<td><c:choose>
+							<c:when test="${clientDTO.clientSale eq 0}">
                     0
                 </c:when>
-                <c:otherwise>
+							<c:otherwise>
                     ${clientDTO.clientSale}
                 </c:otherwise>
-            </c:choose>
-        </td>
-    </tr>  
-</c:if>
-</table>
+						</c:choose></td>
+				</tr>
+			</c:if>
+		</table>
 
-<div class="btngroup">
-<button type="button" value="닫기" id="closebtn" class="footbtn">닫기</button>
-        <button type="button" value="수정" class="footbtn" id="updatesubmit"> 수정</button>
- <button type="button" class="deletebtn" onclick="clientdelete('${clientDTO.clientCompany}')">삭제</button>
-</div>
+		<div class="btngroup">
+			<button type="button" value="닫기" id="closebtn" class="footbtn">닫기</button>
+			<button type="button" value="수정" class="footbtn" id="updatesubmit">수정</button>
+			<button type="button" class="deletebtn" onclick="clientdelete('${clientDTO.clientCompany}')">삭제</button>
+		</div>
 
-</form>
-
-			
+	</form>
 
 
 
-<script>
+
+
+	<script>
 function clientdelete(clientCompany) {
     if (confirm("정말로 삭제하시겠습니까?")) {
         // 확인을 선택한 경우 삭제 요청을 보냅니다.

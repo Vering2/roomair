@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class LineDTO {
-	
+
 	private String lineCode;
 	private String lineName;
 	private String lineUse;
@@ -18,7 +18,5 @@ public class LineDTO {
 	private String empName;
 	private String lineInsertDate;
 	private String lineProcess;
-	
-	
 
 }

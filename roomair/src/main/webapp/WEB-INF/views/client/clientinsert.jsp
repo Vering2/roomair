@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,197 +6,201 @@
 <title>Insert title here</title>
 
 <!-- sweetalert2 API 호출 -->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
 
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
-<script
-	src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	
-	<style>
-	body{
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<style>
+body {
 	background-color: #f5f6fa;
-	}
-	.clinentinsert{
-	      text-align: center;
-	}
-	
-	td{
-	font-size:20px;
-	}
-	
-	.clientType{
-	width: 65px;
-    height: 35px;
-    margin-left: 10px;
-	
-	}
-	
-	.insertbox{
-	width: 150px;
-    margin-left: 10px;
-    height: 20px;
-	}
-	.addbox{
-	    background-color: whitesmoke;
-    border: 1px solid;
-    width: 100px;
-    margin-left: 5px;
-    height: 27px;
-    border-radius: 5px;
-	}
-	
-	.longbox{
-	width: 270px;
-    margin-left: 10px;
-    height: 20px;
-	
-	}
-	
-	#btn{
-	color: white;
-    background-color: #9AC5F4;
-    width: 70px;
-    height: 30px;
-    border-radius: 3px;
-    border: 0;
-    text-align: center;
-    font: 500 15px/20px "Inter", sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-    margin-right: 15px;
-	
-	}
-	
-	#closebtn{
-		color: white;
-    background-color: #9AC5F4;
-    width: 70px;
-    height: 30px;
-    border-radius: 3px;
-    border: 0;
-    text-align: center;
-    font: 500 15px/20px "Inter", sans-serif;
-    font-weight: bold;
-    cursor: pointer;
-    margin-right: 15px;
-	
-	}
-	
-	.footbtn{
-	display: flex;
-    justify-content: center;
-    margin-top: 15px;
-    
-	}
-	
-	.headh2{
+}
+
+.clinentinsert {
 	text-align: center;
-	}
-	
-	span{
-	font-size:13px;
+}
+
+td {
+	font-size: 20px;
+}
+
+.clientType {
+	width: 65px;
+	height: 35px;
+	margin-left: 10px;
+}
+
+.insertbox {
+	width: 150px;
+	margin-left: 10px;
+	height: 20px;
+}
+
+.addbox {
+	background-color: whitesmoke;
+	border: 1px solid;
+	width: 100px;
+	margin-left: 5px;
+	height: 27px;
+	border-radius: 5px;
+}
+
+.longbox {
+	width: 270px;
+	margin-left: 10px;
+	height: 20px;
+}
+
+#btn {
+	color: white;
+	background-color: #9AC5F4;
+	width: 70px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
 	font-weight: bold;
-	color:red;
-	}
-	
-	
-	</style>
+	cursor: pointer;
+	margin-right: 15px;
+}
+
+#closebtn {
+	color: white;
+	background-color: #9AC5F4;
+	width: 70px;
+	height: 30px;
+	border-radius: 3px;
+	border: 0;
+	text-align: center;
+	font: 500 15px/20px "Inter", sans-serif;
+	font-weight: bold;
+	cursor: pointer;
+	margin-right: 15px;
+}
+
+.footbtn {
+	display: flex;
+	justify-content: center;
+	margin-top: 15px;
+}
+
+.headh2 {
+	text-align: center;
+}
+
+span {
+	font-size: 13px;
+	font-weight: bold;
+	color: red;
+}
+</style>
 </head>
 <body>
 <body class="sb-nav-fixed">
-<h2 class="headh2">
-			거래처 등록
-		</h2>
+	<h2 class="headh2">거래처 등록</h2>
 	<!-- 내용들어가는곳 -->
-	<form action="${pageContext.request.contextPath}/client/insertPro"
-		id="clientInsert" name="clientInsert" method="POST" enctype="multipart/form-data" >
-      <table id="clientinsert">
-		<!-- 거래처구분 -->
-		<tr><td><label for="clientType_label"><b>구분</b> </label></td>
-		<td><select id="clientType" name="clientType" class="clientType">
-		    <option value="선택">선택</option>
-			<option value="수주처">수주처</option>
-			<option value="발주처">발주처</option>
-		</select> <br> <span id="clientType_msg"></span>  </td></tr> 
-	
-		<!-- 거래처 코드 -->
-		<tr><td> <label for="clientCode_label"><b>거래처코드</b></label>  </td>
-		<td> <input type="text" name="clientCode" id="clientCode" readonly class="insertbox" required> 
-		<span id="clientCode_msg"></span> </td> </tr>
-	
-			
+	<form action="${pageContext.request.contextPath}/client/insertPro" id="clientInsert" name="clientInsert" method="POST" enctype="multipart/form-data">
+		<table id="clientinsert">
+			<!-- 거래처구분 -->
+			<tr>
+				<td><label for="clientType_label"><b>구분</b> </label></td>
+				<td><select id="clientType" name="clientType" class="clientType">
+						<option value="선택">선택</option>
+						<option value="수주처">수주처</option>
+						<option value="발주처">발주처</option>
+				</select> <br> <span id="clientType_msg"></span></td>
+			</tr>
+
+			<!-- 거래처 코드 -->
+			<tr>
+				<td><label for="clientCode_label"><b>거래처코드</b></label></td>
+				<td><input type="text" name="clientCode" id="clientCode" readonly class="insertbox" required> <span id="clientCode_msg"></span></td>
+			</tr>
+
+
 			<!-- 거래처명 -->
-			<tr><td> <label for="clientCompany_label"><b>거래처명</b> </label></td>
-			<td><input type="text" name="clientCompany" id="clientCompany" class="insertbox"  required> 
-	       	<span id="clientCompany_msg"></span></td></tr>
-	
-
-		<!-- 사업자번호 -->
-		<tr><td> <label for="clientNumber_label"><b>사업자번호</b> </label> </td>
-		 <td> <input type="text" name="clientNumber" id="clientNumber" class="insertbox" maxlength=12 required> 
-		 <span id="clientNumber_msg"></span></td></tr> 
-	
-
-		<!-- 업태 -->
-		<tr><td><label for="clientDetail_label"><b>업태</b> </label></td>
-		<td> <input type="text" name="clientDetail" id="clientDetail" class="insertbox" maxlength="10" required >  <span id="clientDetail_msg"></span> </td></tr>
-		 
+			<tr>
+				<td><label for="clientCompany_label"><b>거래처명</b> </label></td>
+				<td><input type="text" name="clientCompany" id="clientCompany" class="insertbox" required> <span id="clientCompany_msg"></span></td>
+			</tr>
 
 
-		<!-- 거래처 대표자명 -->
-		<tr><td> <label for="clientCeo_label"><b>대표자</b></label></td>
-		 <td> <input type="text" name="clientCeo" id="clientCeo" class="insertbox"  maxlength="10" required> <span id="clientCeo_msg"></span></td></tr>
-	
-
-		<!-- 거래처담당자이름-->
-		<tr><td> <label for="clientName_label"><b>거래담당자</b></label> </td>
-		<td><input type="text" name="clientName" id="clientName" class="insertbox"  maxlength="10" required>  <span id="clientName_msg"></span> </td></tr>
+			<!-- 사업자번호 -->
+			<tr>
+				<td><label for="clientNumber_label"><b>사업자번호</b> </label></td>
+				<td><input type="text" name="clientNumber" id="clientNumber" class="insertbox" maxlength=12 required> <span id="clientNumber_msg"></span></td>
+			</tr>
 
 
-		<!-- 주소 -->
-		<tr><td><label for="clientAddress_label"><b>도로명주소</b></label></td>
-		<td> <input type="text" id="sample4_roadAddress" placeholder="도로명주소"
-			name="clientAddr1" readonly required class="insertbox" onclick="sample4_execDaumPostcode()" required></td></tr>
+			<!-- 업태 -->
+			<tr>
+				<td><label for="clientDetail_label"><b>업태</b> </label></td>
+				<td><input type="text" name="clientDetail" id="clientDetail" class="insertbox" maxlength="10" required> <span id="clientDetail_msg"></span></td>
+			</tr>
+
+
+
+			<!-- 거래처 대표자명 -->
+			<tr>
+				<td><label for="clientCeo_label"><b>대표자</b></label></td>
+				<td><input type="text" name="clientCeo" id="clientCeo" class="insertbox" maxlength="10" required> <span id="clientCeo_msg"></span></td>
+			</tr>
+
+
+			<!-- 거래처담당자이름-->
+			<tr>
+				<td><label for="clientName_label"><b>거래담당자</b></label></td>
+				<td><input type="text" name="clientName" id="clientName" class="insertbox" maxlength="10" required> <span id="clientName_msg"></span></td>
+			</tr>
+
+
+			<!-- 주소 -->
+			<tr>
+				<td><label for="clientAddress_label"><b>도로명주소</b></label></td>
+				<td><input type="text" id="sample4_roadAddress" placeholder="도로명주소" name="clientAddr1" readonly required class="insertbox" onclick="sample4_execDaumPostcode()" required></td>
+			</tr>
 			<br>
-		<tr><td><label for="clientAddress_label"><b>상세주소</b></label></td>
-		<td> <input type="text" id="sample4_extraAddress" placeholder="상세주소" name="clientAddr2" size="60" required class="longbox" required>
-	<span id="clientName_msg"></span>
-		</td></tr>
-		
-	
-
-		<!-- 거래처 번호 -->
-		<tr><td><label for="clientTel"><b>거래처번호</b></label></td>
-		<td> <input type="text" name="clientTel" id="clientTel" class="insertbox" maxlength="12" required > <span id="clientTel_msg"></span> </td></tr>
-	
-
-		<!-- 거래담당자 번호 -->
-		<tr><td> <label for="clientPhone"><b>담당자번호</b></label></td>
-		 <td> <input type="text" name="clientPhone" id="clientPhone" class="insertbox" maxlength="13" required> <span id="clientPhone_msg"></span>   </td></tr>
-		  
-
-		<!--  팩스번호 -->
-		<tr><td> <label for="clientFax"><b>팩스번호</b></label> </td>
-		<td><input type="text" name="clientFax" id="clientFax" class="insertbox"  maxlength="12"  required> <span id="clientFax_msg"></span>
+			<tr>
+				<td><label for="clientAddress_label"><b>상세주소</b></label></td>
+				<td><input type="text" id="sample4_extraAddress" placeholder="상세주소" name="clientAddr2" size="60" required class="longbox" required> <span id="clientName_msg"></span></td>
+			</tr>
 
 
-		<!-- 거래처 이메일 -->
-		<tr><td><label for="clientEmail"><b>이메일</b></label> </td>
-		<td> <input type="text" name="clientEmail" id="clientEmail" class="insertbox" required>  <span id="clientEmail_msg"></span> </td></tr>
-		
-		<!--  비고 -->
-		<tr><td><label for="clientMemo_label"><b>비고</b></label>  </td>
-		<td> <input type="text" name="clientMemo" id="clientMemo" class="insertbox" > <span id="clientMemo_msg"></span>
 
-		
-     </table>
-     <!-- 등록 버튼 -->
+			<!-- 거래처 번호 -->
+			<tr>
+				<td><label for="clientTel"><b>거래처번호</b></label></td>
+				<td><input type="text" name="clientTel" id="clientTel" class="insertbox" maxlength="12" required> <span id="clientTel_msg"></span></td>
+			</tr>
+
+
+			<!-- 거래담당자 번호 -->
+			<tr>
+				<td><label for="clientPhone"><b>담당자번호</b></label></td>
+				<td><input type="text" name="clientPhone" id="clientPhone" class="insertbox" maxlength="13" required> <span id="clientPhone_msg"></span></td>
+			</tr>
+
+
+			<!--  팩스번호 -->
+			<tr>
+				<td><label for="clientFax"><b>팩스번호</b></label></td>
+				<td><input type="text" name="clientFax" id="clientFax" class="insertbox" maxlength="12" required> <span id="clientFax_msg"></span> <!-- 거래처 이메일 -->
+			<tr>
+				<td><label for="clientEmail"><b>이메일</b></label></td>
+				<td><input type="text" name="clientEmail" id="clientEmail" class="insertbox" required> <span id="clientEmail_msg"></span></td>
+			</tr>
+
+			<!--  비고 -->
+			<tr>
+				<td><label for="clientMemo_label"><b>비고</b></label></td>
+				<td><input type="text" name="clientMemo" id="clientMemo" class="insertbox"> <span id="clientMemo_msg"></span>
+		</table>
+		<!-- 등록 버튼 -->
 		<div class="footbtn">
 			<input type="submit" id="btn" value="등록" class="subbtn">
-			<button type="button" id="closebtn"> 닫기 </button>
+			<button type="button" id="closebtn">닫기</button>
 		</div>
 	</form>
 
@@ -592,8 +595,6 @@ document.getElementById("closebtn").addEventListener("click", function() {
 
 </script>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
-		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>

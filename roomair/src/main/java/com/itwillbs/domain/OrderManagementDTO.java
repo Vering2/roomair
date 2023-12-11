@@ -10,8 +10,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class OrderManagementDTO {
- 
-	private String buyNum; 
+
+	private String buyNum;
 	private String rawCode;
 	private String rawName;
 	private String rawType;
@@ -25,5 +25,5 @@ public class OrderManagementDTO {
 	private Date buyDate;
 	private String buyEmpId;
 	private String buyInstate;
-	
+
 }

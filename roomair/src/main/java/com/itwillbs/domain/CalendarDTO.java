@@ -15,5 +15,4 @@ public class CalendarDTO {
 	private String endDate;
 	private String code;
 
-	
 }

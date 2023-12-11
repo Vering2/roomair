@@ -14,11 +14,11 @@ public class WarehouseDTO {
 	private String whseType;
 	private String whseState;
 	private String whseAddr;
-	private String whseTel; 
+	private String whseTel;
 	private String whseMemo;
 	private String prodCode;
 	private String rawCode;
 	private String whseEmpId;
 	private int whseCount;
-	
+
 }

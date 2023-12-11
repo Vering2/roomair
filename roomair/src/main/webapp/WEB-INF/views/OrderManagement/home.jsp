@@ -1,12 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
 <!-- head -->
-<head> 
-<meta charset="UTF-8">  
+<head>
+<meta charset="UTF-8">
 <title>Insert title here</title>
 
 <!-- 엑셀 -->
@@ -130,128 +129,114 @@ $(document).ready(function() {
 
 <!-- body -->
 <body>
-<jsp:include page="../inc/side.jsp"></jsp:include>
+	<jsp:include page="../inc/side.jsp"></jsp:include>
 
-<div class="content">
-<h2>발주 관리</h2>
+	<div class="content">
+		<h2>발주 관리</h2>
 
-<!-- form(검색) -->
-<form action="${pageContext.request.contextPath}/OrderManagement/home" method="get" id="searchBox">
-<div id="searchForm" style="border-radius: 5px;">
-<label>발주코드</label>		<input type="text" name="search1" placeholder="발주번호">
-<label>품번</label>		<input type="text" name="search2" placeholder="품번">
-<label>종류</label>		<select name="search3">
-						<option value="">전체</option>
-						<option value="향기">향기</option>
-						<option value="용기">용기</option>
-						<option value="스틱">스틱</option>
-						<option value="라벨">라벨</option>
-						<option value="포장재">포장재</option>
-						</select>
-<label>거래처코드</label>	<input type="text" name="search4" placeholder="거래처" id="pInput" onclick="openPopup3()">
-<input type="text"  hidden name="search5" placeholder="거래처명" id="cCInput">
-<input type="submit" value="조회" id="searchButton">
-</div>
+		<!-- form(검색) -->
+		<form action="${pageContext.request.contextPath}/OrderManagement/home" method="get" id="searchBox">
+			<div id="searchForm" style="border-radius: 5px;">
+				<label>발주코드</label> <input type="text" name="search1" placeholder="발주번호"> <label>품번</label> <input type="text" name="search2" placeholder="품번"> <label>종류</label> <select name="search3">
+					<option value="">전체</option>
+					<option value="향기">향기</option>
+					<option value="용기">용기</option>
+					<option value="스틱">스틱</option>
+					<option value="라벨">라벨</option>
+					<option value="포장재">포장재</option>
+				</select> <label>거래처코드</label> <input type="text" name="search4" placeholder="거래처" id="pInput" onclick="openPopup3()"> <input type="text" hidden name="search5" placeholder="거래처명" id="cCInput"> <input type="submit" value="조회" id="searchButton">
+			</div>
 
-<!-- button -->
-<div id="buttons">
-<c:if test="${!(empty sessionScope.empDepartment) && (sessionScope.empDepartment eq '관리자' || sessionScope.empDepartment eq '영업팀')}">
-<input type="button" value="추가" onclick="openPopup1()" id="add">
-<input type="button" value="삭제" onclick="deleteValue();" id="delete">
-</c:if>
-</div>
-</form>
+			<!-- button -->
+			<div id="buttons">
+				<c:if test="${!(empty sessionScope.empDepartment) && (sessionScope.empDepartment eq '관리자' || sessionScope.empDepartment eq '영업팀')}">
+					<input type="button" value="추가" onclick="openPopup1()" id="add">
+					<input type="button" value="삭제" onclick="deleteValue();" id="delete">
+				</c:if>
+			</div>
+		</form>
 
-<div class="total-items">
-<label>총 ${pageDTO.count}건</label>
-</div>
+		<div class="total-items">
+			<label>총 ${pageDTO.count}건</label>
+		</div>
 
-<!-- table -->
-<table class="tg" id="rawmaterialsList" style="border-radius: 5px;">
-<thead>
-<tr>
-<td><input type="checkbox"></td>
-<td>발주코드</td>
-<td>품번</td>
-<td>품명</td>
-<td>종류</td>
-<td>거래처코드</td>
-<td>창고코드</td>
-<td>재고수량</td>
-<td>발주수량</td>
-<td>매입단가</td>
-<td>단가총계</td>
-<td>발주신청일</td>
-<td>발주상태</td>
-<td>담당자</td>
-</tr>
-</thead>
+		<!-- table -->
+		<table class="tg" id="rawmaterialsList" style="border-radius: 5px;">
+			<thead>
+				<tr>
+					<td><input type="checkbox"></td>
+					<td>발주코드</td>
+					<td>품번</td>
+					<td>품명</td>
+					<td>종류</td>
+					<td>거래처코드</td>
+					<td>창고코드</td>
+					<td>재고수량</td>
+					<td>발주수량</td>
+					<td>매입단가</td>
+					<td>단가총계</td>
+					<td>발주신청일</td>
+					<td>발주상태</td>
+					<td>담당자</td>
+				</tr>
+			</thead>
 
-<tbody>
-<c:forEach var="ordermanagementDTO" items="${ordermanagementList}">
-<tr>
-<td><input type="checkbox" name="RowCheck" value="${ordermanagementDTO.buyNum}"></td>
-<td><a href="#" onclick="openPopup2('${pageContext.request.contextPath}/OrderManagement/detail?buyNum=${ordermanagementDTO.buyNum}')" style="text-decoration: none; color: black;">${ordermanagementDTO.buyNum}</a></td>
-<td>${ordermanagementDTO.rawCode}</td>
-<td>${ordermanagementDTO.rawName}</td>
-<td>${ordermanagementDTO.rawType}</td>
-<td>${ordermanagementDTO.clientCode}</td>
-<td>${ordermanagementDTO.whseCode}</td>
-<td><c:choose>
-<c:when test="${ordermanagementDTO.stockCount < 500}">
-<span style="color:red;" data-title="500개 미만입니다">${ordermanagementDTO.stockCount}</span>
-</c:when>
-<c:otherwise>
+			<tbody>
+				<c:forEach var="ordermanagementDTO" items="${ordermanagementList}">
+					<tr>
+						<td><input type="checkbox" name="RowCheck" value="${ordermanagementDTO.buyNum}"></td>
+						<td><a href="#" onclick="openPopup2('${pageContext.request.contextPath}/OrderManagement/detail?buyNum=${ordermanagementDTO.buyNum}')" style="text-decoration: none; color: black;">${ordermanagementDTO.buyNum}</a></td>
+						<td>${ordermanagementDTO.rawCode}</td>
+						<td>${ordermanagementDTO.rawName}</td>
+						<td>${ordermanagementDTO.rawType}</td>
+						<td>${ordermanagementDTO.clientCode}</td>
+						<td>${ordermanagementDTO.whseCode}</td>
+						<td><c:choose>
+								<c:when test="${ordermanagementDTO.stockCount < 500}">
+									<span style="color: red;" data-title="500개 미만입니다">${ordermanagementDTO.stockCount}</span>
+								</c:when>
+								<c:otherwise>
 ${ordermanagementDTO.stockCount}
 </c:otherwise>
-</c:choose></td>
-<td>${ordermanagementDTO.buyCount}</td>
-<td>${ordermanagementDTO.rawPrice}</td>
-<td>${ordermanagementDTO.rawPrice * ordermanagementDTO.buyCount}</td>
-<td>${ordermanagementDTO.buyDate}</td>
-<td><c:choose>
-<c:when test="${ordermanagementDTO.buyInstate == '신청완료'}">
-<span style="color:red;">${ordermanagementDTO.buyInstate}</span>
-</c:when>
-<c:otherwise>
+							</c:choose></td>
+						<td>${ordermanagementDTO.buyCount}</td>
+						<td>${ordermanagementDTO.rawPrice}</td>
+						<td>${ordermanagementDTO.rawPrice * ordermanagementDTO.buyCount}</td>
+						<td>${ordermanagementDTO.buyDate}</td>
+						<td><c:choose>
+								<c:when test="${ordermanagementDTO.buyInstate == '신청완료'}">
+									<span style="color: red;">${ordermanagementDTO.buyInstate}</span>
+								</c:when>
+								<c:otherwise>
 ${ordermanagementDTO.buyInstate}
 </c:otherwise>
-</c:choose></td>
-<td>${ordermanagementDTO.buyEmpId}</td>
-</tr>
-</c:forEach>
-</tbody>
-</table>
+							</c:choose></td>
+						<td>${ordermanagementDTO.buyEmpId}</td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 
-<!-- button -->
-<div id="pagination" class="page_wrap2">
-<div id="excel">
-<button class="excelbtn" id="excelDownload">엑셀</button>
-<button class="excelbtn" onclick="window.location.href='${pageContext.request.contextPath}/OrderManagement/download'">전체</button>
-</div>
+		<!-- button -->
+		<div id="pagination" class="page_wrap2">
+			<div id="excel">
+				<button class="excelbtn" id="excelDownload">엑셀</button>
+				<button class="excelbtn" onclick="window.location.href='${pageContext.request.contextPath}/OrderManagement/download'">전체</button>
+			</div>
 
-<!-- 페이징처리 -->
-<div class="page_nation">
-<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
-<a href="${pageContext.request.contextPath}/OrderManagement/home?pageNum=${i}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">${i}</a> 
-</c:forEach>
-</div>
-</div>
-</div>
+			<!-- 페이징처리 -->
+			<div class="page_nation">
+				<c:forEach var="i" begin="${pageDTO.startPage}" end="${pageDTO.endPage}" step="1">
+					<a href="${pageContext.request.contextPath}/OrderManagement/home?pageNum=${i}&search1=${pageDTO.search1}&search2=${pageDTO.search2}&search3=${pageDTO.search3}&search4=${pageDTO.search4}">${i}</a>
+				</c:forEach>
+			</div>
+		</div>
+	</div>
 
-<!-- javascript -->
-<script type="text/javascript">
+	<!-- javascript -->
+	<script type="text/javascript">
 
-// 엑셀
-// function getToday() {
-// 	var date = new Date();
-// 	var year = date.getFullYear();
-// 	var month = ("0" + (1 + date.getMonth())).slice(-2);
-// 	var day = ("0" + date.getDate()).slice(-2);
-// 	return year + "-" + month + "-" + day;
-// }
 
-// const excelDownload = document.querySelector('#excelDownload');
 
 document.addEventListener('DOMContentLoaded', ()=> {
 	excelDownload.addEventListener('click', exportExcel);

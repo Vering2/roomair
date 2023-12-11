@@ -16,38 +16,37 @@ import com.itwillbs.domain.SellDTO;
 @Repository
 public class CalendarDAO {
 
-	
 	@Inject
 	private SqlSession sqlSession;
 
 	private static final String namespace = "com.itwillbs.mappers.calendarMapper.";
-	
+
 	public List<CalendarDTO> getCalendarList() {
-		return sqlSession.selectList(namespace+"getCalendarList");
+		return sqlSession.selectList(namespace + "getCalendarList");
 	}
 
 	public List<ChartDTO> getSalesList() {
-		return sqlSession.selectList(namespace+"getSalesList");
+		return sqlSession.selectList(namespace + "getSalesList");
 	}
 
 	public List<ChartDTO> getStockList() {
-		return sqlSession.selectList(namespace+"getStockList");
+		return sqlSession.selectList(namespace + "getStockList");
 	}
 
 	public List<ChartDTO> getPerfList() {
-		return sqlSession.selectList(namespace+"getPerfList");
+		return sqlSession.selectList(namespace + "getPerfList");
 	}
-	
+
 	public List<ChartDTO> getLinePerfList() {
-		return sqlSession.selectList(namespace+"getLinePerfList");
+		return sqlSession.selectList(namespace + "getLinePerfList");
 	}
 
 	public void insertSellCalendar(CalendarDTO calendarDTO) {
-		sqlSession.selectList(namespace+"insertSellCalendar", calendarDTO);
+		sqlSession.selectList(namespace + "insertSellCalendar", calendarDTO);
 	}
 
 	public ClientDTO getClient(String code) {
-		return sqlSession.selectOne(namespace+"getClient", code);
+		return sqlSession.selectOne(namespace + "getClient", code);
 	}
 
 	public void deleteSellCalendar(List<String> checked) {
@@ -59,7 +58,5 @@ public class CalendarDAO {
 			sqlSession.delete(namespace + "deleteSellCalendar", code);
 		}
 	}
-
-	
 
 }

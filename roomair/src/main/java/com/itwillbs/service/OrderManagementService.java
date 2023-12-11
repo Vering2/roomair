@@ -12,46 +12,36 @@ import com.itwillbs.domain.OrderManagementDTO;
 import com.itwillbs.domain.PageDTO;
 
 @Service
-public class OrderManagementService { 
- 
-	// OrderManagementDAO 객체생성 
+public class OrderManagementService {
+
+	// OrderManagementDAO 객체생성
 	@Inject
 	private OrderManagementDAO ordermanagementDAO;
-	
+
 	public void insertOrderManagement(OrderManagementDTO ordermanagementDTO) {
 		System.out.println("OrderManagementService insertOrderManagement()");
-		
-		// buyNum 자동생성
-		// = rawCode + buyDate
-		// = 원자재코드 + 년 + 월 + 일
-		// = PER1 + 2023 + 10 + 11
-		// = PER120231011
-		// SimpleDateFormat sdf = new SimpleDateFormat("yyMMddHHmmss");
-	    // String buyDateStr = sdf.format(ordermanagementDTO.getBuyDate());
-	    // String buyNum = ordermanagementDTO.getRawCode() + buyDateStr;
-	    // ordermanagementDTO.setBuyNum(buyNum);
-		
+
 		ordermanagementDAO.insertOrderManagement(ordermanagementDTO);
 	}
-	
+
 	// home 페이징처리, 검색기능
 	public List<OrderManagementDTO> getOrderManagementList(PageDTO pageDTO) {
 		System.out.println("OrderManagementService getOrderManagementList()");
-		int startRow = (pageDTO.getCurrentPage()-1)*pageDTO.getPageSize() + 1;
-        int endRow = startRow + pageDTO.getPageSize() - 1;
-        pageDTO.setStartRow(startRow - 1);
-        pageDTO.setEndRow(endRow);
+		int startRow = (pageDTO.getCurrentPage() - 1) * pageDTO.getPageSize() + 1;
+		int endRow = startRow + pageDTO.getPageSize() - 1;
+		pageDTO.setStartRow(startRow - 1);
+		pageDTO.setEndRow(endRow);
 		return ordermanagementDAO.getOrderManagementList(pageDTO);
 	}
-	
+
 	// home 페이징처리, 검색기능
 	public int getOrderManagementCount(PageDTO pageDTO) {
 		System.out.println("OrderManagementService getOrderManagementCount()");
 		return ordermanagementDAO.getOrderManagementCount(pageDTO);
 	}
-	
+
 	// 체크박스로 선택삭제
-	public void delete(String buyNum){
+	public void delete(String buyNum) {
 		ordermanagementDAO.delete(buyNum);
 	}
 
@@ -64,7 +54,7 @@ public class OrderManagementService {
 		System.out.println("OrderManagementService updateOrderManagement()");
 		ordermanagementDAO.updateOrderManagement(ordermanagementDTO);
 	}
-	
+
 	// 엑셀
 	public List<OrderManagementDTO> getOrderManagementList2() {
 		return ordermanagementDAO.getOrderManagementList2();

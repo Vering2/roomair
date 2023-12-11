@@ -1,9 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="javax.servlet.http.HttpSession" %>
-<%@ page import="java.util.List" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="javax.servlet.http.HttpSession"%>
+<%@ page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,145 +16,134 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
 
 
-<link href="${pageContext.request.contextPath }/resources/css/requirement.css"
-	rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath }/resources/css/requirement.css" rel="stylesheet" type="text/css">
 <%-- <%@ include file="../include/header.jsp"%> --%>
-<link href="${pageContext.request.contextPath }/resources/css/side.css"
-	rel="stylesheet" type="text/css">
-	
+<link href="${pageContext.request.contextPath }/resources/css/side.css" rel="stylesheet" type="text/css">
+
 <!-- 사이드바 -->
 <title>requirement</title>
 <%
-String prodName = request.getParameter("prodName")!= null ? request.getParameter("prodName") : "";
-String rawName = request.getParameter("rawName")!= null ? request.getParameter("rawName") : "";
-
+String prodName = request.getParameter("prodName") != null ? request.getParameter("prodName") : "";
+String rawName = request.getParameter("rawName") != null ? request.getParameter("rawName") : "";
 %>
 </head>
 <body>
-<!-- 모달 대화상자 -->
+	<!-- 모달 대화상자 -->
 	<div id="myModal" class="modal">
-	  <div class="modal-content">
-	    <div class="modal-header">
-	      <span class="close" id="closeModal">&times;</span>
-	    </div>
-	    <div class="modal-body">
-	      <p>모달 내용을 여기에 넣으세요</p>
-	    </div>
-	  </div>
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="close" id="closeModal">&times;</span>
+			</div>
+			<div class="modal-body">
+				<p>모달 내용을 여기에 넣으세요</p>
+			</div>
+		</div>
 	</div>
-<jsp:include page="../inc/side.jsp"></jsp:include>
-<!-- 사이드바 -->
-<!-- page content -->
-<div class="right_col">
+	<jsp:include page="../inc/side.jsp"></jsp:include>
+	<!-- 사이드바 -->
+	<!-- page content -->
+	<div class="right_col">
 
-	<h2 style="cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/requirement/reqDetail'">소요량 관리</h2>
-	
+		<h2 style="cursor: pointer;" onclick="location.href='${pageContext.request.contextPath}/requirement/reqDetail'">소요량 관리</h2>
+
 		<form method="get">
 			<div class="searchform">
-				<label>소요코드</label> 
-				<input class="input_box" type="text" name="reqCode" id="reqCode9999" onfocus="this.value='RQ'" placeholder="소요량코드를 입력하세요." value="${dto.reqCode }">
-				<label>제품</label> 
-				<input type="hidden"name="prodCode" id="prodCode9999" value="${dto.prodCode }">
-				<input class="input_box" type="text" name="prodName" id="prodName9999" placeholder="제품을 선택하세요." value="<%=prodName %>" readonly onclick="searchItem('prod','prodCode9999')">
-				<label>원자재</label>
-				<input type="hidden" name="rawCode" id="rawCode9999"  value="${dto.rawCode }">
-				<input class="input_box" type="text" name="rawName" id="rawName9999" placeholder="원자재를 선택하세요." value="<%=rawName %>" readonly onclick="searchItem('raw','rawCode9999')">
-				<input style ="margin: 0 0 0 20px;" class="button" type="submit" value="조회">
+				<label>소요코드</label> <input class="input_box" type="text" name="reqCode" id="reqCode9999" onfocus="this.value='RQ'" placeholder="소요량코드를 입력하세요." value="${dto.reqCode }"> <label>제품</label> <input type="hidden" name="prodCode" id="prodCode9999" value="${dto.prodCode }"> <input class="input_box" type="text" name="prodName" id="prodName9999" placeholder="제품을 선택하세요." value="<%=prodName%>" readonly onclick="searchItem('prod','prodCode9999')"> <label>원자재</label> <input type="hidden" name="rawCode" id="rawCode9999" value="${dto.rawCode }"> <input class="input_box" type="text" name="rawName" id="rawName9999" placeholder="원자재를 선택하세요." value="<%=rawName%>" readonly onclick="searchItem('raw','rawCode9999')"> <input style="margin: 0 0 0 20px;" class="button" type="submit" value="조회">
 			</div>
 		</form>
-	
-	<div class="col-md-12">
-	<div style ="margin: 2% 0 0 0;"	>
-	<div style="float:right;">
-						<button style="display: none;"class="button" id="add" >추가</button>
-						<button style="display: none;"class="button" id="modify" >수정</button>
-						<button style="display: none;"class="button" id="delete" >삭제</button>
-						<button style="display: none;" id ="cancle" onclick="location.href='${pageContext.request.contextPath}/requirement/reqDetail'" class="button">취소</button>
-						<input style="display: none;" class="button" type="submit" value="저장" id="save">
-					</div>
-					</div>		
-		<div class="x_panel">
-			
-				<div class="x_title">
-					<label style="margin:0px">총 ${paging.total} 건</label>
-					<div>
-					<label for="perPageSelect" >항목 수:</label>
-<select id="perPageSelect" class="input_box" style ="top:1.8px; width:100px; height:22px;" onchange="applyFilters()" value="${paging.cntPerPage}">
-    <option value="10" ${paging.cntPerPage == 10 ? 'selected' : ''}>10개</option>
-    <option value="50" ${paging.cntPerPage == 50 ? 'selected' : ''}>50개</option>
-    <option value="100" ${paging.cntPerPage == 100 ? 'selected' : ''}>100개</option>
-    <option value="9999" ${paging.cntPerPage == 9999 ? 'selected' : ''}>전체 보기</option>
-</select>
-</div>
-									
-				</div>
-				
-				
-		
-			
-				<div class="table-wrapper" >
-				<form id="fr" method="post">
-					<table id="reqTable" class="table table-striped jambo_table bulk_action" style="text-align-last:center; ">
-						<thead>
-							<tr class="headings">
-								<th>번호</th>
-								<th>소요코드</th>
-								<th style='display: none;'>품번</th>
-								<th>제품코드</th>
-								<th>원자재코드</th>
-								<th>소요량</th>
-								<th>비고</th>
-								<th style='display: none;'></th>
-							</tr>
-						</thead>
-							<tr style='display: none;'></tr>
-						<c:forEach var="dto" items="${reqList}">
-							<tr class="contents">
-								<td></td>
-								<td id="reqCode">${dto.reqCode }</td>
-								<td style='display: none;'>${dto.prod.prodName }</td>
-								<td style='cursor: pointer;' onclick="openModal(event)" id="${dto.prodCode }" name="prodCode" value="${dto.prodCode }">${dto.prodCode }</td>
-								<td style='cursor: pointer;' onclick="openModal(event)" id="${dto.rawCode }" name="rawCode" value="${dto.rawCode }">${dto.rawCode }</td>
-								<td>${dto.reqAmount }</td>
-								<td>${dto.reqMemo }</td>
-								<td id="rawCode" style='display: none;'>${dto.raw.rawName }</td>
-							</tr>
-						</c:forEach>
-					</table>
-					</form>
-					</div>
-				
-				
-				</div>
-				</div>
-				<div>
-	<div style="float:left;">
-	 
-	<button id="excelDownload" class="button">엑셀</button>
-	</div>	
 
-		<div id="pagination" class="page_wrap">
-			<div class="page_nation">
-						<c:if test="${paging.startPage != 1 }">
-							<a class="arrow prev" href="${pageContext.request.contextPath}/requirement/reqDetail?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&reqCode=${dto.reqCode }&prodCode=${dto.prodCode }&rawCode=${dto.rawCode }">◀️</a>
-						</c:if>
-					
-					
-					<c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
-    <c:choose>
-        <c:when test="${p eq paging.nowPage}">
-            <a class="a active" href="${pageContext.request.contextPath}/requirement/reqDetail?nowPage=${p }&cntPerPage=${paging.cntPerPage}&reqCode=${dto.reqCode }&prodCode=${dto.prodCode }&rawCode=${dto.rawCode }">${p }</a>
-					 </c:when>
-        <c:otherwise>
-           <a class="a" href="${pageContext.request.contextPath}/requirement/reqDetail?nowPage=${p }&cntPerPage=${paging.cntPerPage}&reqCode=${dto.reqCode }&prodCode=${dto.prodCode }&rawCode=${dto.rawCode }">${p }</a>
-					 </c:otherwise>
-    </c:choose>
-</c:forEach>	<c:if test="${paging.endPage != paging.lastPage}">
-							<a class="arrow next" href="${pageContext.request.contextPath}/requirement/reqDetail?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&reqCode=${dto.reqCode }&prodCode=${dto.prodCode }&rawCode=${dto.rawCode }">▶️</a>
-						</c:if>
+		<div class="col-md-12">
+			<div style="margin: 2% 0 0 0;">
+				<div style="float: right;">
+					<button style="display: none;" class="button" id="add">추가</button>
+					<button style="display: none;" class="button" id="modify">수정</button>
+					<button style="display: none;" class="button" id="delete">삭제</button>
+					<button style="display: none;" id="cancle" onclick="location.href='${pageContext.request.contextPath}/requirement/reqDetail'" class="button">취소</button>
+					<input style="display: none;" class="button" type="submit" value="저장" id="save">
+				</div>
 			</div>
-	</div>
-	</div>
+			<div class="x_panel">
+
+				<div class="x_title">
+					<label style="margin: 0px">총 ${paging.total} 건</label>
+					<div>
+						<label for="perPageSelect">항목 수:</label> <select id="perPageSelect" class="input_box" style="top: 1.8px; width: 100px; height: 22px;" onchange="applyFilters()" value="${paging.cntPerPage}">
+							<option value="10" ${paging.cntPerPage == 10 ? 'selected' : ''}>10개</option>
+							<option value="50" ${paging.cntPerPage == 50 ? 'selected' : ''}>50개</option>
+							<option value="100" ${paging.cntPerPage == 100 ? 'selected' : ''}>100개</option>
+							<option value="9999" ${paging.cntPerPage == 9999 ? 'selected' : ''}>전체 보기</option>
+						</select>
+					</div>
+
+				</div>
+
+
+
+
+				<div class="table-wrapper">
+					<form id="fr" method="post">
+						<table id="reqTable" class="table table-striped jambo_table bulk_action" style="text-align-last: center;">
+							<thead>
+								<tr class="headings">
+									<th>번호</th>
+									<th>소요코드</th>
+									<th style='display: none;'>품번</th>
+									<th>제품코드</th>
+									<th>원자재코드</th>
+									<th>소요량</th>
+									<th>비고</th>
+									<th style='display: none;'></th>
+								</tr>
+							</thead>
+							<tr style='display: none;'></tr>
+							<c:forEach var="dto" items="${reqList}">
+								<tr class="contents">
+									<td></td>
+									<td id="reqCode">${dto.reqCode }</td>
+									<td style='display: none;'>${dto.prod.prodName }</td>
+									<td style='cursor: pointer;' onclick="openModal(event)" id="${dto.prodCode }" name="prodCode" value="${dto.prodCode }">${dto.prodCode }</td>
+									<td style='cursor: pointer;' onclick="openModal(event)" id="${dto.rawCode }" name="rawCode" value="${dto.rawCode }">${dto.rawCode }</td>
+									<td>${dto.reqAmount }</td>
+									<td>${dto.reqMemo }</td>
+									<td id="rawCode" style='display: none;'>${dto.raw.rawName }</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</form>
+				</div>
+
+
+			</div>
+		</div>
+		<div>
+			<div style="float: left;">
+
+				<button id="excelDownload" class="button">엑셀</button>
+			</div>
+
+			<div id="pagination" class="page_wrap">
+				<div class="page_nation">
+					<c:if test="${paging.startPage != 1 }">
+						<a class="arrow prev" href="${pageContext.request.contextPath}/requirement/reqDetail?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}&reqCode=${dto.reqCode }&prodCode=${dto.prodCode }&rawCode=${dto.rawCode }">◀️</a>
+					</c:if>
+
+
+					<c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
+						<c:choose>
+							<c:when test="${p eq paging.nowPage}">
+								<a class="a active" href="${pageContext.request.contextPath}/requirement/reqDetail?nowPage=${p }&cntPerPage=${paging.cntPerPage}&reqCode=${dto.reqCode }&prodCode=${dto.prodCode }&rawCode=${dto.rawCode }">${p }</a>
+							</c:when>
+							<c:otherwise>
+								<a class="a" href="${pageContext.request.contextPath}/requirement/reqDetail?nowPage=${p }&cntPerPage=${paging.cntPerPage}&reqCode=${dto.reqCode }&prodCode=${dto.prodCode }&rawCode=${dto.rawCode }">${p }</a>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${paging.endPage != paging.lastPage}">
+						<a class="arrow next" href="${pageContext.request.contextPath}/requirement/reqDetail?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}&reqCode=${dto.reqCode }&prodCode=${dto.prodCode }&rawCode=${dto.rawCode }">▶️</a>
+					</c:if>
+				</div>
+			</div>
+		</div>
 	</div>
 
 
@@ -712,11 +700,11 @@ $(document).ready(function() {
         window.location.href = url;
     }
 	</script>
-	
 
 
 
-	<script>
+
+<script>
       //modal창에 열기 위한 이벤트 헨들러
         function openModal(event) {
         	  const clickedElementId = event.target.id;
@@ -1018,11 +1006,7 @@ openModalWithData(event, dataformat, 200); // 데이터를 모달로 표시
     		});
     	    
     		
-    		/* window.addEventListener('click', function(event) {
-    		    if (event.target != modal && !modal.contains(event.target)) {
-    		        modal.style.display = 'none';
-    		    }
-    		}); */
+    		
     	 
 
     		

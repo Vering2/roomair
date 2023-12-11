@@ -117,23 +117,23 @@ public class OutProductDAO {
 
 	public void updateClientSale(OutProductDTO outProductDTO) {
 		sqlSession.update(namespace + "updateClientSale", outProductDTO);
-		
+
 	}
 
 	public EmployeesDTO outProductEmpInfo(EmployeesDTO employeesDTO) {
-		return sqlSession.selectOne(namespace + "outProductEmpInfo", employeesDTO); 
+		return sqlSession.selectOne(namespace + "outProductEmpInfo", employeesDTO);
 	}
 
 	public ProdDTO getProdInfo(String data) {
-		return sqlSession.selectOne(namespace + "getProdInfo", data); 
+		return sqlSession.selectOne(namespace + "getProdInfo", data);
 	}
 
 	public ClientDTO getClientInfo(String data) {
-		return sqlSession.selectOne(namespace + "getClientInfo", data); 
+		return sqlSession.selectOne(namespace + "getClientInfo", data);
 	}
 
 	public RawmaterialsDTO getRawMaterialInfo(String data) {
-		return sqlSession.selectOne(namespace + "getRawMaterialInfo", data); 
+		return sqlSession.selectOne(namespace + "getRawMaterialInfo", data);
 	}
 
 }
